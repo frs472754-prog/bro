@@ -17,14 +17,13 @@
 
   /* --- КУРСОР --- */
   .cursor-glow {
-    position: fixed; top: 0; left: 0;
-    width: 20px; height: 20px;
+    position: fixed; top: 0; left: 0; width: 20px; height: 20px;
     border: 1px solid #ffd700; border-radius: 50%;
     pointer-events: none; z-index: 99999;
     transform: translate(-50%, -50%);
-    transition: width .25s ease, height .25s ease, background .25s ease, border-color .25s ease, box-shadow .25s ease;
+    transition: width .25s, height .25s, background .25s, border-color .25s, box-shadow .25s;
     box-shadow: 0 0 15px #ffd700, inset 0 0 10px #ffd700;
-    mix-blend-mode: screen; will-change: left, top;
+    mix-blend-mode: screen;
   }
   .cursor-glow.hover {
     width: 44px; height: 44px;
@@ -34,7 +33,7 @@
 
   /* --- ГЛАВНОЕ МЕНЮ --- */
   .bg-main {
-    position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
+    position: absolute; inset: 0; z-index: 1;
     background: radial-gradient(circle at 30% 20%, rgba(255,215,0,.05) 0%, transparent 40%),
                 radial-gradient(circle at 70% 80%, rgba(255,215,0,.03) 0%, transparent 40%),
                 linear-gradient(180deg, #05070a 0%, #0a101a 50%, #05070a 100%);
@@ -43,13 +42,13 @@
   .main-window {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
     width: 90%; max-width: 380px;
-    background: rgba(10, 15, 25, 0.6);
+    background: rgba(10, 15, 25, 0.8);
     border: 1px solid rgba(255, 215, 0, 0.2); border-top: 3px solid #ffd700;
     border-radius: 12px; padding: 40px 25px 30px; z-index: 10;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 215, 0, 0.05);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6);
     color: #fff; text-align: center;
     animation: windowBreath 7s ease-in-out infinite;
-    transition: opacity .6s ease, transform .6s ease; will-change: transform;
+    transition: opacity .6s ease;
   }
   @keyframes windowBreath {
     0%, 100% { transform: translate(-50%,-50%) translateY(0); }
@@ -58,42 +57,35 @@
 
   .main-window h1 {
     margin: 0; font-size: 26px; letter-spacing: 3px; color: #fff;
-    text-shadow: 0 0 15px rgba(255, 215, 0, 0.9), 0 0 30px rgba(255,215,0,.5);
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.9);
     font-weight: 700; font-family: 'Oswald', sans-serif; text-transform: uppercase;
-    animation: textPulse 3s ease-in-out infinite alternate;
     line-height: 1.2;
-  }
-  @keyframes textPulse {
-    0% { text-shadow: 0 0 10px rgba(255,215,0,0.6); }
-    100% { text-shadow: 0 0 20px rgba(255,215,0,1); }
   }
 
   .subtitle-ru {
-    font-size: 12px; color: #ffd700; margin: 15px 0 35px; letter-spacing: 2px;
-    opacity: .8; font-weight: 700; font-family: 'Courier Prime', monospace;
+    font-size: 12px; color: #ffd700; margin: 15px 0 35px;
+    letter-spacing: 2px; opacity: .8; font-weight: 700;
   }
 
   .btn {
-    display: flex; align-items: center; justify-content: center; gap: 10px;
+    display: flex; align-items: center; justify-content: center;
     background: rgba(255,215,0,.05); color: #fff;
     border: 1px solid rgba(255,215,0,.3);
     padding: 16px 20px; font-family: 'Oswald', sans-serif;
     font-size: 15px; font-weight: 700; text-transform: uppercase;
-    cursor: none; position: relative; overflow: hidden;
-    border-radius: 6px; letter-spacing: 2px;
-    transition: all .4s cubic-bezier(.22,1,.36,1);
-    width: 100%;
+    cursor: none; border-radius: 6px; letter-spacing: 2px;
+    transition: all .4s; width: 100%;
   }
-  .btn:hover { background: rgba(255,215,0,.15); border-color: #ffd700; box-shadow: 0 0 30px rgba(255,215,0,.5); }
+  .btn:hover { background: rgba(255,215,0,.15); border-color: #ffd700; box-shadow: 0 0 20px rgba(255,215,0,0.4); }
 
   /* =========================================================
      АРЕНА
      ========================================================= */
   .arena-modal {
-    display: none; position: fixed; inset: 0; width: 100%; height: 100%;
+    display: none; position: fixed; inset: 0;
     background: radial-gradient(circle at center, #111822 0%, #030508 100%);
     z-index: 200; overflow: hidden;
-    opacity: 0; transition: opacity 0.6s ease;
+    opacity: 0; transition: opacity 0.6s;
   }
   .arena-modal.show { display: block; opacity: 1; }
 
@@ -104,111 +96,174 @@
   }
 
   .arena-title {
-    position: absolute; top: 5%; width: 100%; text-align: center;
-    font-family: 'Oswald', sans-serif; font-size: 28px; color: #ffd700;
+    position: absolute; top: 4%; width: 100%; text-align: center;
+    font-family: 'Oswald', sans-serif; font-size: 22px; color: #ffd700;
     letter-spacing: 6px; text-shadow: 0 0 30px #ffd700;
-    opacity: 0.8; z-index: 10;
+    z-index: 10; opacity: 0.9;
   }
 
   /* --- БОЙЦЫ --- */
   .fighter-rb, .fighter-enemy {
     position: absolute; top: 50%; transform: translateY(-50%);
     z-index: 20; display: flex; align-items: center; justify-content: center;
-    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-    width: 150px; height: 350px; /* Строго одинаковый размер */
+    width: 150px; height: 340px;
+    background: rgba(0,0,0,0.4); border-radius: 15px;
+    padding: 10px; transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
   }
 
-  .fighter-rb { left: 10%; opacity: 0; }
+  .fighter-rb {
+    left: 8%; opacity: 0; border: 1px solid rgba(255,215,0,0.2);
+    box-shadow: inset 0 0 20px rgba(255,215,0,0.05);
+  }
   .fighter-rb.show { opacity: 1; }
   .fighter-rb.center {
     left: 50%; transform: translate(-50%, -50%) scale(1.4);
     filter: drop-shadow(0 0 80px rgba(255,215,0,0.8)); z-index: 50;
+    border-color: #ffd700;
   }
 
-  .fighter-enemy { right: 10%; opacity: 0; transform: translate(200px, -50%); }
+  .fighter-enemy {
+    right: 8%; opacity: 0; transform: translate(200px, -50%);
+    border: 1px solid rgba(255,255,255,0.1);
+  }
   .fighter-enemy.show { opacity: 1; transform: translate(0, -50%); }
 
-  /* Картинки банок */
   .fighter-rb img, .fighter-enemy img {
     width: 100%; height: 100%; object-fit: contain;
-    /* Убираем белый фон через blend mode (работает на тёмном фоне) */
-    mix-blend-mode: multiply; 
     filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
+    transition: opacity 0.3s;
   }
 
-  /* Контейнер для MOGGED на враге */
+  /* Контейнер для MOGGED */
   .enemy-wrap { position: relative; width: 100%; height: 100%; }
 
   .mogged-on-enemy {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0) rotate(-15deg);
     background: #ff1a1a; color: #fff; border: 3px solid #fff;
-    padding: 5px 15px; font-family: 'Oswald', sans-serif; font-weight: 700;
-    font-size: 24px; letter-spacing: 2px; text-transform: uppercase;
-    box-shadow: 0 0 30px #ff1a1a; z-index: 99;
+    padding: 6px 15px; font-family: 'Oswald', sans-serif; font-weight: 700;
+    font-size: 20px; letter-spacing: 2px; text-transform: uppercase;
+    box-shadow: 0 0 30px #ff1a1a, 0 0 60px rgba(255,26,26,0.5); z-index: 99;
     text-shadow: 2px 2px 0 #000;
     opacity: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     pointer-events: none;
   }
-  .mogged-on-enemy.slam { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-15deg); }
+  .mogged-on-enemy.slam {
+    opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-10deg);
+    animation: moggedShake 0.3s ease-in-out 0.3s;
+  }
+  @keyframes moggedShake {
+    0%, 100% { transform: translate(-50%, -50%) scale(1) rotate(-10deg); }
+    25% { transform: translate(-48%, -52%) scale(1.1) rotate(-12deg); }
+    75% { transform: translate(-52%, -48%) scale(1.1) rotate(-8deg); }
+  }
 
-  /* --- ВЕРТИКАЛЬНАЯ ДИАГРАММА --- */
+  /* --- ДИАГРАММА --- */
   .clash-box {
     position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(0.8);
-    width: 90%; max-width: 380px; background: rgba(0,0,0,0.85); border: 1px solid rgba(255,215,0,0.3);
+    width: 90%; max-width: 420px; background: rgba(0,0,0,0.92);
+    border: 1px solid rgba(255,215,0,0.3); border-top: 3px solid #ffd700;
     border-radius: 12px; padding: 20px; text-align: center; z-index: 15;
     opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    backdrop-filter: blur(10px); box-shadow: 0 0 50px rgba(0,0,0,0.8);
+    backdrop-filter: blur(10px); box-shadow: 0 0 50px rgba(0,0,0,0.9);
   }
   .clash-box.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
   .clash-title {
-    font-family: 'Oswald', sans-serif; color: #fff; font-size: 18px;
-    letter-spacing: 3px; margin-bottom: 15px; text-shadow: 0 0 10px #fff;
-    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif; color: #fff; font-size: 16px;
+    letter-spacing: 3px; margin-bottom: 15px; text-transform: uppercase;
+    color: #ffd700; text-shadow: 0 0 10px rgba(255,215,0,0.5);
   }
 
-  /* Сетка диаграммы */
   .chart-container {
-    display: flex;
-    justify-content: space-around;
-    align-items: flex-end;
-    height: 160px;
-    margin-bottom: 10px;
-    padding-bottom: 5px;
-    border-bottom: 2px solid rgba(255,255,255,0.2);
+    display: flex; justify-content: space-around; align-items: flex-end;
+    height: 130px; margin-bottom: 10px; padding-bottom: 5px;
+    border-bottom: 1px solid rgba(255,255,255,0.15);
   }
 
   .chart-col {
-    display: flex; flex-direction: column; align-items: center; width: 45px;
+    display: flex; flex-direction: column; align-items: center; width: 50px;
+  }
+
+  .bar-group {
+    display: flex; align-items: flex-end; gap: 4px; height: 100px;
   }
 
   .bar-vertical {
-    width: 30px;
-    height: 120px;
+    width: 16px; height: 100%;
     background: rgba(255,255,255,0.05);
-    border-radius: 6px 6px 0 0;
-    position: relative;
-    overflow: hidden;
-    margin-bottom: 5px;
+    border-radius: 4px; position: relative; overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.1);
   }
 
   .bar-fill {
     position: absolute; bottom: 0; left: 0; width: 100%;
-    transition: height 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    border-radius: 4px 4px 0 0;
+    height: 0%; transition: height 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-radius: 2px;
   }
-  .bar-fill.rb { background: linear-gradient(to top, #ff8c00, #ffd700); box-shadow: 0 0 10px #ffd700; }
-  .bar-fill.en { background: #555; }
+  .bar-fill.rb { background: linear-gradient(to top, #ff8c00, #ffd700); box-shadow: 0 0 8px #ffd700; }
+  .bar-fill.en { background: linear-gradient(to top, #444, #888); }
 
-  .bar-label { font-family: 'Oswald'; font-size: 10px; color: #888; margin-top: 5px; }
-  .bar-score { font-family: 'Oswald'; font-size: 14px; font-weight: 700; color: #fff; }
+  .bar-label {
+    font-family: 'Oswald'; font-size: 8px; color: #888; margin-top: 5px;
+    text-align: center; text-transform: uppercase; letter-spacing: 1px;
+  }
 
-  /* Легенда */
-  .legend { display: flex; justify-content: center; gap: 20px; font-size: 12px; font-family: 'Oswald'; margin-top: 10px; }
+  .scores-row {
+    display: flex; justify-content: space-around; margin-top: 8px;
+  }
+
+  .score-pair {
+    display: flex; flex-direction: column; align-items: center; width: 50px;
+    font-family: 'Oswald'; font-size: 10px; line-height: 1.2;
+  }
+  .score-rb { color: #ffd700; font-weight: 700; font-size: 12px; }
+  .score-en { color: #888; font-size: 12px; }
+
+  .legend {
+    display: flex; justify-content: center; gap: 20px;
+    margin-top: 10px; font-family: 'Oswald'; font-size: 10px;
+  }
   .legend-item { display: flex; align-items: center; gap: 5px; color: #ccc; }
   .legend-color { width: 10px; height: 10px; border-radius: 2px; }
 
-  /* --- АНИМАЦИЯ СМЕРТИ --- */
+  /* --- ФИНАЛ --- */
+  .final-overlay {
+    position: absolute; inset: 0; background: rgba(0,0,0,0.95); z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 1s;
+  }
+  .final-overlay.show { opacity: 1; pointer-events: auto; }
+
+  .achievements-box {
+    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+    border: 3px solid #ffd700; border-radius: 20px; padding: 40px 50px;
+    text-align: center; box-shadow: 0 0 150px rgba(255,215,0,0.3);
+    transform: scale(0.8); transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  }
+  .final-overlay.show .achievements-box { transform: scale(1); }
+  .achievements-title {
+    font-family: 'Oswald', sans-serif; font-size: 36px; color: #ffd700;
+    text-transform: uppercase; letter-spacing: 6px; margin-bottom: 25px;
+    text-shadow: 0 0 30px #ffd700;
+  }
+  .ach-item {
+    font-size: 16px; color: #fff; display: flex; align-items: center; gap: 15px;
+    padding-bottom: 12px; border-bottom: 1px solid rgba(255,215,0,0.2);
+    text-align: left; opacity: 0; transform: translateX(-20px);
+    transition: all 0.4s ease;
+  }
+  .final-overlay.show .ach-item { opacity: 1; transform: translateX(0); }
+  .ach-item::before { content: '🏆'; font-size: 20px; }
+
+  .close-btn {
+    position: absolute; top: 20px; right: 20px; z-index: 999;
+    background: transparent; color: #ffd700; border: 1px solid #ffd700;
+    padding: 10px 20px; font-family: 'Oswald', sans-serif; font-size: 16px;
+    cursor: pointer; border-radius: 4px; transition: 0.3s;
+  }
+  .close-btn:hover { background: #ffd700; color: #000; }
+
+  /* --- СМЕРТЬ КАК В МАРИО --- */
   .fighter-enemy.dead {
     animation: marioDeath 1.2s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
   }
@@ -219,45 +274,34 @@
     100% { transform: translate(100px, 200%) scale(0.5) rotate(360deg); opacity: 0; }
   }
 
-  /* --- ФИНАЛ --- */
-  .final-overlay {
-    position: absolute; inset: 0; background: rgba(0,0,0,0.95); z-index: 100;
-    display: flex; align-items: center; justify-content: center;
-    opacity: 0; pointer-events: none; transition: opacity 1s ease; backdrop-filter: blur(10px);
+  /* --- ЧАСТИЦЫ (ДЫМ) --- */
+  .death-particles {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 10px; height: 10px; pointer-events: none; z-index: 98;
   }
-  .final-overlay.show { opacity: 1; pointer-events: auto; }
-
-  .achievements-box {
-    background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
-    border: 3px solid #ffd700; border-radius: 20px; padding: 40px 50px;
-    text-align: center; box-shadow: 0 0 150px rgba(255,215,0,0.3);
-    transform: scale(0.8); transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative; overflow: hidden;
+  .particle {
+    position: absolute; width: 6px; height: 6px;
+    background: #888; border-radius: 50%;
+    opacity: 0;
+    animation: particleBurst 1s forwards ease-out;
   }
-  .final-overlay.show .achievements-box { transform: scale(1); }
-  .achievements-title { font-family: 'Oswald', sans-serif; font-size: 36px; color: #ffd700; text-transform: uppercase; letter-spacing: 6px; margin-bottom: 25px; text-shadow: 0 0 30px #ffd700; font-weight: 700; }
-  .ach-item { font-size: 16px; color: #fff; display: flex; align-items: center; gap: 15px; padding-bottom: 12px; border-bottom: 1px solid rgba(255,215,0,0.2); opacity: 0; transform: translateX(-20px); transition: all 0.4s ease; text-align: left; }
-  .final-overlay.show .ach-item { opacity: 1; transform: translateX(0); }
-  .ach-item::before { content: '🏆'; font-size: 20px; filter: drop-shadow(0 0 10px #ffd700); }
-
-  .close-btn {
-    position: absolute; top: 20px; right: 20px; z-index: 999;
-    background: transparent; color: #ffd700; border: 1px solid #ffd700;
-    padding: 10px 20px; font-family: 'Oswald', sans-serif; font-size: 16px;
-    cursor: pointer; border-radius: 4px; transition: 0.3s;
+  @keyframes particleBurst {
+    0% { transform: translate(0, 0) scale(1); opacity: 1; }
+    100% { transform: translate(var(--tx), var(--ty)) scale(0); opacity: 0; }
   }
-  .close-btn:hover { background: #ffd700; color: #000; }
 
+  /* --- АДАПТИВ --- */
   @media (max-width: 900px) {
     .fighter-rb, .fighter-enemy { width: 100px; height: 240px; }
     .fighter-rb { left: 2%; }
     .fighter-enemy { right: 2%; }
     .clash-box { width: 95%; padding: 15px; }
+    .chart-container { height: 100px; }
+    .bar-group { height: 70px; }
+    .bar-vertical { width: 12px; }
     .achievements-box { padding: 30px; width: 95%; }
     .achievements-title { font-size: 24px; }
     .ach-item { font-size: 14px; }
-    .chart-container { height: 120px; }
-    .bar-vertical { height: 90px; width: 20px; }
   }
 </style>
 </head>
@@ -277,73 +321,31 @@
   <div class="arena-modal" id="arenaModal">
     <button class="close-btn" id="btnClose">[ X ] ЗАКРЫТЬ</button>
     <div class="scanline"></div>
-    
-    <div class="arena-title" id="arenaTitle">RED BULL УНИЧТОЖАЕТ</div>
+    <div class="arena-title">RED BULL УНИЧТОЖАЕТ</div>
 
-    <!-- RED BULL (Рабочая ссылка на прозрачную банку) -->
+    <!-- RED BULL -->
     <div class="fighter-rb" id="fighterRb">
       <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/RedBull_Energy_Drink_Can.png" 
-           onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#ffd700; font-family:Oswald; font-size:24px; text-align:center;\'>RED BULL</div>';">
+           onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#ffd700;font-family:Oswald;font-size:20px;\'>RED BULL</div>';">
     </div>
 
     <!-- КОНКУРЕНТ -->
     <div class="fighter-enemy" id="fighterEnemy">
       <div class="enemy-wrap">
-        <img id="enemyImg" src="" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#fff; font-family:Oswald; font-size:18px; text-align:center;\'>ENEMY</div>';">
+        <img id="enemyImg" src="" 
+             onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#fff;font-family:Oswald;font-size:18px;\'>ENEMY</div>';">
         <div class="mogged-on-enemy" id="moggedBadge">MOGGED</div>
       </div>
     </div>
 
-    <!-- ДИАГРАММА СРАВНЕНИЯ -->
+    <!-- ДИАГРАММА -->
     <div class="clash-box" id="clashBox">
-      <div class="clash-title" id="clashTitle">СРАВНЕНИЕ</div>
-      
-      <div class="chart-container">
-        <!-- 1. ЭНЕРГИЯ -->
-        <div class="chart-col">
-          <div class="bar-vertical">
-            <div class="bar-fill rb" id="rb-energy"></div>
-          </div>
-          <div class="bar-score" id="score-rb-energy">0</div>
-          <div class="bar-label">ЭНЕРГИЯ</div>
-        </div>
-        <!-- 2. ВКУС -->
-        <div class="chart-col">
-          <div class="bar-vertical">
-            <div class="bar-fill rb" id="rb-taste"></div>
-          </div>
-          <div class="bar-score" id="score-rb-taste">0</div>
-          <div class="bar-label">ВКУС</div>
-        </div>
-        <!-- 3. БРЕНД -->
-        <div class="chart-col">
-          <div class="bar-vertical">
-            <div class="bar-fill rb" id="rb-brand"></div>
-          </div>
-          <div class="bar-score" id="score-rb-brand">0</div>
-          <div class="bar-label">БРЕНД</div>
-        </div>
-        <!-- 4. ЦЕНА -->
-        <div class="chart-col">
-          <div class="bar-vertical">
-            <div class="bar-fill rb" id="rb-price"></div>
-          </div>
-          <div class="bar-score" id="score-rb-price">0</div>
-          <div class="bar-label">ЦЕНА</div>
-        </div>
-        <!-- 5. СПОРТ -->
-        <div class="chart-col">
-          <div class="bar-vertical">
-            <div class="bar-fill rb" id="rb-sport"></div>
-          </div>
-          <div class="bar-score" id="score-rb-sport">0</div>
-          <div class="bar-label">СПОРТ</div>
-        </div>
-      </div>
-
+      <div class="clash-title">СРАВНЕНИЕ</div>
+      <div class="chart-container" id="chartContainer"></div>
+      <div class="scores-row" id="scoresRow"></div>
       <div class="legend">
         <div class="legend-item"><div class="legend-color" style="background:#ffd700;"></div> RED BULL</div>
-        <div class="legend-item"><div class="legend-color" style="background:#555;"></div> КОНКУРЕНТ</div>
+        <div class="legend-item"><div class="legend-color" style="background:#888;"></div> КОНКУРЕНТ</div>
       </div>
     </div>
 
@@ -368,16 +370,16 @@
   var cursor = document.getElementById('cursorGlow');
   var mx = window.innerWidth / 2, my = window.innerHeight / 2;
   var cx = mx, cy = my;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  document.addEventListener('mousemove', function(e) { mx = e.clientX; my = e.clientY; });
   function loop() {
     cx += (mx - cx) * 0.2; cy += (my - cy) * 0.2;
     cursor.style.left = cx + 'px'; cursor.style.top = cy + 'px';
     requestAnimationFrame(loop);
   }
   requestAnimationFrame(loop);
-  document.querySelectorAll('.btn, .close-btn').forEach(el => {
-    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
+  document.querySelectorAll('.btn, .close-btn').forEach(function(el) {
+    el.addEventListener('mouseenter', function() { cursor.classList.add('hover'); });
+    el.addEventListener('mouseleave', function() { cursor.classList.remove('hover'); });
   });
 
   /* ========== 2. ЗВУКИ ========== */
@@ -427,30 +429,15 @@
   }
 
   /* ========== 3. ДАННЫЕ ========== */
-  /* Все баллы от 1 до 10 */
   var rbStats = { energy: 10, taste: 9, brand: 10, price: 8, sport: 10 };
+  var statNames = ['energy', 'taste', 'brand', 'price', 'sport'];
+  var statLabels = { energy: 'ЭНЕРГИЯ', taste: 'ВКУС', brand: 'БРЕНД', price: 'ЦЕНА', sport: 'СПОРТ' };
 
   var enemies = [
-    { 
-      name: 'MONSTER',  
-      img: 'https://i.imgur.com/cmCzspE.jpeg', 
-      stats: { energy: 9, taste: 6, brand: 8, price: 5, sport: 7 } 
-    },
-    { 
-      name: 'BURN',     
-      img: 'https://i.imgur.com/fJ708pU.jpeg', 
-      stats: { energy: 8, taste: 8, brand: 6, price: 7, sport: 4 } 
-    },
-    { 
-      name: 'GORILLA',  
-      img: 'https://i.imgur.com/cErN9nA.jpeg', 
-      stats: { energy: 8, taste: 5, brand: 3, price: 10, sport: 3 } 
-    },
-    { 
-      name: 'FLASH',    
-      img: 'https://i.imgur.com/2Il4QV1.png',  
-      stats: { energy: 7, taste: 6, brand: 4, price: 9, sport: 2 } 
-    }
+    { name: 'MONSTER', img: 'https://i.imgur.com/cmCzspE.jpeg', stats: { energy: 9, taste: 6, brand: 8, price: 5, sport: 7 } },
+    { name: 'BURN',    img: 'https://i.imgur.com/fJ708pU.jpeg', stats: { energy: 8, taste: 8, brand: 6, price: 7, sport: 4 } },
+    { name: 'GORILLA', img: 'https://i.imgur.com/cErN9nA.jpeg', stats: { energy: 8, taste: 5, brand: 3, price: 10, sport: 3 } },
+    { name: 'FLASH',   img: 'https://i.imgur.com/2Il4QV1.png',  stats: { energy: 7, taste: 6, brand: 4, price: 9, sport: 2 } }
   ];
 
   /* ========== 4. ЛОГИКА ========== */
@@ -458,16 +445,89 @@
   var mainWindow = document.getElementById('mainWindow');
   var arenaModal = document.getElementById('arenaModal');
   var btnClose = document.getElementById('btnClose');
-  
   var fighterRb = document.getElementById('fighterRb');
   var fighterEnemy = document.getElementById('fighterEnemy');
   var clashBox = document.getElementById('clashBox');
   var moggedBadge = document.getElementById('moggedBadge');
   var finalOverlay = document.getElementById('finalOverlay');
+  var chartContainer = document.getElementById('chartContainer');
+  var scoresRow = document.getElementById('scoresRow');
 
   var timers = [];
   function sched(fn, delay) { timers.push(setTimeout(fn, delay)); }
   function clearTimers() { timers.forEach(clearTimeout); timers = []; }
+
+  /* Строим диаграмму один раз */
+  function buildChart() {
+    chartContainer.innerHTML = '';
+    scoresRow.innerHTML = '';
+    statNames.forEach(function(key) {
+      var col = document.createElement('div');
+      col.className = 'chart-col';
+
+      var group = document.createElement('div');
+      group.className = 'bar-group';
+
+      var barRb = document.createElement('div');
+      barRb.className = 'bar-vertical';
+      var fillRb = document.createElement('div');
+      fillRb.className = 'bar-fill rb';
+      fillRb.id = 'bar-rb-' + key;
+      barRb.appendChild(fillRb);
+
+      var barEn = document.createElement('div');
+      barEn.className = 'bar-vertical';
+      var fillEn = document.createElement('div');
+      fillEn.className = 'bar-fill en';
+      fillEn.id = 'bar-en-' + key;
+      barEn.appendChild(fillEn);
+
+      group.appendChild(barRb);
+      group.appendChild(barEn);
+
+      var label = document.createElement('div');
+      label.className = 'bar-label';
+      label.textContent = statLabels[key];
+
+      col.appendChild(group);
+      col.appendChild(label);
+      chartContainer.appendChild(col);
+
+      var scoreCol = document.createElement('div');
+      scoreCol.className = 'score-pair';
+      var sRb = document.createElement('div');
+      sRb.className = 'score-rb';
+      sRb.id = 'score-rb-' + key;
+      sRb.textContent = rbStats[key];
+      var sEn = document.createElement('div');
+      sEn.className = 'score-en';
+      sEn.id = 'score-en-' + key;
+      sEn.textContent = '0';
+      scoreCol.appendChild(sRb);
+      scoreCol.appendChild(sEn);
+      scoresRow.appendChild(scoreCol);
+    });
+  }
+  buildChart();
+
+  /* Частицы дыма при смерти */
+  function spawnParticles() {
+    var wrap = fighterEnemy.querySelector('.enemy-wrap');
+    if (!wrap) return;
+    for (var i = 0; i < 8; i++) {
+      var p = document.createElement('div');
+      p.className = 'particle';
+      p.style.left = '50%';
+      p.style.top = '50%';
+      var angle = Math.random() * Math.PI * 2;
+      var dist = 40 + Math.random() * 50;
+      p.style.setProperty('--tx', Math.cos(angle) * dist + 'px');
+      p.style.setProperty('--ty', Math.sin(angle) * dist + 'px');
+      p.style.animationDelay = (i * 0.05) + 's';
+      wrap.appendChild(p);
+      setTimeout(function() { p.remove(); }, 1200);
+    }
+  }
 
   function resetArena() {
     clearTimers();
@@ -475,90 +535,75 @@
     fighterRb.classList.add('show');
     arenaModal.classList.add('show');
     mainWindow.style.opacity = '0';
-    
     finalOverlay.classList.remove('show');
     moggedBadge.classList.remove('slam');
     clashBox.classList.remove('show');
-    
     runBattle(0);
   }
 
   function runBattle(index) {
     if (index >= enemies.length) {
-      sched(() => {
+      sched(function() {
         fighterRb.classList.add('center');
         playSound('win');
-        sched(() => finalOverlay.classList.add('show'), 1000);
+        sched(function() { finalOverlay.classList.add('show'); }, 1000);
       }, 1000);
       return;
     }
 
     var enemy = enemies[index];
-
     fighterEnemy.classList.remove('show', 'dead');
     moggedBadge.classList.remove('slam');
-    
-    // Вставляем картинку конкурента
+
     var imgEl = document.getElementById('enemyImg');
     imgEl.src = enemy.img;
     imgEl.style.display = 'block';
-    
-    sched(() => {
+
+    sched(function() {
       fighterEnemy.classList.add('show');
       playSound('pop');
     }, 300);
 
-    sched(() => {
+    sched(function() {
       clashBox.classList.add('show');
-      
-      // Заполняем диаграмму (RB золотой, враг серый)
-      var keys = ['energy', 'taste', 'brand', 'price', 'sport'];
-      
-      keys.forEach(key => {
-        // RB
-        var rbBar = document.getElementById('rb-' + key);
-        var rbScore = document.getElementById('score-rb-' + key);
-        rbBar.style.height = (rbStats[key] * 10) + '%';
-        rbScore.textContent = rbStats[key];
-        
-        // Враг (вставляем серый столбик рядом)
-        // Т.к. у нас в HTML только один столбик, создадим визуально врага через клон
-        // Но лучше сделать это через отдельный элемент. 
-        // Упрощаем: покажем только RB, но добавим контейнер для врага.
+      statNames.forEach(function(key) {
+        var fillRb = document.getElementById('bar-rb-' + key);
+        var fillEn = document.getElementById('bar-en-' + key);
+        var scoreEn = document.getElementById('score-en-' + key);
+
+        fillRb.style.height = '0%';
+        fillEn.style.height = '0%';
+        scoreEn.textContent = '0';
+
+        setTimeout(function() {
+          fillRb.style.height = (rbStats[key] * 10) + '%';
+          fillEn.style.height = (enemy.stats[key] * 10) + '%';
+          scoreEn.textContent = enemy.stats[key];
+        }, 100);
       });
-      
-      // Для простоты и наглядности: я создам рядом серые столбики программно.
-      // Для этого найдём каждый .bar-vertical и добавим в него серый столбик.
-      // Но у нас уже есть только один столбик. Сделаем проще:
-      // В HTML я заложил только один столбик (RB), а враг будет перекрывать его через наложение.
-      // Но для наглядности лучше сделать два столбика. Я переделаю структуру.
-      
       playSound('sweep');
-    }, 1000);
+    }, 1200);
 
-    // ИЗВИНИ, Я ПЕРЕДЕЛАЮ СТРУКТУРУ ДИАГРАММЫ ПРЯМО СЕЙЧАС ВНУТРИ JS.
-    // Это будет работать, но лучше переписать HTML. 
-    // Я перепишу HTML в следующей версии, а пока - вот логика.
-
-    sched(() => {
+    sched(function() {
       moggedBadge.classList.add('slam');
       playSound('slam');
-    }, 2500);
+    }, 2800);
 
-    sched(() => {
+    sched(function() {
+      spawnParticles();
       fighterEnemy.classList.add('dead');
       playSound('death');
-    }, 3200);
+    }, 3500);
 
-    sched(() => {
+    sched(function() {
       clashBox.classList.remove('show');
       moggedBadge.classList.remove('slam');
-    }, 4000);
+    }, 4300);
 
-    sched(() => {
+    sched(function() {
       fighterEnemy.classList.remove('dead');
       runBattle(index + 1);
-    }, 4800);
+    }, 5000);
   }
 
   btnStart.addEventListener('click', resetArena);
