@@ -3,40 +3,39 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Red Bull vs All // Energy Arena</title>
+<title>Red Bull Arena // Energy Fight</title>
 <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&family=Montserrat:wght@400;700;900&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 
   body, html {
     margin: 0; padding: 0; width: 100%; min-height: 100vh;
-    background-color: #0a0a0f; color: #fff;
+    background-color: #07070a; color: #fff;
     font-family: 'Montserrat', sans-serif;
     overflow-x: hidden;
-    scroll-behavior: smooth;
   }
 
   /* --- ФОН --- */
   .bg {
     position: fixed; inset: 0; z-index: -1;
     background: 
-      radial-gradient(circle at 10% 20%, rgba(255, 0, 0, 0.08) 0%, transparent 40%),
-      radial-gradient(circle at 90% 80%, rgba(0, 100, 255, 0.08) 0%, transparent 40%),
-      linear-gradient(180deg, #0a0a0f 0%, #050508 100%);
+      radial-gradient(circle at 20% 50%, rgba(200, 16, 46, 0.15) 0%, transparent 50%),
+      radial-gradient(circle at 80% 50%, rgba(0, 50, 160, 0.15) 0%, transparent 50%),
+      linear-gradient(180deg, #07070a 0%, #111116 100%);
   }
   .bg::before {
     content: ''; position: absolute; inset: 0;
     background-image: 
-      linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
-    background-size: 40px 40px;
-    mask-image: radial-gradient(circle at center, black, transparent 80%);
-    -webkit-mask-image: radial-gradient(circle at center, black, transparent 80%);
+      linear-gradient(rgba(255,255,255,.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    mask-image: radial-gradient(circle at center, black, transparent 70%);
+    -webkit-mask-image: radial-gradient(circle at center, black, transparent 70%);
   }
 
   /* --- ЗАГОЛОВОК --- */
   header {
-    text-align: center; padding: 50px 20px 30px;
+    text-align: center; padding: 40px 20px 20px;
     position: relative; z-index: 10;
   }
   h1 {
@@ -44,13 +43,13 @@
     font-size: 3rem; margin: 0; text-transform: uppercase; letter-spacing: 4px;
     text-shadow: 0 0 20px rgba(255,255,255,0.2);
   }
-  h1 .rb { color: #c8102e; text-shadow: 0 0 20px rgba(200,16,46,0.6); }
-  .subtitle { color: #888; margin-top: 10px; font-size: 1rem; letter-spacing: 2px; }
+  h1 .rb { color: #c8102e; text-shadow: 0 0 20px rgba(200,16,46,0.8); }
+  .subtitle { color: #888; margin-top: 10px; font-size: 1rem; letter-spacing: 2px; text-transform: uppercase; }
 
   /* --- АРЕНА --- */
   .arena {
-    display: flex; justify-content: space-between; align-items: center;
-    max-width: 1200px; margin: 0 auto; padding: 20px; min-height: 80vh;
+    display: flex; justify-content: space-around; align-items: center;
+    max-width: 1000px; margin: 0 auto; padding: 20px; min-height: 60vh;
     position: relative;
   }
 
@@ -59,169 +58,216 @@
     flex: 1; display: flex; justify-content: center; align-items: center;
     position: relative; z-index: 2;
   }
-  .redbull-container {
-    position: relative; width: 160px; height: 400px;
-    animation: floatHero 4s ease-in-out infinite;
-    filter: drop-shadow(0 20px 40px rgba(200,16,46,0.4));
-  }
-  @keyframes floatHero {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-20px) scale(1.02); }
+
+  /* ПРАВАЯ СТОРОНА (СЛОТ ДЛЯ ВРАГА) */
+  .enemy-side {
+    flex: 1; display: flex; justify-content: center; align-items: center;
+    position: relative; z-index: 2;
   }
 
-  /* ПРАВАЯ СТОРОНА (7 БАНД) */
-  .enemies-side {
-    flex: 1; display: flex; flex-direction: column; gap: 20px;
-    align-items: flex-end; padding-left: 20px; z-index: 2;
+  /* --- РЕАЛИСТИЧНЫЕ БАНКИ --- */
+  .can-wrapper {
+    position: relative;
+    display: flex; flex-direction: column; align-items: center;
   }
-  .enemy-row {
-    display: flex; align-items: center; gap: 15px;
-    transition: all 0.5s ease;
-  }
-
-  /* БАНКИ (Общие стили) */
+  
   .can {
-    position: relative; width: 60px; height: 160px;
-    border-radius: 8px 8px 6px 6px;
-    box-shadow: inset -10px 0 20px rgba(0,0,0,0.5), inset 10px 0 20px rgba(255,255,255,0.3);
+    position: relative; width: 80px; height: 200px;
+    border-radius: 10px 10px 6px 6px;
+    box-shadow: 
+      inset -15px 0 30px rgba(0,0,0,0.6), 
+      inset 15px 0 30px rgba(255,255,255,0.3),
+      0 15px 30px rgba(0,0,0,0.8);
     transition: transform 0.3s, opacity 0.3s;
   }
-  .redbull-container .can {
-    width: 120px; height: 320px; border-radius: 12px 12px 8px 8px;
+  
+  /* Крышка и дно (металл) */
+  .can::before {
+    content: ''; position: absolute; top: -6px; left: -2px; right: -2px; height: 12px;
+    background: linear-gradient(90deg, #555, #ddd, #fff, #ddd, #555);
+    border-radius: 50% / 100% 100% 0 0;
+    box-shadow: inset 0 -2px 5px rgba(0,0,0,0.5);
+    z-index: 2;
   }
-  .can::before { /* Крышка */
-    content: ''; position: absolute; top: -5px; left: 0; width: 100%; height: 10px;
-    background: linear-gradient(90deg, #aaa, #fff, #aaa);
-    border-radius: 4px;
-  }
-  .can::after { /* Блик */
-    content: ''; position: absolute; top: 10%; left: 20%; width: 15%; height: 80%;
-    background: linear-gradient(to bottom, rgba(255,255,255,0.8), rgba(255,255,255,0));
-    border-radius: 10px; pointer-events: none;
+  .can::after {
+    content: ''; position: absolute; bottom: -4px; left: -2px; right: -2px; height: 10px;
+    background: linear-gradient(90deg, #444, #bbb, #eee, #bbb, #444);
+    border-radius: 50% / 0 0 100% 100%;
+    box-shadow: inset 0 2px 5px rgba(0,0,0,0.5);
+    z-index: 2;
   }
 
-  /* Дизайн банок */
-  .can-rb { background: linear-gradient(135deg, #0033a0 0%, #0033a0 40%, #c8102e 40%, #c8102e 100%); }
-  .can-adrenaline { background: linear-gradient(135deg, #ff0000, #000); }
-  .can-monster { background: linear-gradient(135deg, #000, #1a5c1a); border: 1px solid #2e8b2e; }
-  .can-burn { background: linear-gradient(135deg, #111, #ff4500); }
-  .can-gorilla { background: linear-gradient(135deg, #222, #8b4513); }
-  .can-tornado { background: linear-gradient(135deg, #111, #00bfff); }
-  .can-flash { background: linear-gradient(135deg, #000, #ffd700); }
-  .can-drive { background: linear-gradient(135deg, #000, #8a2be2); }
+  /* Главный блик */
+  .can-shine {
+    position: absolute; top: 5%; left: 15%; width: 20%; height: 90%;
+    background: linear-gradient(to bottom, rgba(255,255,255,0.7), rgba(255,255,255,0));
+    border-radius: 10px; pointer-events: none; z-index: 3;
+  }
+
+  /* Размеры для Редбулла и врагов */
+  .hero-can { width: 140px; height: 340px; border-radius: 16px 16px 10px 10px; }
+  .hero-can::before { top: -8px; height: 16px; }
+  .hero-can::after { bottom: -6px; height: 14px; }
+
+  /* --- ДИЗАЙНЫ БАНОК --- */
+  /* Red Bull (Оригинал) */
+  .can-rb { background: linear-gradient(135deg, #002d72 0%, #0055b8 50%, #002d72 100%); }
+  .can-rb .stripes {
+    position: absolute; top: 0; right: 0; width: 45%; height: 100%;
+    background: repeating-linear-gradient(45deg, #c8102e, #c8102e 10px, #a00c24 10px, #a00c24 20px);
+    border-radius: 0 16px 10px 0; z-index: 1;
+  }
+  
+  /* Враги */
+  .can-adrenaline { background: linear-gradient(135deg, #111, #333, #111); }
+  .can-adrenaline .stripes { position: absolute; top: 0; left: 0; width: 100%; height: 30%; background: #ff0000; z-index: 1; }
+  
+  .can-monster { background: linear-gradient(135deg, #0a0a0a, #222, #0a0a0a); border: 1px solid #333; }
+  .can-monster .stripes { position: absolute; top: 20%; left: 0; width: 100%; height: 40%; background: #7cff00; clip-path: polygon(10% 0, 100% 20%, 90% 100%, 0 80%); z-index: 1; }
+  
+  .can-burn { background: linear-gradient(135deg, #000, #2a0000, #000); }
+  .can-burn .stripes { position: absolute; bottom: 0; left: 0; width: 100%; height: 50%; background: #ff4500; clip-path: polygon(0 100%, 20% 40%, 40% 80%, 60% 20%, 80% 60%, 100% 0, 100% 100%); z-index: 1; }
+  
+  .can-gorilla { background: linear-gradient(135deg, #1a1a1a, #444, #1a1a1a); }
+  .can-gorilla .stripes { position: absolute; bottom: 10%; left: 0; width: 100%; height: 30%; background: #8b4513; z-index: 1; }
+  
+  .can-tornado { background: linear-gradient(135deg, #001122, #003366, #001122); }
+  .can-tornado .stripes { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: repeating-linear-gradient(0deg, transparent, transparent 15px, rgba(0, 191, 255, 0.3) 15px, rgba(0, 191, 255, 0.3) 20px); z-index: 1; }
+  
+  .can-flash { background: linear-gradient(135deg, #000, #222, #000); }
+  .can-flash .stripes { position: absolute; top: 30%; left: 10%; width: 80%; height: 40%; background: #ffd700; clip-path: polygon(50% 0%, 100% 0%, 60% 50%, 100% 50%, 0% 100%, 40% 50%, 0% 50%); z-index: 1; }
+  
+  .can-drive { background: linear-gradient(135deg, #0a001a, #2a0055, #0a001a); }
+  .can-drive .stripes { position: absolute; top: 40%; left: 0; width: 100%; height: 20%; background: #8a2be2; z-index: 1; }
 
   /* Текст на банках */
   .can-logo {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-90deg);
     font-family: 'Oswald', sans-serif; font-weight: 700; text-transform: uppercase;
-    white-space: nowrap; font-size: 12px; letter-spacing: 2px; text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+    white-space: nowrap; font-size: 14px; letter-spacing: 2px; 
+    text-shadow: 0 2px 5px rgba(0,0,0,0.9), 0 0 10px rgba(255,255,255,0.3);
+    z-index: 5;
   }
-  .redbull-container .can-logo {
-    font-size: 28px; letter-spacing: 4px; color: #fff;
+  .hero-can .can-logo { font-size: 32px; letter-spacing: 5px; }
+  
+  .can-logo .rb-white { color: #fff; font-style: italic; }
+  .can-logo .rb-red { color: #ffcc00; font-style: italic; }
+
+  /* --- АНИМАЦИИ --- */
+  /* Плавное покачивание Редбулла */
+  .float-rb { animation: floatHero 4s ease-in-out infinite; }
+  @keyframes floatHero {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-15px) rotate(2deg); }
   }
 
-  .enemy-name {
-    font-family: 'Oswald', sans-serif; font-size: 1rem; color: #888;
-    text-transform: uppercase; letter-spacing: 2px; transition: color 0.3s;
+  /* Вылет врага справа */
+  .enemy-enter { animation: slideInRight 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
+  @keyframes slideInRight {
+    0% { transform: translateX(200px) scale(0.5); opacity: 0; }
+    100% { transform: translateX(0) scale(1); opacity: 1; }
   }
 
-  /* --- АНИМАЦИИ СРАЖЕНИЙ --- */
+  /* Взрыв врага */
+  .enemy-explode { animation: explodeAnim 0.6s forwards; }
+  @keyframes explodeAnim {
+    0% { transform: scale(1) rotate(0deg); filter: brightness(1); }
+    30% { transform: scale(1.2) rotate(-10deg); filter: brightness(3); }
+    100% { transform: scale(0) rotate(45deg); opacity: 0; filter: brightness(5); }
+  }
+
+  /* Атака Редбулла */
+  .rb-attack { animation: rbDash 0.5s ease-in-out; }
+  @keyframes rbDash {
+    0%, 100% { transform: translateX(0) scale(1); filter: drop-shadow(0 0 10px rgba(200,16,46,0.5)); }
+    40% { transform: translateX(80px) scale(1.1); filter: drop-shadow(0 0 50px #c8102e); }
+  }
+
+  /* --- СТАТУС И КНОПКИ --- */
   .status-text {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    position: absolute; bottom: -60px; left: 50%; transform: translateX(-50%);
     font-family: 'Oswald', sans-serif; font-size: 1.5rem; color: #fff;
     text-transform: uppercase; letter-spacing: 4px; text-shadow: 0 0 20px #fff;
-    opacity: 0; pointer-events: none; z-index: 10; transition: opacity 0.3s;
-    text-align: center;
+    opacity: 0; transition: opacity 0.3s; text-align: center; white-space: nowrap;
   }
 
-  /* Состояния врагов при поражении */
-  .enemy-row.defeated .can { opacity: 0.3; filter: grayscale(1); transform: scale(0.8); }
-  .enemy-row.defeated .enemy-name { color: #444; text-decoration: line-through; }
-
-  /* Анимация взрыва */
-  .explode { animation: explodeAnim 0.6s forwards; }
-  @keyframes explodeAnim {
-    0% { transform: scale(1); filter: brightness(2); }
-    50% { transform: scale(1.5) rotate(15deg); filter: brightness(3) hue-rotate(45deg); }
-    100% { transform: scale(0); opacity: 0; }
+  .controls {
+    display: flex; justify-content: center; gap: 20px; margin: 40px auto;
+    position: relative; z-index: 10;
   }
 
-  /* Ударная волна */
-  .shockwave {
-    position: absolute; border-radius: 50%; border: 4px solid #fff;
-    top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 10px; height: 10px; pointer-events: none; opacity: 0;
+  .btn {
+    background: transparent; color: #fff; border: 2px solid #c8102e; padding: 15px 30px;
+    font-family: 'Oswald', sans-serif; font-size: 1.1rem; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 2px; border-radius: 8px;
+    cursor: pointer; transition: all 0.3s;
   }
-  .shockwave.active { animation: shock 0.8s ease-out forwards; }
-  @keyframes shock {
-    0% { width: 10px; height: 10px; opacity: 1; border-width: 10px; }
-    100% { width: 400px; height: 400px; opacity: 0; border-width: 1px; }
-  }
+  .btn.primary { background: #c8102e; box-shadow: 0 10px 20px rgba(200,16,46,0.4); }
+  .btn:hover { background: #fff; color: #c8102e; border-color: #fff; transform: scale(1.05); }
+  .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
-  /* Красный удар Редбулла */
-  .hero-side.attack .redbull-container {
-    animation: heroAttack 0.5s ease-in-out;
+  /* --- МОДАЛЬНОЕ ОКНО ИНФО --- */
+  .modal-overlay {
+    position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    z-index: 100; display: flex; justify-content: center; align-items: center;
+    opacity: 0; pointer-events: none; transition: opacity 0.4s ease;
   }
-  @keyframes heroAttack {
-    0%, 100% { transform: translateX(0) scale(1); }
-    50% { transform: translateX(50px) scale(1.1); filter: brightness(2) drop-shadow(0 0 50px #c8102e); }
-  }
+  .modal-overlay.show { opacity: 1; pointer-events: auto; }
 
-  /* --- ИНФО БЛОК --- */
-  .info-section {
-    max-width: 1000px; margin: 50px auto 100px; padding: 40px;
-    background: rgba(20, 20, 25, 0.8); backdrop-filter: blur(10px);
-    border: 1px solid rgba(255,255,255,0.1); border-radius: 20px;
-    opacity: 0; transform: translateY(50px); transition: all 1s;
+  .info-modal {
+    background: #111116; border: 1px solid rgba(255,255,255,0.1);
+    border-top: 4px solid #c8102e; border-radius: 16px;
+    width: 90%; max-width: 700px; max-height: 85vh; overflow-y: auto;
+    padding: 30px; transform: scale(0.8) translateY(20px);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.8), 0 0 40px rgba(200,16,46,0.2);
+    position: relative;
   }
-  .info-section.show { opacity: 1; transform: translateY(0); }
-  .info-section h2 {
-    font-family: 'Oswald', sans-serif; color: #c8102e; font-size: 2.5rem;
+  .modal-overlay.show .info-modal { transform: scale(1) translateY(0); }
+
+  .info-modal h2 {
+    font-family: 'Oswald', sans-serif; color: #c8102e; font-size: 2.2rem;
     text-transform: uppercase; margin-top: 0; border-bottom: 2px solid rgba(200,16,46,0.3);
-    padding-bottom: 15px;
+    padding-bottom: 15px; margin-bottom: 20px; letter-spacing: 2px;
   }
+
+  .close-modal {
+    position: absolute; top: 20px; right: 20px; background: transparent; color: #888;
+    border: none; font-size: 2rem; cursor: pointer; transition: color 0.3s; line-height: 1;
+  }
+  .close-modal:hover { color: #c8102e; }
+
   .info-grid {
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px;
-    margin-top: 30px;
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px;
   }
   .info-card {
-    background: rgba(0,0,0,0.4); padding: 20px; border-radius: 12px;
-    border-left: 4px solid #c8102e; transition: transform 0.3s;
+    background: rgba(255,255,255,0.03); padding: 20px; border-radius: 12px;
+    border-left: 4px solid #c8102e; transition: transform 0.3s, background 0.3s;
   }
   .info-card:hover { transform: translateY(-5px); background: rgba(200,16,46,0.1); }
-  .info-card h3 { color: #fff; margin-top: 0; font-size: 1.2rem; }
-  .info-card p { color: #aaa; font-size: 0.9rem; line-height: 1.6; }
+  .info-card h3 { color: #fff; margin-top: 0; font-size: 1.1rem; margin-bottom: 10px; }
+  .info-card p { color: #aaa; font-size: 0.9rem; line-height: 1.5; margin: 0; }
   .info-card .big-num {
-    font-family: 'Oswald', sans-serif; font-size: 2.5rem; color: #c8102e;
-    margin: 10px 0; display: block; font-weight: 700;
+    font-family: 'Oswald', sans-serif; font-size: 2rem; color: #c8102e;
+    margin: 5px 0 10px; display: block; font-weight: 700;
   }
 
-  /* --- КНОПКА СТАРТА --- */
-  .start-btn-wrapper { text-align: center; margin-top: 30px; }
-  .start-btn {
-    background: #c8102e; color: #fff; border: none; padding: 18px 40px;
-    font-family: 'Oswald', sans-serif; font-size: 1.2rem; font-weight: 700;
-    text-transform: uppercase; letter-spacing: 2px; border-radius: 8px;
-    cursor: pointer; box-shadow: 0 10px 30px rgba(200,16,46,0.4);
-    transition: all 0.3s;
-  }
-  .start-btn:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(200,16,46,0.7); }
-  .start-btn:disabled { background: #333; color: #666; cursor: not-allowed; box-shadow: none; }
-
-  /* Частицы (искры) */
+  /* Частицы */
   .spark {
-    position: absolute; width: 6px; height: 6px; background: #ffd700;
+    position: absolute; width: 8px; height: 8px; background: #ffd700;
     border-radius: 50%; pointer-events: none; z-index: 50;
+    box-shadow: 0 0 10px #ffd700;
   }
 
   /* Мобильная адаптация */
   @media (max-width: 768px) {
-    .arena { flex-direction: column; min-height: auto; gap: 40px; }
-    .enemies-side { align-items: center; padding-left: 0; }
-    .enemy-row { flex-direction: column-reverse; gap: 5px; }
-    .redbull-container { width: 120px; height: 240px; }
-    .enemy-name { font-size: 0.8rem; }
+    .arena { flex-direction: column; gap: 60px; padding-top: 40px; }
+    .hero-can { width: 100px; height: 240px; }
+    .hero-can .can-logo { font-size: 22px; }
+    .can { width: 60px; height: 150px; }
     h1 { font-size: 2rem; }
+    .status-text { bottom: -40px; font-size: 1rem; }
   }
 </style>
 </head>
@@ -231,98 +277,66 @@
 
   <header>
     <h1><span class="rb">RED BULL</span> VS ALL</h1>
-    <div class="subtitle">БИТВА ЭНЕРГЕТИКОВ // 7 ПРОТИВНИКОВ</div>
+    <div class="subtitle">БИТВА ЭНЕРГЕТИКОВ</div>
   </header>
 
-  <div class="start-btn-wrapper">
-    <button class="start-btn" id="startBtn">НАЧАТЬ БИТВУ</button>
-  </div>
-
   <div class="arena" id="arena">
-    <!-- ЛЕВАЯ СТОРОНА: RED BULL -->
-    <div class="hero-side" id="heroSide">
-      <div class="redbull-container">
-        <div class="can can-rb">
-          <div class="can-logo">RED BULL</div>
+    <!-- RED BULL -->
+    <div class="hero-side">
+      <div class="can-wrapper float-rb" id="heroWrapper">
+        <div class="can hero-can can-rb">
+          <div class="stripes"></div>
+          <div class="can-shine"></div>
+          <div class="can-logo"><span class="rb-white">Red</span> <span class="rb-red">Bull</span></div>
         </div>
       </div>
-      <!-- Шоквейв -->
-      <div class="shockwave" id="shockwave"></div>
     </div>
 
-    <!-- ПРАВАЯ СТОРОНА: 7 ВРАГОВ -->
-    <div class="enemies-side" id="enemiesSide">
-      <div class="enemy-row" data-id="1">
-        <span class="enemy-name">Adrenaline</span>
-        <div class="can can-adrenaline"><div class="can-logo">RUSH</div></div>
-      </div>
-      <div class="enemy-row" data-id="2">
-        <span class="enemy-name">Monster</span>
-        <div class="can can-monster"><div class="can-logo">MONSTER</div></div>
-      </div>
-      <div class="enemy-row" data-id="3">
-        <span class="enemy-name">Burn</span>
-        <div class="can can-burn"><div class="can-logo">BURN</div></div>
-      </div>
-      <div class="enemy-row" data-id="4">
-        <span class="enemy-name">Gorilla</span>
-        <div class="can can-gorilla"><div class="can-logo">GORILLA</div></div>
-      </div>
-      <div class="enemy-row" data-id="5">
-        <span class="enemy-name">Tornado</span>
-        <div class="can can-tornado"><div class="can-logo">TORNADO</div></div>
-      </div>
-      <div class="enemy-row" data-id="6">
-        <span class="enemy-name">Flash</span>
-        <div class="can can-flash"><div class="can-logo">FLASH</div></div>
-      </div>
-      <div class="enemy-row" data-id="7">
-        <span class="enemy-name">Drive Me</span>
-        <div class="can can-drive"><div class="can-logo">DRIVE</div></div>
-      </div>
+    <!-- МЕСТО ДЛЯ ВРАГА -->
+    <div class="enemy-side" id="enemySide">
+      <!-- Сюда будет вставляться враг -->
     </div>
   </div>
 
   <!-- ТЕКСТ СТАТУСА -->
   <div class="status-text" id="statusText">БИТВА НАЧАЛАСЬ!</div>
 
-  <!-- ИНФО О RED BULL -->
-  <div class="info-section" id="infoSection">
-    <h2>Почему Red Bull?</h2>
-    <p style="color:#ccc; font-size:1.1rem; line-height:1.8;">
-      Red Bull — не просто энергетик, это мировой феномен. Он побеждает не только по вкусу, но и по влиянию на мир спорта и культуры.
-    </p>
-    
-    <div class="info-grid">
-      <div class="info-card">
-        <h3>Основан</h3>
-        <span class="big-num">1987</span>
-        <p>Австрийский предприниматель Дитрих Матешиц создал бренд, который изменил индустрию напитков навсегда.</p>
-      </div>
-      <div class="info-card">
-        <h3>Продажи</h3>
-        <span class="big-num">12+ млрд</span>
-        <p>Банок продается ежегодно по всему миру. Red Bull присутствует в более чем 175 странах.</p>
-      </div>
-      <div class="info-card">
-        <h3>Кофеин</h3>
-        <span class="big-num">80 мг</span>
-        <p>В одной банке (250 мл) — столько же кофеина, сколько в чашке крепкого кофе. Плюс таурин и витамины группы B.</p>
-      </div>
-      <div class="info-card">
-        <h3>Спорт</h3>
-        <span class="big-num">F1, MotoGP</span>
-        <p>Red Bull владеет двумя командами Формулы-1. Они не спонсоры, они хозяева спорта.</p>
-      </div>
-      <div class="info-card">
-        <h3>Медиа</h3>
-        <span class="big-num">Red Bull TV</span>
-        <p>Собственная медиа-империя: от экстремального спорта до музыки. Они создают контент, а не просто рекламу.</p>
-      </div>
-      <div class="info-card">
-        <h3>Вкус</h3>
-        <span class="big-num">Классика</span>
-        <p>Уникальная рецептура, которая узнается с первого глотка. Многие копируют, но никому не удается повторить.</p>
+  <!-- УПРАВЛЕНИЕ -->
+  <div class="controls">
+    <button class="btn primary" id="startBtn">НАЧАТЬ БИТВУ</button>
+    <button class="btn" id="infoBtn">ИНФО О RED BULL</button>
+  </div>
+
+  <!-- МОДАЛЬНОЕ ОКНО ИНФО -->
+  <div class="modal-overlay" id="infoModalOverlay">
+    <div class="info-modal">
+      <button class="close-modal" id="closeModalBtn">&times;</button>
+      <h2>Почему Red Bull?</h2>
+      <p style="color:#ccc; font-size:1rem; line-height:1.6; margin-bottom: 20px;">
+        Red Bull — не просто энергетик, это мировой феномен. Он побеждает не только по вкусу, но и по влиянию на мир спорта и культуры.
+      </p>
+      
+      <div class="info-grid">
+        <div class="info-card">
+          <h3>Основан</h3>
+          <span class="big-num">1987</span>
+          <p>Австрийский предприниматель Дитрих Матешиц создал бренд, который изменил индустрию.</p>
+        </div>
+        <div class="info-card">
+          <h3>Продажи</h3>
+          <span class="big-num">12+ млрд</span>
+          <p>Банок продается ежегодно. Присутствует в более чем 175 странах мира.</p>
+        </div>
+        <div class="info-card">
+          <h3>Кофеин</h3>
+          <span class="big-num">80 мг</span>
+          <p>В одной банке (250 мл) — как чашка крепкого кофе. Плюс таурин и витамины группы B.</p>
+        </div>
+        <div class="info-card">
+          <h3>Спорт</h3>
+          <span class="big-num">F1, MotoGP</span>
+          <p>Red Bull владеет двумя командами Формулы-1. Они не спонсоры, они хозяева спорта.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -332,28 +346,49 @@
   'use strict';
 
   var startBtn = document.getElementById('startBtn');
-  var heroSide = document.getElementById('heroSide');
-  var enemies = document.querySelectorAll('.enemy-row');
+  var infoBtn = document.getElementById('infoBtn');
+  var heroWrapper = document.getElementById('heroWrapper');
+  var enemySide = document.getElementById('enemySide');
   var statusText = document.getElementById('statusText');
-  var shockwave = document.getElementById('shockwave');
-  var infoSection = document.getElementById('infoSection');
-  var arena = document.getElementById('arena');
+  
+  var infoModalOverlay = document.getElementById('infoModalOverlay');
+  var closeModalBtn = document.getElementById('closeModalBtn');
 
-  var names = [
-    'ADRENALINE RUSH', 'MONSTER', 'BURN', 'GORILLA', 
-    'TORNADO', 'FLASH', 'DRIVE ME'
+  // Данные о врагах
+  var enemies = [
+    { name: 'ADRENALINE RUSH', class: 'can-adrenaline', color: '#ff0000' },
+    { name: 'MONSTER', class: 'can-monster', color: '#7cff00' },
+    { name: 'BURN', class: 'can-burn', color: '#ff4500' },
+    { name: 'GORILLA', class: 'can-gorilla', color: '#8b4513' },
+    { name: 'TORNADO', class: 'can-tornado', color: '#00bfff' },
+    { name: 'FLASH', class: 'can-flash', color: '#ffd700' },
+    { name: 'DRIVE ME', class: 'can-drive', color: '#8a2be2' }
   ];
 
-  // Создание искр
+  var currentEnemyIndex = 0;
+  var isFighting = false;
+
+  // --- МОДАЛЬНОЕ ОКНО ---
+  infoBtn.addEventListener('click', function() {
+    infoModalOverlay.classList.add('show');
+  });
+  closeModalBtn.addEventListener('click', function() {
+    infoModalOverlay.classList.remove('show');
+  });
+  infoModalOverlay.addEventListener('click', function(e) {
+    if (e.target === infoModalOverlay) infoModalOverlay.classList.remove('show');
+  });
+
+  // --- ЭФФЕКТЫ ---
   function createSparks(x, y) {
-    for (var i = 0; i < 15; i++) {
+    for (var i = 0; i < 20; i++) {
       var spark = document.createElement('div');
       spark.classList.add('spark');
       spark.style.left = x + 'px';
       spark.style.top = y + 'px';
       
       var angle = Math.random() * Math.PI * 2;
-      var velocity = 50 + Math.random() * 150;
+      var velocity = 50 + Math.random() * 200;
       var tx = Math.cos(angle) * velocity;
       var ty = Math.sin(angle) * velocity;
       
@@ -377,8 +412,8 @@
       var gain = ctx.createGain();
       
       osc.type = 'sawtooth';
-      osc.frequency.setValueAtTime(150, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(40, ctx.currentTime + 0.3);
+      osc.frequency.setValueAtTime(120, ctx.currentTime);
+      osc.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + 0.3);
       
       gain.gain.setValueAtTime(0.3, ctx.currentTime);
       gain.gain.exponentialRampToValueAtTime(0.01, ctx.currentTime + 0.3);
@@ -390,93 +425,87 @@
     } catch(e) {}
   }
 
-  function playWinSound() {
-    try {
-      var AC = window.AudioContext || window.webkitAudioContext;
-      var ctx = new AC();
-      var osc = ctx.createOscillator();
-      var gain = ctx.createGain();
-      
-      osc.type = 'square';
-      osc.frequency.setValueAtTime(400, ctx.currentTime);
-      osc.frequency.setValueAtTime(600, ctx.currentTime + 0.1);
-      osc.frequency.setValueAtTime(800, ctx.currentTime + 0.2);
-      osc.frequency.setValueAtTime(1200, ctx.currentTime + 0.3);
-      
-      gain.gain.setValueAtTime(0.1, ctx.currentTime);
-      gain.gain.linearRampToValueAtTime(0, ctx.currentTime + 0.6);
-      
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.start();
-      osc.stop(ctx.currentTime + 0.6);
-    } catch(e) {}
+  // --- ЛОГИКА БИТВЫ ---
+  function startFight() {
+    if (isFighting) return;
+    isFighting = true;
+    startBtn.disabled = true;
+    startBtn.textContent = 'БИТВА...';
+    statusText.style.opacity = '1';
+    currentEnemyIndex = 0;
+    enemySide.innerHTML = ''; // Очищаем арену
+    
+    setTimeout(spawnEnemy, 500);
   }
 
-  // Основная логика битвы
-  startBtn.addEventListener('click', function() {
-    startBtn.disabled = true;
-    startBtn.textContent = 'ИДЕТ БИТВА...';
-    statusText.style.opacity = '1';
-
-    var currentEnemyIndex = 0;
-
-    function attackNext() {
-      if (currentEnemyIndex >= enemies.length) {
-        // Конец битвы
-        statusText.textContent = 'RED BULL — АБСОЛЮТНЫЙ ЧЕМПИОН!';
-        statusText.style.color = '#c8102e';
-        statusText.style.fontSize = '2.5rem';
-        startBtn.textContent = 'ПОБЕДА';
-        playWinSound();
-        setTimeout(function() {
-          statusText.style.opacity = '0';
-          infoSection.classList.add('show');
-          infoSection.scrollIntoView({ behavior: 'smooth' });
-        }, 3000);
-        return;
-      }
-
-      var enemy = enemies[currentEnemyIndex];
-      var can = enemy.querySelector('.can');
-      
-      // Статус
-      statusText.textContent = 'RED BULL vs ' + names[currentEnemyIndex];
-      
-      // Анимация атаки Редбулла
-      heroSide.classList.add('attack');
+  function spawnEnemy() {
+    if (currentEnemyIndex >= enemies.length) {
+      // Конец битвы
+      statusText.textContent = 'RED BULL — АБСОЛЮТНЫЙ ЧЕМПИОН!';
+      statusText.style.color = '#c8102e';
+      statusText.style.fontSize = '2rem';
+      startBtn.textContent = 'ПОБЕДА';
+      startBtn.disabled = false;
+      isFighting = false;
       
       setTimeout(function() {
-        heroSide.classList.remove('attack');
-        
-        // Эффект взрыва на враге
-        var rect = can.getBoundingClientRect();
-        var centerX = rect.left + rect.width / 2;
-        var centerY = rect.top + rect.height / 2;
-        
-        can.classList.add('explode');
-        createSparks(centerX, centerY);
-        playHitSound();
-        
-        // Шоквейв
-        shockwave.classList.remove('active');
-        void shockwave.offsetWidth; // Триггер рефлоу
-        shockwave.classList.add('active');
-        
-        // Помечаем как побежденного
-        setTimeout(function() {
-          enemy.classList.add('defeated');
-          can.classList.remove('explode');
-          currentEnemyIndex++;
-          setTimeout(attackNext, 400); // Пауза перед следующим
-        }, 600);
-        
-      }, 250); // Конец анимации атаки
+        statusText.style.opacity = '0';
+        // Автоматически открываем инфо после победы
+        infoModalOverlay.classList.add('show');
+      }, 2500);
+      return;
     }
 
-    // Начинаем битву через секунду
-    setTimeout(attackNext, 500);
-  });
+    var enemyData = enemies[currentEnemyIndex];
+    statusText.textContent = 'RED BULL vs ' + enemyData.name;
+    
+    // Создаем HTML банки врага
+    var enemyHTML = 
+      '<div class="can-wrapper enemy-enter" id="currentEnemy">' +
+        '<div class="can ' + enemyData.class + '">' +
+          '<div class="stripes"></div>' +
+          '<div class="can-shine"></div>' +
+          '<div class="can-logo" style="color:' + enemyData.color + '">' + enemyData.name + '</div>' +
+        '</div>' +
+      '</div>';
+    
+    enemySide.innerHTML = enemyHTML;
+    var currentEnemy = document.getElementById('currentEnemy');
+
+    // Ждем немного и атакуем
+    setTimeout(function() {
+      attackEnemy(currentEnemy);
+    }, 800);
+  }
+
+  function attackEnemy(enemyWrapper) {
+    // Анимация атаки Редбулла
+    heroWrapper.classList.add('rb-attack');
+    
+    setTimeout(function() {
+      heroWrapper.classList.remove('rb-attack');
+      
+      // Взрыв
+      var rect = enemyWrapper.getBoundingClientRect();
+      var centerX = rect.left + rect.width / 2;
+      var centerY = rect.top + rect.height / 2;
+      
+      createSparks(centerX, centerY);
+      playHitSound();
+      
+      var can = enemyWrapper.querySelector('.can');
+      can.classList.add('enemy-explode');
+      
+      setTimeout(function() {
+        enemyWrapper.style.display = 'none'; // Прячем
+        currentEnemyIndex++;
+        spawnEnemy(); // Спавним следующего
+      }, 600);
+      
+    }, 250); // Время атаки Редбулла
+  }
+
+  startBtn.addEventListener('click', startFight);
 
 })();
 </script>
