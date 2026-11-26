@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Для Ташки // Red Bull Supremacy</title>
+<title>Red Bull Supremacy</title>
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
@@ -12,8 +12,7 @@
     margin: 0; padding: 0; width: 100%; height: 100vh;
     background-color: #05070a; overflow: hidden;
     font-family: 'Courier Prime', monospace;
-    position: fixed; top: 0; left: 0;
-    cursor: none;
+    position: fixed; top: 0; left: 0; cursor: none;
   }
 
   /* --- КУРСОР --- */
@@ -25,8 +24,7 @@
     transform: translate(-50%, -50%);
     transition: width .25s ease, height .25s ease, background .25s ease, border-color .25s ease, box-shadow .25s ease;
     box-shadow: 0 0 15px #ffd700, inset 0 0 10px #ffd700;
-    mix-blend-mode: screen;
-    will-change: left, top;
+    mix-blend-mode: screen; will-change: left, top;
   }
   .cursor-glow.hover {
     width: 44px; height: 44px;
@@ -34,30 +32,19 @@
     box-shadow: 0 0 25px #ffd700, inset 0 0 18px #ffd700;
   }
 
-  /* --- ФОН ГЛАВНОГО МЕНЮ --- */
+  /* --- ГЛАВНОЕ МЕНЮ --- */
   .bg-main {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    z-index: 1;
+    position: absolute; inset: 0; width: 100%; height: 100%; z-index: 1;
     background: radial-gradient(circle at 30% 20%, rgba(255,215,0,.05) 0%, transparent 40%),
                 radial-gradient(circle at 70% 80%, rgba(255,215,0,.03) 0%, transparent 40%),
                 linear-gradient(180deg, #05070a 0%, #0a101a 50%, #05070a 100%);
-    overflow: hidden;
   }
-  .bg-main::before {
-    content: ''; position: absolute; inset: 0;
-    background-image: linear-gradient(115deg, transparent 45%, rgba(255,215,0,.03) 45.5%, transparent 46%),
-                      linear-gradient(65deg, transparent 60%, rgba(255,215,0,.02) 60.5%, transparent 61%);
-    animation: iceShimmer 8s ease-in-out infinite alternate;
-  }
-  @keyframes iceShimmer { 0% { opacity: .6; } 100% { opacity: 1; } }
 
-  /* --- ГЛАВНОЕ ОКНО --- */
   .main-window {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
     width: 90%; max-width: 380px;
     background: rgba(10, 15, 25, 0.6);
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    border-top: 3px solid #ffd700;
+    border: 1px solid rgba(255, 215, 0, 0.2); border-top: 3px solid #ffd700;
     border-radius: 12px; padding: 40px 25px 30px; z-index: 10;
     box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(255, 215, 0, 0.05);
     color: #fff; text-align: center;
@@ -65,27 +52,26 @@
     transition: opacity .6s ease, transform .6s ease; will-change: transform;
   }
   @keyframes windowBreath {
-    0%, 100% { transform: translate(-50%,-50%) translateY(0) rotate(0deg); }
-    50% { transform: translate(-50%,-50%) translateY(-6px) rotate(.2deg); }
+    0%, 100% { transform: translate(-50%,-50%) translateY(0); }
+    50% { transform: translate(-50%,-50%) translateY(-6px); }
   }
 
   .main-window h1 {
-    margin: 0; font-size: 34px; letter-spacing: 4px; color: #fff;
+    margin: 0; font-size: 26px; letter-spacing: 3px; color: #fff;
     text-shadow: 0 0 15px rgba(255, 215, 0, 0.9), 0 0 30px rgba(255,215,0,.5);
     font-weight: 700; font-family: 'Oswald', sans-serif; text-transform: uppercase;
     animation: textPulse 3s ease-in-out infinite alternate;
+    line-height: 1.2;
   }
   @keyframes textPulse {
-    0% { text-shadow: 0 0 10px rgba(255,215,0,0.6), 0 0 20px rgba(255,215,0,0.3); }
-    100% { text-shadow: 0 0 20px rgba(255,215,0,1), 0 0 40px rgba(255,215,0,0.7); }
+    0% { text-shadow: 0 0 10px rgba(255,215,0,0.6); }
+    100% { text-shadow: 0 0 20px rgba(255,215,0,1); }
   }
 
   .subtitle-ru {
-    font-size: 12px; color: #ffd700; margin: 8px 0 35px; letter-spacing: 4px;
-    text-transform: uppercase; opacity: .9; font-weight: 700;
+    font-size: 12px; color: #ffd700; margin: 15px 0 35px; letter-spacing: 2px;
+    opacity: .8; font-weight: 700; font-family: 'Courier Prime', monospace;
   }
-
-  .button-group { display: flex; flex-direction: column; gap: 15px; width: 100%; }
 
   .btn {
     display: flex; align-items: center; justify-content: center; gap: 10px;
@@ -96,214 +82,134 @@
     cursor: none; position: relative; overflow: hidden;
     border-radius: 6px; letter-spacing: 2px;
     transition: all .4s cubic-bezier(.22,1,.36,1);
-    will-change: transform, box-shadow;
+    width: 100%;
   }
-  .btn:hover, .btn:focus-visible {
-    background: rgba(255,215,0,.15); border-color: #ffd700;
-    letter-spacing: 3px; transform: translateY(-2px);
-    box-shadow: 0 0 30px rgba(255,215,0,.5); outline: none;
-  }
-
-  .from-me {
-    margin-top: 30px; font-size: 11px; color: rgba(255,215,0,0.6);
-    letter-spacing: 2px; text-transform: uppercase; font-family: 'Oswald', sans-serif;
-    border-top: 1px dashed rgba(255,215,0,0.2); padding-top: 15px;
-  }
+  .btn:hover { background: rgba(255,215,0,.15); border-color: #ffd700; box-shadow: 0 0 30px rgba(255,215,0,.5); }
 
   /* =========================================================
-     КИНЕМАТОГРАФИЧНАЯ СЦЕНА (ПРЕЗЕНТАЦИЯ)
+     АРЕНА (ДУЭЛИ 1 НА 1)
      ========================================================= */
   .arena-modal {
     display: none; position: fixed; inset: 0; width: 100%; height: 100%;
     background: radial-gradient(circle at center, #111822 0%, #030508 100%);
-    z-index: 200; flex-direction: column; align-items: center; justify-content: center;
-    opacity: 0; transition: opacity 0.6s ease; overflow: hidden;
-    perspective: 1200px;
+    z-index: 200; overflow: hidden;
+    opacity: 0; transition: opacity 0.6s ease;
   }
-  .arena-modal.show { display: flex; opacity: 1; }
+  .arena-modal.show { display: block; opacity: 1; }
 
-  .arena-bg-effects {
-    position: absolute; inset: 0; pointer-events: none; z-index: 1;
-    background-image: linear-gradient(rgba(255, 215, 0, 0.05) 1px, transparent 1px),
-                      linear-gradient(90deg, rgba(255, 215, 0, 0.05) 1px, transparent 1px);
-    background-size: 40px 40px; transform: rotateX(60deg) translateY(-200px) scale(2); opacity: 0.3;
-  }
   .scanline {
     position: absolute; inset: 0; pointer-events: none; z-index: 2;
     background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5) 51%);
-    background-size: 100% 4px; opacity: 0.2;
+    background-size: 100% 4px; opacity: 0.15;
   }
 
-  .arena-top-title {
-    position: absolute; top: 5%; font-family: 'Oswald', sans-serif; font-size: 28px; color: #ffd700;
-    text-transform: uppercase; letter-spacing: 5px; text-shadow: 0 0 20px rgba(255,215,0,0.8);
-    z-index: 10; opacity: 0; transform: translateY(-20px); transition: all 0.5s ease;
-    text-align: center; width: 100%;
-  }
-  .arena-top-title.show { opacity: 1; transform: translateY(0); }
-
-  .arena-stage {
-    position: relative; width: 100%; max-width: 1400px; height: 100%;
-    display: flex; justify-content: space-between; align-items: center;
-    padding: 0 8%; z-index: 10; transform-style: preserve-3d;
+  .arena-title {
+    position: absolute; top: 8%; width: 100%; text-align: center;
+    font-family: 'Oswald', sans-serif; font-size: 32px; color: #ffd700;
+    letter-spacing: 6px; text-shadow: 0 0 30px #ffd700;
+    opacity: 0; transition: opacity 0.5s ease; z-index: 10;
   }
 
-  /* --- RED BULL (ЛЕВЫЙ) --- */
-  .redbull-side {
-    position: absolute; left: 15%; top: 50%; transform: translateY(-50%) scale(1.2);
-    z-index: 20; opacity: 0; transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
-    display: flex; flex-direction: column; align-items: center;
+  .fighter-rb {
+    position: absolute; left: 15%; top: 50%; transform: translateY(-50%) scale(1);
+    width: 180px; height: 380px; z-index: 20;
+    transition: all 1s cubic-bezier(0.22, 1, 0.36, 1);
     filter: drop-shadow(0 0 30px rgba(255,215,0,0.4));
+    opacity: 0;
   }
-  .redbull-side.show { opacity: 1; transform: translateY(-50%) scale(1.5); }
-  .redbull-side.center {
-    left: 50%; transform: translate(-50%, -50%) scale(2.2);
-    z-index: 50; filter: drop-shadow(0 0 80px rgba(255,215,0,0.8));
+  .fighter-rb.show { opacity: 1; }
+  .fighter-rb.center {
+    left: 50%; transform: translate(-50%, -50%) scale(1.6);
+    filter: drop-shadow(0 0 80px rgba(255,215,0,0.8)); z-index: 50;
   }
-  .redbull-img { width: 160px; height: auto; }
+
+  .fighter-enemy {
+    position: absolute; right: 15%; top: 50%; transform: translate(200px, -50%);
+    width: 140px; height: 300px; z-index: 20;
+    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    opacity: 0;
+  }
+  .fighter-enemy.show { opacity: 1; transform: translate(0, -50%); }
+  .fighter-enemy.dead { opacity: 0; transform: translate(100px, -50%) rotate(20deg) scale(0.8); filter: grayscale(1); }
+
+  .clash-box {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(0.8);
+    width: 400px; background: rgba(0,0,0,0.6); border: 1px solid rgba(255,215,0,0.3);
+    border-radius: 12px; padding: 30px; text-align: center; z-index: 15;
+    opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    backdrop-filter: blur(10px); box-shadow: 0 0 50px rgba(0,0,0,0.8);
+  }
+  .clash-box.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+
+  .clash-title {
+    font-family: 'Oswald', sans-serif; color: #fff; font-size: 24px;
+    letter-spacing: 3px; margin-bottom: 20px; text-shadow: 0 0 10px #fff;
+  }
+
+  .clash-bar-container { display: flex; align-items: center; gap: 15px; margin-bottom: 10px; }
+  .clash-bar-bg { flex: 1; height: 20px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.2); }
+  .clash-fill { height: 100%; width: 0%; transition: width 1s ease; }
+  .fill-rb { background: linear-gradient(90deg, #ff8c00, #ffd700); box-shadow: 0 0 15px #ffd700; }
+  .fill-enemy { background: #666; }
   
-  /* --- КОНКУРЕНТЫ (ПРАВЫЕ) --- */
-  .competitors-side {
-    position: absolute; right: 12%; top: 50%; transform: translateY(-50%);
-    display: flex; flex-direction: column; gap: 15px; z-index: 15;
+  .clash-score { font-family: 'Oswald', sans-serif; font-size: 24px; color: #fff; width: 50px; font-weight: 700; }
+
+  .mogged-slam {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(3);
+    background: #ff1a1a; color: #fff; border: 4px solid #fff;
+    padding: 10px 20px; font-family: 'Oswald', sans-serif; font-weight: 700;
+    font-size: 28px; letter-spacing: 2px; text-transform: uppercase;
+    box-shadow: 0 0 50px #ff1a1a; opacity: 0; z-index: 99;
+    text-shadow: 2px 2px 0 #000;
   }
-  .competitor-row {
-    display: flex; align-items: center; gap: 15px;
-    opacity: 0; transform: translateX(80px); transition: all 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
-  }
-  .competitor-row.show { opacity: 1; transform: translateX(0); }
-  .competitor-img-box {
-    width: 60px; height: 120px; display: flex; justify-content: center; align-items: center;
-    filter: grayscale(1) contrast(1.5) brightness(0.7); transition: filter 0.5s ease;
-  }
-  .competitor-row.show .competitor-img-box { filter: grayscale(0.8) contrast(1.2) brightness(0.9); }
-  .competitor-img-box img { max-width: 100%; max-height: 100%; object-fit: contain; }
-  
-  .mogged-badge {
-    position: absolute; top: 50%; left: 50%;
-    transform: translate(-50%, -50%) scale(3) rotate(-15deg);
-    background: #ff1a1a; color: #fff; border: 3px solid #fff;
-    padding: 6px 15px; font-family: 'Oswald', sans-serif; font-weight: 700;
-    font-size: 22px; letter-spacing: 2px; text-transform: uppercase;
-    box-shadow: 0 0 40px #ff1a1a, inset 0 0 10px #800000;
-    opacity: 0; pointer-events: none; transition: all 0.15s ease-out;
-    z-index: 30; text-shadow: 2px 2px 0px #000;
-  }
-  .mogged-badge.show { animation: slamBadge 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards; }
-  @keyframes slamBadge {
-    0% { transform: translate(-50%, -50%) scale(3) rotate(-30deg); opacity: 0; }
+  .mogged-slam.slam { animation: slamAnim 0.4s forwards; }
+  @keyframes slamAnim {
+    0% { transform: translate(-50%, -50%) scale(3) rotate(-20deg); opacity: 0; }
     50% { transform: translate(-50%, -50%) scale(1) rotate(-10deg); opacity: 1; }
-    100% { transform: translate(-50%, -50%) scale(1.1) rotate(-15deg); opacity: 1; }
+    100% { transform: translate(-50%, -50%) scale(1.1) rotate(-10deg); opacity: 1; }
   }
 
-  /* --- ДИАГРАММА (ЦЕНТР) --- */
-  .diagram-side {
-    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
-    width: 45%; display: flex; flex-direction: column; gap: 20px; z-index: 10;
-    background: rgba(0,0,0,0.4); padding: 30px; border-radius: 12px;
-    border: 1px solid rgba(255,215,0,0.2); backdrop-filter: blur(10px);
-    box-shadow: 0 0 50px rgba(0,0,0,0.8);
-  }
-  .diagram-row {
-    display: flex; align-items: center; width: 100%;
-    opacity: 0; transition: opacity 0.5s ease, transform 0.5s ease; transform: translateY(20px);
-  }
-  .diagram-row.show { opacity: 1; transform: translateY(0); }
-  
-  .diagram-label {
-    width: 120px; font-size: 12px; color: #aaa; text-transform: uppercase;
-    text-align: right; padding-right: 20px; font-family: 'Oswald', sans-serif;
-    letter-spacing: 1px; font-weight: 700;
-  }
-  
-  .diagram-bars { flex: 1; display: flex; flex-direction: column; gap: 6px; }
-  
-  .bar-bg {
-    height: 12px; background: rgba(255,255,255,0.05); border-radius: 6px; overflow: hidden; position: relative;
-    border: 1px solid rgba(255,255,255,0.1);
-  }
-  .bar-fill {
-    height: 100%; width: 0%; border-radius: 6px; transition: width 1.2s cubic-bezier(0.22, 1, 0.36, 1);
-    position: relative;
-  }
-  .bar-redbull { 
-    background: linear-gradient(90deg, #ff8c00, #ffd700); 
-    box-shadow: 0 0 15px #ffd700, inset 0 0 10px #fff; 
-  }
-  .bar-redbull::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.8), transparent);
-    animation: barShine 2s infinite;
-  }
-  @keyframes barShine { 0% { transform: translateX(-100%); } 100% { transform: translateX(100%); } }
-
-  .bar-competitor { background: #444; box-shadow: inset 0 0 5px #000; }
-
-  /* --- ФИНАЛЬНЫЙ ЭКРАН --- */
   .final-overlay {
-    position: absolute; inset: 0; background: rgba(0,0,0,0.9);
-    z-index: 100; display: flex; align-items: center; justify-content: center;
-    opacity: 0; pointer-events: none; transition: opacity 1s ease; backdrop-filter: blur(15px);
+    position: absolute; inset: 0; background: rgba(0,0,0,0.95); z-index: 100;
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 1s ease; backdrop-filter: blur(10px);
   }
   .final-overlay.show { opacity: 1; pointer-events: auto; }
 
   .achievements-box {
     background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
-    border: 3px solid #ffd700; border-radius: 20px;
-    padding: 50px 70px; text-align: center;
-    box-shadow: 0 0 150px rgba(255,215,0,0.3), inset 0 0 80px rgba(255,215,0,0.05);
-    transform: scale(0.8) translateY(50px); transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border: 3px solid #ffd700; border-radius: 20px; padding: 50px 70px;
+    text-align: center; box-shadow: 0 0 150px rgba(255,215,0,0.3);
+    transform: scale(0.8); transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     position: relative; overflow: hidden;
   }
-  .achievements-box::before {
-    content: ''; position: absolute; top: -50%; left: -50%; width: 200%; height: 200%;
-    background: conic-gradient(from 0deg, transparent, rgba(255,215,0,0.1), transparent 30%);
-    animation: spinLight 4s linear infinite; pointer-events: none;
-  }
-  @keyframes spinLight { 100% { transform: rotate(360deg); } }
-  .final-overlay.show .achievements-box { transform: scale(1) translateY(0); }
-
-  .achievements-title {
-    font-family: 'Oswald', sans-serif; font-size: 42px; color: #ffd700;
-    text-transform: uppercase; letter-spacing: 8px; margin-bottom: 30px;
-    text-shadow: 0 0 30px rgba(255,215,0,0.8); font-weight: 700;
-  }
-  .achievements-list {
-    display: flex; flex-direction: column; gap: 20px; text-align: left; position: relative; z-index: 2;
-  }
-  .ach-item {
-    font-size: 18px; color: #fff; display: flex; align-items: center; gap: 15px;
-    font-family: 'Courier Prime', monospace; border-bottom: 1px solid rgba(255,215,0,0.2);
-    padding-bottom: 15px; opacity: 0; transform: translateX(-20px); transition: all 0.4s ease;
-  }
+  .final-overlay.show .achievements-box { transform: scale(1); }
+  .achievements-title { font-family: 'Oswald', sans-serif; font-size: 42px; color: #ffd700; text-transform: uppercase; letter-spacing: 8px; margin-bottom: 30px; text-shadow: 0 0 30px #ffd700; font-weight: 700; }
+  .ach-item { font-size: 18px; color: #fff; display: flex; align-items: center; gap: 15px; padding-bottom: 15px; border-bottom: 1px solid rgba(255,215,0,0.2); opacity: 0; transform: translateX(-20px); transition: all 0.4s ease; text-align: left; }
   .final-overlay.show .ach-item { opacity: 1; transform: translateX(0); }
-  .final-overlay.show .ach-item:nth-child(1) { transition-delay: 0.3s; }
-  .final-overlay.show .ach-item:nth-child(2) { transition-delay: 0.5s; }
-  .final-overlay.show .ach-item:nth-child(3) { transition-delay: 0.7s; }
-  .final-overlay.show .ach-item:nth-child(4) { transition-delay: 0.9s; }
-  .final-overlay.show .ach-item:nth-child(5) { transition-delay: 1.1s; }
   .ach-item::before { content: '🏆'; font-size: 24px; filter: drop-shadow(0 0 10px #ffd700); }
 
-  .close-arena-btn {
+  .close-btn {
     position: absolute; top: 30px; right: 30px; z-index: 999;
     background: transparent; color: #ffd700; border: 1px solid #ffd700;
     padding: 10px 20px; font-family: 'Oswald', sans-serif; font-size: 16px;
-    cursor: pointer; border-radius: 4px; transition: 0.3s; font-weight: 700; letter-spacing: 2px;
+    cursor: pointer; border-radius: 4px; transition: 0.3s;
   }
-  .close-arena-btn:hover { background: #ffd700; color: #000; box-shadow: 0 0 20px #ffd700; }
+  .close-btn:hover { background: #ffd700; color: #000; }
 
-  @media (max-width: 1024px) {
-    .arena-stage { flex-direction: column; height: auto; padding-top: 100px; gap: 40px; }
-    .redbull-side { position: relative; left: auto; top: auto; transform: none; margin: 0 auto; }
-    .redbull-side.show { transform: scale(1.2); }
-    .redbull-side.center { left: auto; transform: scale(1.5); margin-top: 50px; }
-    .competitors-side { position: relative; right: auto; top: auto; transform: none; flex-direction: row; flex-wrap: wrap; justify-content: center; gap: 20px;}
-    .diagram-side { position: relative; left: auto; top: auto; transform: none; width: 90%; margin: 0 auto; padding: 20px; }
-    .diagram-label { width: 80px; font-size: 10px; }
-    .mogged-badge { font-size: 14px; padding: 4px 8px; }
+  .can-placeholder {
+    width: 100%; height: 100%; border: 2px dashed rgba(255,255,255,0.3); border-radius: 10px;
+    display: flex; align-items: center; justify-content: center; text-align: center;
+    font-family: 'Oswald'; color: #888; font-size: 14px; writing-mode: vertical-rl;
+    text-orientation: mixed; letter-spacing: 2px;
+  }
+
+  @media (max-width: 900px) {
+    .fighter-rb { width: 100px; height: 220px; left: 5%; }
+    .fighter-enemy { width: 80px; height: 180px; right: 5%; }
+    .clash-box { width: 90%; }
     .achievements-box { padding: 30px; width: 95%; }
-    .achievements-title { font-size: 28px; letter-spacing: 4px; }
+    .achievements-title { font-size: 24px; }
     .ach-item { font-size: 14px; }
   }
 </style>
@@ -315,46 +221,52 @@
 
   <!-- ГЛАВНОЕ ОКНО -->
   <div class="main-window" id="mainWindow">
-    <h1>ДЛЯ ТАШКИ</h1>
-    <p class="subtitle-ru">RED BULL SUPREMACY</p>
+    <h1>ВЫ ДОЛЖНЫ<br>ЭТО ЗНАТЬ</h1>
+    <p class="subtitle-ru">Сделано: zero.ping</p>
 
-    <div class="button-group">
-      <button id="btnStartArena" class="btn" type="button" style="width:100%;">
-        <span>ЗАПУСТИТЬ</span>
-      </button>
-    </div>
-
-    <div class="from-me">Сделано с душой для Ташки ❤️</div>
+    <button id="btnStart" class="btn" type="button">ЗАПУСТИТЬ</button>
   </div>
 
-  <!-- КИНЕМАТОГРАФИЧНАЯ СЦЕНА -->
+  <!-- СЦЕНА -->
   <div class="arena-modal" id="arenaModal">
-    <button class="close-arena-btn" id="btnCloseArena">[ X ] ЗАКРЫТЬ</button>
-    
-    <div class="arena-bg-effects"></div>
+    <button class="close-btn" id="btnClose">[ X ] ЗАКРЫТЬ</button>
     <div class="scanline"></div>
     
-    <div class="arena-top-title" id="arenaTitle">RED BULL УНИЧТОЖАЕТ КОНКУРЕНТОВ</div>
+    <div class="arena-title" id="arenaTitle">RED BULL УНИЧТОЖАЕТ</div>
 
-    <div class="arena-stage">
-      <div class="redbull-side" id="rbSide">
-        <img class="redbull-img" id="rbImg" src="" alt="Red Bull" onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=\'http://www.w3.org/2000/svg\' width=\'160\' height=\'300\'><rect width=\'160\' height=\'300\' fill=\'%23111\' stroke=\'%23ffd700\' stroke-width=\'4\' rx=\'20\'/><text x=\'80\' y=\'150\' fill=\'%23ffd700\' font-family=\'sans-serif\' font-size=\'24\' text-anchor=\'middle\' font-weight=\'bold\'>RED BULL</text></svg>'">
-      </div>
-
-      <div class="diagram-side" id="diagramSide"></div>
-      <div class="competitors-side" id="competitorsSide"></div>
+    <div class="fighter-rb" id="fighterRb">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/RedBull_Energy_Drink_Can.png/240px-RedBull_Energy_Drink_Can.png" 
+           style="width:100%; height:100%; object-fit:contain;" 
+           onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=can-placeholder>RED BULL</div>';">
     </div>
+
+    <div class="fighter-enemy" id="fighterEnemy">
+      <img id="enemyImg" src="" style="width:100%; height:100%; object-fit:contain;" 
+           onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=can-placeholder id=enemyNameFallback>ENEMY</div>';">
+    </div>
+
+    <div class="clash-box" id="clashBox">
+      <div class="clash-title" id="clashTitle">ЭНЕРГИЯ</div>
+      <div class="clash-bar-container">
+        <span class="clash-score" style="color:#ffd700;">100</span>
+        <div class="clash-bar-bg"><div class="clash-fill fill-rb" id="barRb"></div></div>
+      </div>
+      <div class="clash-bar-container">
+        <span class="clash-score" style="color:#888;" id="scoreEnemy">0</span>
+        <div class="clash-bar-bg"><div class="clash-fill fill-enemy" id="barEnemy"></div></div>
+      </div>
+    </div>
+
+    <div class="mogged-slam" id="moggedBadge">MOGGED</div>
 
     <div class="final-overlay" id="finalOverlay">
       <div class="achievements-box">
         <div class="achievements-title">★ RED BULL ★</div>
-        <div class="achievements-list">
-          <div class="ach-item">№1 Энергетический напиток в мире</div>
-          <div class="ach-item">12+ млрд банок продано за год</div>
-          <div class="ach-item">Присутствует в 175+ странах</div>
-          <div class="ach-item">Владеет 2 командами Формулы-1</div>
-          <div class="ach-item">Самый узнаваемый бренд на планете</div>
-        </div>
+        <div class="ach-item">№1 Энергетический напиток в мире</div>
+        <div class="ach-item">12+ млрд банок продано за год</div>
+        <div class="ach-item">Присутствует в 175+ странах</div>
+        <div class="ach-item">Владеет 2 командами Формулы-1</div>
+        <div class="ach-item">Самый узнаваемый бренд на планете</div>
       </div>
     </div>
   </div>
@@ -365,25 +277,18 @@
 
   /* ========== 1. КУРСОР ========== */
   var cursor = document.getElementById('cursorGlow');
-  var mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
-  var curX = mouseX, curY = mouseY;
-
-  document.addEventListener('mousemove', function (e) { mouseX = e.clientX; mouseY = e.clientY; });
-  document.addEventListener('touchmove', function (e) {
-    var t = e.touches[0]; if (t) { mouseX = t.clientX; mouseY = t.clientY; }
-  }, { passive: true });
-
-  function cursorLoop() {
-    curX += (mouseX - curX) * 0.2;
-    curY += (mouseY - curY) * 0.2;
-    cursor.style.left = curX + 'px'; cursor.style.top = curY + 'px';
-    requestAnimationFrame(cursorLoop);
+  var mx = window.innerWidth / 2, my = window.innerHeight / 2;
+  var cx = mx, cy = my;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function loop() {
+    cx += (mx - cx) * 0.2; cy += (my - cy) * 0.2;
+    cursor.style.left = cx + 'px'; cursor.style.top = cy + 'px';
+    requestAnimationFrame(loop);
   }
-  requestAnimationFrame(cursorLoop);
-
-  document.querySelectorAll('.btn, .close-arena-btn').forEach(function(el) {
-    el.addEventListener('mouseenter', function () { cursor.classList.add('hover'); });
-    el.addEventListener('mouseleave', function () { cursor.classList.remove('hover'); });
+  requestAnimationFrame(loop);
+  document.querySelectorAll('.btn, .close-btn').forEach(el => {
+    el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
+    el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
   });
 
   /* ========== 2. ЗВУКИ ========== */
@@ -391,34 +296,23 @@
   function playSound(type) {
     try {
       var AC = window.AudioContext || window.webkitAudioContext;
-      if (!AC) return;
       if (!audioCtx) audioCtx = new AC();
       if (audioCtx.state === 'suspended') audioCtx.resume();
-
-      var t = audioCtx.currentTime;
-      var osc = audioCtx.createOscillator();
-      var gain = audioCtx.createGain();
+      var t = audioCtx.currentTime, osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
       osc.connect(gain); gain.connect(audioCtx.destination);
-
-      if (type === 'pop') {
-        osc.type = 'sine'; osc.frequency.setValueAtTime(300, t);
-        osc.frequency.exponentialRampToValueAtTime(600, t + 0.1);
-        gain.gain.setValueAtTime(0.1, t);
-        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
-        osc.start(t); osc.stop(t + 0.1);
-      } else if (type === 'slam') {
-        osc.type = 'sawtooth'; osc.frequency.setValueAtTime(100, t);
+      
+      if (type === 'slam') {
+        osc.type = 'sawtooth'; osc.frequency.setValueAtTime(120, t);
         osc.frequency.exponentialRampToValueAtTime(30, t + 0.2);
         gain.gain.setValueAtTime(0.2, t);
         gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
         osc.start(t); osc.stop(t + 0.2);
       } else if (type === 'sweep') {
         osc.type = 'triangle'; osc.frequency.setValueAtTime(200, t);
-        osc.frequency.linearRampToValueAtTime(800, t + 0.8);
+        osc.frequency.linearRampToValueAtTime(800, t + 0.6);
         gain.gain.setValueAtTime(0.05, t);
-        gain.gain.linearRampToValueAtTime(0.05, t + 0.7);
-        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.8);
-        osc.start(t); osc.stop(t + 0.8);
+        gain.gain.linearRampToValueAtTime(0.01, t + 0.6);
+        osc.start(t); osc.stop(t + 0.6);
       } else if (type === 'win') {
         osc.type = 'square'; osc.frequency.setValueAtTime(400, t);
         osc.frequency.setValueAtTime(600, t + 0.1);
@@ -427,139 +321,119 @@
         gain.gain.setValueAtTime(0.1, t);
         gain.gain.exponentialRampToValueAtTime(0.01, t + 0.8);
         osc.start(t); osc.stop(t + 0.8);
+      } else {
+        osc.type = 'sine'; osc.frequency.setValueAtTime(400, t);
+        osc.frequency.exponentialRampToValueAtTime(600, t + 0.1);
+        gain.gain.setValueAtTime(0.1, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.1);
+        osc.start(t); osc.stop(t + 0.1);
       }
     } catch(e){}
   }
 
   /* ========== 3. ДАННЫЕ ========== */
-  var rbImg = document.getElementById('rbImg');
-  rbImg.src = 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/RedBull_Energy_Drink_Can.png/240px-RedBull_Energy_Drink_Can.png';
-
-  var competitorsData = [
-    { name: 'MONSTER', img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/3/3e/Monster_Energy_drink_can.png/120px-Monster_Energy_drink_can.png' },
-    { name: 'BURN', img: 'https://upload.wikimedia.org/wikipedia/en/thumb/1/1a/Burn_energy_drink_logo.png/120px-Burn_energy_drink_logo.png' },
-    { name: 'FLASH', img: 'https://upload.wikimedia.org/wikipedia/ru/thumb/1/1b/Flash_energy_drink.jpg/120px-Flash_energy_drink.jpg' },
-    { name: 'GORILLA', img: 'https://upload.wikimedia.org/wikipedia/ru/thumb/e/e7/Gorilla_Energy.jpg/120px-Gorilla_Energy.jpg' },
-    { name: 'DYNAMI:T', img: 'https://upload.wikimedia.org/wikipedia/ru/thumb/7/7a/Dynamit_energy.jpg/120px-Dynamit_energy.jpg' }
+  var enemies = [
+    { name: 'MONSTER',  img: 'https://i.imgur.com/cmCzspE.jpeg', stat: 'ЭНЕРГИЯ', score: 25 },
+    { name: 'BURN',     img: 'https://i.imgur.com/fJ708pU.jpeg', stat: 'СПОРТ',   score: 15 },
+    { name: 'GORILLA',  img: 'https://i.imgur.com/cErN9nA.jpeg', stat: 'ЦЕНА',    score: 30 },
+    { name: 'FLASH',    img: 'https://i.imgur.com/2Il4QV1.png',  stat: 'ВКУС',    score: 20 }
   ];
 
-  var statsData = [
-    { name: 'ЭНЕРГИЯ', rb: 100, comp: 25 },
-    { name: 'ВКУС', rb: 100, comp: 18 },
-    { name: 'СПОРТ', rb: 100, comp: 15 },
-    { name: 'БРЕНД', rb: 100, comp: 10 },
-    { name: 'ПРОДАЖИ', rb: 100, comp: 5 }
-  ];
-
-  /* ========== 4. ГЕНЕРАЦИЯ DOM ========== */
-  var competitorsSide = document.getElementById('competitorsSide');
-  var diagramSide = document.getElementById('diagramSide');
-
-  competitorsData.forEach(function(c, i) {
-    var row = document.createElement('div');
-    row.className = 'competitor-row';
-    row.id = 'comp-' + i;
-    row.innerHTML = `
-      <div class="competitor-img-box">
-        <img src="${c.img}" alt="${c.name}" onerror="this.style.display='none'; this.parentElement.innerHTML='<span style=\\'color:#666;font-size:10px;font-family:Oswald;\\'>${c.name}</span>';">
-      </div>
-      <div class="mogged-badge">MOGGED</div>
-    `;
-    competitorsSide.appendChild(row);
-  });
-
-  statsData.forEach(function(s, i) {
-    var row = document.createElement('div');
-    row.className = 'diagram-row';
-    row.id = 'diag-' + i;
-    row.innerHTML = `
-      <div class="diagram-label">${s.name}</div>
-      <div class="diagram-bars">
-        <div class="bar-bg"><div class="bar-fill bar-redbull" id="rb-bar-${i}"></div></div>
-        <div class="bar-bg"><div class="bar-fill bar-competitor" id="comp-bar-${i}"></div></div>
-      </div>
-    `;
-    diagramSide.appendChild(row);
-  });
-
-  /* ========== 5. ЛОГИКА АНИМАЦИИ ========== */
-  var btnStart = document.getElementById('btnStartArena');
-  var arenaModal = document.getElementById('arenaModal');
-  var arenaTitle = document.getElementById('arenaTitle');
-  var rbSide = document.getElementById('rbSide');
-  var finalOverlay = document.getElementById('finalOverlay');
-  var btnClose = document.getElementById('btnCloseArena');
+  /* ========== 4. ЛОГИКА АНИМАЦИИ ========== */
+  var btnStart = document.getElementById('btnStart');
   var mainWindow = document.getElementById('mainWindow');
+  var arenaModal = document.getElementById('arenaModal');
+  var btnClose = document.getElementById('btnClose');
+  
+  var fighterRb = document.getElementById('fighterRb');
+  var fighterEnemy = document.getElementById('fighterEnemy');
+  var clashBox = document.getElementById('clashBox');
+  var clashTitle = document.getElementById('clashTitle');
+  var barRb = document.getElementById('barRb');
+  var barEnemy = document.getElementById('barEnemy');
+  var scoreEnemy = document.getElementById('scoreEnemy');
+  var moggedBadge = document.getElementById('moggedBadge');
+  var finalOverlay = document.getElementById('finalOverlay');
 
-  var timeouts = [];
-  function clearTimers() { timeouts.forEach(clearTimeout); timeouts = []; }
-  function schedule(fn, delay) { timeouts.push(setTimeout(fn, delay)); }
+  var timers = [];
+  function sched(fn, delay) { timers.push(setTimeout(fn, delay)); }
+  function clearTimers() { timers.forEach(clearTimeout); timers = []; }
 
-  function runAnimation() {
+  function resetArena() {
     clearTimers();
+    fighterRb.classList.remove('center');
+    fighterRb.classList.add('show');
+    arenaModal.classList.add('show');
+    mainWindow.style.opacity = '0';
     
-    rbSide.classList.remove('show', 'center');
     finalOverlay.classList.remove('show');
-    arenaTitle.classList.remove('show');
-    document.querySelectorAll('.competitor-row').forEach(el => el.classList.remove('show'));
-    document.querySelectorAll('.mogged-badge').forEach(el => { el.classList.remove('show'); el.style.animation = 'none'; });
-    document.querySelectorAll('.diagram-row').forEach(el => el.classList.remove('show'));
-    document.querySelectorAll('.bar-fill').forEach(el => el.style.width = '0%');
-    document.getElementById('diagramSide').style.opacity = '1';
-    document.getElementById('competitorsSide').style.opacity = '1';
-    arenaTitle.style.opacity = '1';
-
-    schedule(() => {
-      arenaModal.classList.add('show');
-      mainWindow.style.opacity = '0';
-      mainWindow.style.pointerEvents = 'none';
-      schedule(() => { rbSide.classList.add('show'); playSound('pop'); }, 100);
-    }, 100);
-
-    schedule(() => { arenaTitle.classList.add('show'); playSound('pop'); }, 1000);
-
-    competitorsData.forEach(function(c, i) {
-      schedule(() => {
-        var row = document.getElementById('comp-' + i);
-        if (row) { row.classList.add('show'); playSound('pop'); }
-      }, 1500 + (i * 300));
-    });
-
-    var diagramStart = 1500 + (competitorsData.length * 300) + 300;
-    schedule(() => {
-      statsData.forEach(function(s, i) {
-        var row = document.getElementById('diag-' + i);
-        if (row) row.classList.add('show');
-        schedule(() => { document.getElementById('rb-bar-' + i).style.width = s.rb + '%'; playSound('sweep'); }, 200 + (i * 150));
-        schedule(() => { document.getElementById('comp-bar-' + i).style.width = s.comp + '%'; }, 400 + (i * 150));
-      });
-    }, diagramStart);
-
-    var moggedStart = diagramStart + 2500;
-    schedule(() => {
-      document.querySelectorAll('.mogged-badge').forEach(function(badge, i) {
-        schedule(() => { badge.classList.add('show'); playSound('slam'); }, i * 150);
-      });
-    }, moggedStart);
-
-    var finalStart = moggedStart + 1500;
-    schedule(() => {
-      arenaTitle.style.opacity = '0';
-      document.getElementById('diagramSide').style.opacity = '0';
-      document.getElementById('competitorsSide').style.opacity = '0';
-      rbSide.classList.add('center');
-      playSound('win');
-      schedule(() => { finalOverlay.classList.add('show'); }, 800);
-    }, finalStart);
+    moggedBadge.classList.remove('slam');
+    clashBox.classList.remove('show');
+    
+    runBattle(0);
   }
 
-  btnStart.addEventListener('click', runAnimation);
+  function runBattle(index) {
+    if (index >= enemies.length) {
+      sched(() => {
+        fighterRb.classList.add('center');
+        playSound('win');
+        sched(() => finalOverlay.classList.add('show'), 1000);
+      }, 1000);
+      return;
+    }
+
+    var enemy = enemies[index];
+
+    fighterEnemy.classList.remove('show', 'dead');
+    fighterEnemy.innerHTML = '<img id="enemyImg" src="'+enemy.img+'" style="width:100%; height:100%; object-fit:contain;" onerror="this.style.display=\'none\'; this.parentElement.innerHTML=\'<div class=can-placeholder>'+enemy.name+'</div>\';">';
+    
+    sched(() => {
+      fighterEnemy.classList.add('show');
+      playSound('pop');
+    }, 300);
+
+    sched(() => {
+      clashTitle.textContent = enemy.stat;
+      clashBox.classList.add('show');
+      barRb.style.width = '0%';
+      barEnemy.style.width = '0%';
+      scoreEnemy.textContent = '0';
+    }, 1000);
+
+    sched(() => {
+      barRb.style.width = '100%';
+      barEnemy.style.width = enemy.score + '%';
+      scoreEnemy.textContent = enemy.score;
+      playSound('sweep');
+    }, 1500);
+
+    sched(() => {
+      moggedBadge.classList.add('slam');
+      playSound('slam');
+    }, 2800);
+
+    sched(() => {
+      fighterEnemy.classList.remove('show');
+      fighterEnemy.classList.add('dead');
+      clashBox.classList.remove('show');
+      moggedBadge.classList.remove('slam');
+    }, 4000);
+
+    sched(() => {
+      fighterEnemy.classList.remove('dead');
+      runBattle(index + 1);
+    }, 4800);
+  }
+
+  btnStart.addEventListener('click', resetArena);
 
   btnClose.addEventListener('click', function() {
     clearTimers();
     arenaModal.classList.remove('show');
     mainWindow.style.opacity = '1';
-    mainWindow.style.pointerEvents = 'auto';
+    fighterEnemy.classList.remove('show', 'dead');
+    fighterRb.classList.remove('center', 'show');
   });
 
 })();
