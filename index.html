@@ -16,11 +16,12 @@
     cursor: none;
   }
 
+  /* --- КУРСОР --- */
   .cursor-glow {
     position: fixed; top: 0; left: 0;
     width: 20px; height: 20px;
     border: 1px solid #6ec6ff; border-radius: 50%;
-    pointer-events: none; z-index: 9999;
+    pointer-events: none; z-index: 99999;
     transform: translate(-50%, -50%);
     transition: width .25s ease, height .25s ease,
                 background .25s ease, border-color .25s ease,
@@ -36,6 +37,7 @@
     box-shadow: 0 0 25px #6ec6ff, inset 0 0 18px #6ec6ff;
   }
 
+  /* --- ФОН --- */
   .bg-ice {
     position: absolute; inset: 0; width: 100%; height: 100%;
     z-index: 1;
@@ -112,6 +114,7 @@
     transition: opacity 1s ease;
   }
 
+  /* --- ГЛАВНОЕ ОКНО --- */
   .main-window {
     position: absolute; top: 50%; left: 50%;
     transform: translate(-50%, -50%);
@@ -122,7 +125,7 @@
     border: 1px solid rgba(110, 198, 255, 0.25);
     border-top: 3px solid #6ec6ff;
     border-radius: 12px;
-    padding: 35px 25px; z-index: 10;
+    padding: 40px 25px; z-index: 10;
     box-shadow:
       0 20px 40px rgba(0, 0, 0, 0.6),
       inset 0 0 20px rgba(110, 198, 255, 0.08);
@@ -136,25 +139,8 @@
     50%      { transform: translate(-50%,-50%) translateY(-6px) rotate(.2deg); }
   }
 
-  .avatar-container {
-    position: relative; width: 90px; height: 90px; margin: 0 auto 15px auto;
-    border-radius: 50%; padding: 3px;
-    background: linear-gradient(45deg, #6ec6ff, #fff, #6ec6ff);
-    background-size: 200% 200%;
-    animation: gradientBorder 3s linear infinite;
-    box-shadow: 0 0 20px rgba(110,198,255,.5);
-  }
-  @keyframes gradientBorder {
-    0%   { background-position: 0% 50%; }
-    100% { background-position: 200% 50%; }
-  }
-  .main-window img {
-    width: 100%; height: 100%; border-radius: 50%; object-fit: cover;
-    background: #000;
-  }
-
   .main-window h1 {
-    margin: 0; font-size: 28px; letter-spacing: 5px; color: #fff;
+    margin: 0; font-size: 30px; letter-spacing: 5px; color: #fff;
     text-shadow: 0 0 15px rgba(110, 198, 255, 0.9), 0 0 30px rgba(110,198,255,.5);
     font-weight: 700; font-family: 'Oswald', sans-serif;
     text-transform: uppercase;
@@ -222,6 +208,7 @@
   .btn:hover::before, .btn:focus-visible::before { left: 160%; }
   .btn:active { transform: translateY(0) scale(.985); }
 
+  /* --- ОБЩИЕ МОДАЛКИ --- */
   .bio-modal {
     display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
     width: 92%; max-width: 400px;
@@ -237,6 +224,122 @@
     0%   { opacity: 0; transform: translate(-50%,-50%) scale(.8); }
     100% { opacity: 1; transform: translate(-50%,-50%) scale(1); }
   }
+
+  /* --- ОКНО СЧЁТА НА ПОЛ ЭКРАНА --- */
+  .score-modal {
+    display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 96vw; max-width: 900px;
+    height: 90vh; max-height: 800px;
+    background: rgba(10, 20, 32, 0.97);
+    backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
+    border: 2px solid #6ec6ff;
+    border-radius: 16px; padding: 30px 30px 20px;
+    z-index: 200;
+    box-shadow: 0 0 80px rgba(110,198,255,.6), inset 0 0 60px rgba(110,198,255,.08);
+    text-align: center;
+    font-family: 'Courier Prime', monospace;
+    overflow-y: auto;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .score-modal.show {
+    display: flex;
+    animation: scoreBigOpen .6s cubic-bezier(.175,.885,.32,1.275) forwards;
+  }
+  @keyframes scoreBigOpen {
+    0%   { opacity: 0; transform: translate(-50%,-50%) scale(.6) rotate(-3deg); }
+    60%  { opacity: 1; transform: translate(-50%,-50%) scale(1.03) rotate(0deg); }
+    100% { opacity: 1; transform: translate(-50%,-50%) scale(1) rotate(0deg); }
+  }
+
+  .score-modal .bio-header {
+    width: 100%;
+    color: #6ec6ff; font-size: 22px; border-bottom: 2px dashed rgba(110,198,255,.4);
+    padding-bottom: 18px; margin-bottom: 25px; display: flex; justify-content: space-between;
+    align-items: center; font-weight: bold; font-family: 'Oswald', sans-serif;
+    text-transform: uppercase; letter-spacing: 4px;
+  }
+
+  /* Огромное табло */
+  .huge-score {
+    display: flex; justify-content: center; align-items: center; gap: 40px;
+    padding: 40px 30px;
+    background: rgba(0,0,0,.6);
+    border: 2px solid rgba(110,198,255,.5);
+    border-radius: 16px;
+    margin-bottom: 25px;
+    width: 100%;
+    max-width: 700px;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Oswald', sans-serif;
+  }
+  .huge-score::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(120deg, transparent 30%, rgba(110,198,255,.15) 50%, transparent 70%);
+    animation: scoreSweep 3s linear infinite;
+  }
+  @keyframes scoreSweep {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+  .huge-team { flex: 1; text-align: center; position: relative; z-index: 1; }
+  .huge-team-name {
+    font-size: 20px; color: #6ec6ff; letter-spacing: 5px;
+    text-transform: uppercase; margin-bottom: 15px; font-weight: 700;
+  }
+  .huge-team-score {
+    font-size: 120px; font-weight: 700; color: #fff;
+    text-shadow: 0 0 30px #6ec6ff, 0 0 60px rgba(110,198,255,.5);
+    line-height: 1;
+    animation: scorePulse 2s ease-in-out infinite;
+  }
+  @keyframes scorePulse {
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.05); }
+  }
+  .huge-team.winner .huge-team-score {
+    color: #ffd700;
+    text-shadow: 0 0 40px #ffd700, 0 0 80px rgba(255,215,0,.6);
+  }
+  .huge-team.winner .huge-team-name { color: #ffd700; }
+  .huge-sep {
+    font-size: 80px; color: #6ec6ff; opacity: .7;
+    font-weight: 700; position: relative; z-index: 1;
+  }
+
+  .huge-winner-label {
+    text-align: center; color: #ffd700; font-family: 'Oswald', sans-serif;
+    font-size: 28px; letter-spacing: 8px; text-transform: uppercase;
+    margin-bottom: 25px; font-weight: 700;
+    text-shadow: 0 0 25px rgba(255,215,0,.9);
+    animation: blinkGold 1.2s ease-in-out infinite;
+  }
+  @keyframes blinkGold { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
+
+  .score-stats {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px; width: 100%; max-width: 700px;
+    margin-bottom: 20px;
+  }
+  .stat-card {
+    background: rgba(0,0,0,.4);
+    border: 1px solid rgba(110,198,255,.3);
+    border-radius: 8px; padding: 15px;
+    text-align: center;
+  }
+  .stat-card .label {
+    display: block; color: #6ec6ff; font-size: 11px;
+    text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px;
+  }
+  .stat-card .value {
+    display: block; color: #fff; font-size: 18px; font-weight: 700;
+    font-family: 'Oswald', sans-serif;
+  }
+
   .bio-header {
     color: #6ec6ff; font-size: 18px; border-bottom: 1px dashed rgba(110,198,255,.3);
     padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between;
@@ -246,12 +349,9 @@
   .bio-content-wrapper {
     position: relative; min-height: 200px; display: flex;
     flex-direction: column; justify-content: center; align-items: center;
+    width: 100%;
   }
-  .secret-data { display: none; width: 100%; text-align: left; }
-  .data-row { margin-bottom: 12px; border-bottom: 1px solid rgba(255,255,255,.1); padding-bottom: 8px; }
-  .label { color: #6ec6ff; text-transform: uppercase; font-size: 12px; margin-bottom: 4px; display: block; letter-spacing: 1px; }
-  .value { color: #fff; font-weight: bold; display: block; font-size: 14px; }
-  .encrypted { color: #6ec6ff; font-family: 'Courier Prime', monospace; letter-spacing: 2px; }
+  .secret-data { width: 100%; text-align: left; }
 
   .shake { animation: shake .5s cubic-bezier(.36,.07,.19,.97) both; }
   @keyframes shake {
@@ -260,36 +360,21 @@
     30%, 50%, 70% { transform: translate(-50%,-50%) translate3d(-8px,0,0); }
     40%, 60% { transform: translate(-50%,-50%) translate3d(8px,0,0); }
   }
-  .denied-message {
-    display: none; text-align: center; color: #ff4444; font-weight: bold; font-size: 18px;
-    text-shadow: 0 0 15px #ff4444; animation: blinkRed .4s infinite; line-height: 1.6;
-  }
-  @keyframes blinkRed { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
-  .decrypt-btn {
-    background: #6ec6ff; color: #0a1420; border: none; padding: 15px 30px;
-    font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 700; cursor: pointer;
-    text-transform: uppercase; box-shadow: 0 0 20px rgba(110,198,255,.6);
-    transition: .3s; border-radius: 6px; letter-spacing: 2px;
-  }
-  .decrypt-btn:hover { background: #fff; box-shadow: 0 0 40px rgba(255,255,255,1); transform: scale(1.05); }
+
   .close-btn {
-    background: transparent; color: #6ec6ff; border: 1px solid #6ec6ff; padding: 5px 12px;
-    font-family: 'Oswald', sans-serif; font-size: 14px; cursor: pointer;
+    background: transparent; color: #6ec6ff; border: 1px solid #6ec6ff; padding: 8px 16px;
+    font-family: 'Oswald', sans-serif; font-size: 16px; cursor: pointer;
     transition: .2s; text-transform: uppercase; border-radius: 4px;
   }
   .close-btn:hover { background: #6ec6ff; color: #0a1420; }
+
   .modal-overlay {
     display: none; position: fixed; inset: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,.75); z-index: 90; backdrop-filter: blur(10px);
+    background: rgba(0,0,0,.8); z-index: 150; backdrop-filter: blur(10px);
   }
   .modal-overlay.show { display: block; }
-  .status-bar {
-    margin-top: 20px; border-top: 1px dashed rgba(110,198,255,.2); padding-top: 15px;
-    font-size: 11px; color: #6ec6ff; display: flex; justify-content: space-between;
-    animation: blinkWhite 3s infinite; letter-spacing: 1px;
-  }
-  @keyframes blinkWhite { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
 
+  /* --- ФОТО БРО --- */
   .friend-photo {
     width: 100%; border-radius: 8px;
     border: 2px solid #6ec6ff;
@@ -303,56 +388,36 @@
     text-align: center;
     color: #6ec6ff;
     font-size: 14px;
-    line-height: 1.6;
+    line-height: 1.7;
     font-family: 'Oswald', sans-serif;
     letter-spacing: 1px;
     text-transform: uppercase;
-    padding: 10px;
+    padding: 15px;
     background: rgba(110,198,255,.08);
     border-radius: 6px;
     border-left: 3px solid #6ec6ff;
   }
-
-  .big-score {
-    display: flex; justify-content: center; align-items: center; gap: 20px;
-    padding: 25px 15px;
-    background: rgba(0,0,0,.5);
-    border: 1px solid rgba(110,198,255,.3);
-    border-radius: 10px;
-    margin-bottom: 20px;
-    font-family: 'Oswald', sans-serif;
-  }
-  .big-team { flex: 1; text-align: center; }
-  .big-team-name {
-    font-size: 14px; color: #6ec6ff; letter-spacing: 3px;
-    text-transform: uppercase; margin-bottom: 8px; font-weight: 700;
-  }
-  .big-team-score {
-    font-size: 48px; font-weight: 700; color: #fff;
-    text-shadow: 0 0 20px #6ec6ff;
-    line-height: 1;
-  }
-  .big-team.winner .big-team-score {
+  .friend-caption .highlight {
     color: #ffd700;
-    text-shadow: 0 0 25px #ffd700, 0 0 50px rgba(255,215,0,.5);
+    text-shadow: 0 0 10px rgba(255,215,0,.6);
   }
-  .big-team.winner .big-team-name { color: #ffd700; }
-  .big-sep {
-    font-size: 36px; color: #6ec6ff; opacity: .6;
-    font-weight: 700;
-  }
-  .winner-label {
-    text-align: center; color: #ffd700; font-family: 'Oswald', sans-serif;
-    font-size: 16px; letter-spacing: 4px; text-transform: uppercase;
-    margin-bottom: 20px; font-weight: 700;
-    text-shadow: 0 0 15px rgba(255,215,0,.7);
-    animation: blinkGold 1.5s ease-in-out infinite;
-  }
-  @keyframes blinkGold { 0%, 100% { opacity: 1; } 50% { opacity: .6; } }
 
-  @media (max-width: 600px) {
+  .status-bar {
+    margin-top: 20px; border-top: 1px dashed rgba(110,198,255,.2); padding-top: 15px;
+    font-size: 11px; color: #6ec6ff; display: flex; justify-content: space-between;
+    animation: blinkWhite 3s infinite; letter-spacing: 1px;
+    width: 100%;
+  }
+  @keyframes blinkWhite { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
+
+  @media (max-width: 700px) {
     .main-window { background: rgba(10,20,32,.7); }
-    .big-team-score { font-size: 36px; }
+    .huge-team-score { font-size: 70px; }
+    .huge-sep { font-size: 50px; }
+    .huge-score { gap: 20px; padding: 25px 15px; }
+    .score-modal { padding: 20px 15px; height: 92vh; }
+    .score-modal .bio-header { font-size: 16px; letter-spacing: 2px; }
+    .huge-winner-label { font-size: 20px; letter-spacing: 4px; }
   }
 </style>
 </head>
@@ -372,11 +437,8 @@
     <div class="puck-img"></div>
   </div>
 
+  <!-- ГЛАВНОЕ ОКНО (БЕЗ АВАТАРКИ) -->
   <div class="main-window" id="mainWindow">
-    <div class="avatar-container">
-      <img src="https://i.imgur.com/lTlIJP7.jpeg" alt="ava">
-    </div>
-
     <h1>ZERO.PING</h1>
     <p class="subtitle-ru">ICE ARENA</p>
 
@@ -392,64 +454,56 @@
       <button id="btnFriend" class="btn" type="button">
         <span>МОЙ БРО</span>
       </button>
-      <button id="btnBio" class="btn" type="button" style="width:100%;">
+      <button id="btnScore" class="btn" type="button" style="width:100%;">
         <span>СЧЁТ</span>
       </button>
     </div>
   </div>
 
-  <div class="modal-overlay" id="bioOverlay"></div>
+  <div class="modal-overlay" id="modalOverlay"></div>
 
-  <!-- МОДАЛКА СЧЁТА -->
-  <div class="bio-modal" id="bioModal">
+  <!-- ОКНО СЧЁТА НА ПОЛ ЭКРАНА -->
+  <div class="score-modal" id="scoreModal">
     <div class="bio-header">
-      <span id="bioTitle">МАТЧ ЗАВЕРШЁН</span>
-      <button class="close-btn" id="btnCloseBio" type="button">[ X ]</button>
+      <span>МАТЧ ЗАВЕРШЁН</span>
+      <button class="close-btn" id="btnCloseScore" type="button">[ X ]</button>
     </div>
 
-    <div class="bio-content-wrapper">
-      <button class="decrypt-btn" id="decryptBtn" type="button">ПОКАЗАТЬ СЧЁТ</button>
-
-      <div class="secret-data" id="secretData">
-        <div class="big-score">
-          <div class="big-team winner">
-            <div class="big-team-name">МОЛОТ</div>
-            <div class="big-team-score">7</div>
-          </div>
-          <div class="big-sep">:</div>
-          <div class="big-team">
-            <div class="big-team-name">МОСКВА</div>
-            <div class="big-team-score">0</div>
-          </div>
-        </div>
-        <div class="winner-label">★ РАЗГРОМ ★</div>
-
-        <div class="data-row">
-          <span class="label">Период:</span>
-          <span class="value">3-й, завершён</span>
-        </div>
-        <div class="data-row">
-          <span class="label">Броски:</span>
-          <span class="value encrypted">42 — 11</span>
-        </div>
-        <div class="data-row">
-          <span class="label">Вбрасывания:</span>
-          <span class="value encrypted">68% — 32%</span>
-        </div>
-        <div class="data-row" style="border-bottom:none;">
-          <span class="label">Лучший игрок:</span>
-          <span class="value">#17 ZERO.PING</span>
-        </div>
+    <div class="huge-score">
+      <div class="huge-team winner">
+        <div class="huge-team-name">МОЛОТ</div>
+        <div class="huge-team-score">7</div>
       </div>
+      <div class="huge-sep">:</div>
+      <div class="huge-team">
+        <div class="huge-team-name">МОСКВА</div>
+        <div class="huge-team-score">0</div>
+      </div>
+    </div>
 
-      <div class="denied-message" id="deniedMessage">
-        ⚠ ДОСТУП ЗАКРЫТ ⚠<br>
-        <span style="font-size:12px;color:#6ec6ff;">ТРЕНЕР НЕ РАЗРЕШИЛ</span>
+    <div class="huge-winner-label">★ РАЗГРОМ ★</div>
+
+    <div class="score-stats">
+      <div class="stat-card">
+        <span class="label">Период</span>
+        <span class="value">3-й, завершён</span>
+      </div>
+      <div class="stat-card">
+        <span class="label">Броски</span>
+        <span class="value">42 — 11</span>
+      </div>
+      <div class="stat-card">
+        <span class="label">Вбрасывания</span>
+        <span class="value">68% — 32%</span>
+      </div>
+      <div class="stat-card">
+        <span class="label">Лучший игрок</span>
+        <span class="value">#17 ZERO.PING</span>
       </div>
     </div>
 
     <div class="status-bar">
-      <span id="statusLeft">ЛЁД: ГОТОВ</span>
+      <span>ЛЁД: ГОТОВ</span>
       <span>ПЕРИОД: 3</span>
     </div>
   </div>
@@ -464,7 +518,8 @@
       <img class="friend-photo" id="friendPhoto" src="" alt="мой бро">
       <div class="friend-caption">
         Мой бро, с которым общаюсь больше года,<br>
-        но так и не увиделся — слава богу
+        но так и не увиделся — слава богу.<br>
+        <span class="highlight">И да, он смотрит мои ТикТоки 😎</span>
       </div>
     </div>
     <div class="status-bar">
@@ -477,6 +532,7 @@
 (function () {
   'use strict';
 
+  /* ========== 1. КУРСОР ========== */
   var cursor = document.getElementById('cursorGlow');
   var mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
   var curX = mouseX, curY = mouseY;
@@ -503,8 +559,9 @@
     el.addEventListener('mouseenter', function () { cursor.classList.add('hover'); });
     el.addEventListener('mouseleave', function () { cursor.classList.remove('hover'); });
   }
-  document.querySelectorAll('.btn, .decrypt-btn, .close-btn').forEach(bindCursorHover);
+  document.querySelectorAll('.btn, .close-btn').forEach(bindCursorHover);
 
+  /* ========== 2. ХОККЕЙНЫЙ ДОЖДЬ ========== */
   var canvas = document.getElementById('hockeyCanvas');
   var ctx = canvas.getContext('2d');
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -565,6 +622,7 @@
   }
   requestAnimationFrame(drawHockeyRain);
 
+  /* ========== 3. ЗВУК СВИСТКА ========== */
   var audioCtx = null;
   function playWhistle() {
     try {
@@ -599,87 +657,47 @@
     } catch (e) { console.warn('Audio blocked:', e); }
   }
 
+  /* ========== 4. ОБЩИЕ ЭЛЕМЕНТЫ ========== */
+  var modalOverlay = document.getElementById('modalOverlay');
   var friendModal = document.getElementById('friendModal');
   var friendPhoto = document.getElementById('friendPhoto');
-  var bioOverlay = document.getElementById('bioOverlay');
+  var scoreModal = document.getElementById('scoreModal');
+  var mainWindow = document.getElementById('mainWindow');
 
-  // ТВОЁ ФОТО БРО
   var FRIEND_PHOTO_URL = 'https://i.imgur.com/fO4MYEc.jpeg';
 
-  function openFriendModal() {
+  function closeAll() {
+    friendModal.classList.remove('show');
+    scoreModal.classList.remove('show');
+    modalOverlay.classList.remove('show');
+  }
+
+  /* ========== 5. ФОТО БРО ========== */
+  document.getElementById('btnFriend').addEventListener('click', function () {
     playWhistle();
     friendPhoto.src = FRIEND_PHOTO_URL;
     friendModal.classList.add('show');
-    bioOverlay.classList.add('show');
-  }
-  document.getElementById('btnFriend').addEventListener('click', openFriendModal);
-
-  document.getElementById('btnCloseFriend').addEventListener('click', function () {
-    friendModal.classList.remove('show');
-    bioOverlay.classList.remove('show');
+    modalOverlay.classList.add('show');
   });
 
-  var bioModal = document.getElementById('bioModal');
-  var puckHit = document.getElementById('puckHit');
-  var damageOverlay = document.getElementById('damageOverlay');
-  var decryptBtn = document.getElementById('decryptBtn');
-  var deniedMessage = document.getElementById('deniedMessage');
-  var secretData = document.getElementById('secretData');
-  var bioTitle = document.getElementById('bioTitle');
-  var statusLeft = document.getElementById('statusLeft');
-  var mainWindow = document.getElementById('mainWindow');
+  document.getElementById('btnCloseFriend').addEventListener('click', closeAll);
 
-  function startPuckHit() {
-    damageOverlay.classList.add('hit');
-    puckHit.classList.add('show');
-
-    mainWindow.style.animation = 'shake .5s';
-    setTimeout(function () { mainWindow.style.animation = ''; }, 500);
-
-    setTimeout(function () {
-      bioModal.classList.add('show');
-      bioOverlay.classList.add('show');
-      resetBio();
-      puckHit.classList.remove('show');
-    }, 1200);
+  /* ========== 6. БОЛЬШОЕ ОКНО СЧЁТА ========== */
+  function openScore() {
+    playWhistle();
+    scoreModal.classList.add('show');
+    modalOverlay.classList.add('show');
   }
-  document.getElementById('btnBio').addEventListener('click', startPuckHit);
+  document.getElementById('btnScore').addEventListener('click', openScore);
+  document.getElementById('btnCloseScore').addEventListener('click', closeAll);
 
-  function closeBio() {
-    bioModal.classList.remove('show');
-    bioOverlay.classList.remove('show');
-  }
-  document.getElementById('btnCloseBio').addEventListener('click', closeBio);
-  bioOverlay.addEventListener('click', function () {
-    closeBio();
-    friendModal.classList.remove('show');
+  modalOverlay.addEventListener('click', closeAll);
+
+  /* ========== 7. SHAKE при клике на СЧЁТ (для настроения) ========== */
+  document.getElementById('btnScore').addEventListener('click', function () {
+    mainWindow.classList.add('shake');
+    setTimeout(function () { mainWindow.classList.remove('shake'); }, 500);
   });
-
-  function resetBio() {
-    decryptBtn.style.display = 'block';
-    deniedMessage.style.display = 'none';
-    secretData.style.display = 'none';
-    bioTitle.textContent = 'МАТЧ ЗАВЕРШЁН';
-    statusLeft.textContent = 'ЛЁД: ГОТОВ';
-  }
-
-  function triggerHit() {
-    bioModal.classList.add('shake');
-    damageOverlay.classList.add('hit');
-
-    setTimeout(function () {
-      decryptBtn.style.display = 'none';
-      deniedMessage.style.display = 'block';
-      bioTitle.textContent = 'ДОСТУП ЗАКРЫТ';
-      statusLeft.textContent = 'ТРЕНЕР: ПРОТИВ';
-    }, 200);
-
-    setTimeout(function () {
-      bioModal.classList.remove('shake');
-      damageOverlay.classList.remove('hit');
-    }, 600);
-  }
-  decryptBtn.addEventListener('click', triggerHit);
 
 })();
 </script>
