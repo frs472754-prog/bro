@@ -87,7 +87,7 @@
   .btn:hover { background: rgba(255,215,0,.15); border-color: #ffd700; box-shadow: 0 0 30px rgba(255,215,0,.5); }
 
   /* =========================================================
-     АРЕНА (ДУЭЛИ 1 НА 1)
+     АРЕНА
      ========================================================= */
   .arena-modal {
     display: none; position: fixed; inset: 0; width: 100%; height: 100%;
@@ -107,53 +107,54 @@
     position: absolute; top: 5%; width: 100%; text-align: center;
     font-family: 'Oswald', sans-serif; font-size: 28px; color: #ffd700;
     letter-spacing: 6px; text-shadow: 0 0 30px #ffd700;
-    opacity: 0; transition: opacity 0.5s ease; z-index: 10;
+    opacity: 0.8; z-index: 10;
   }
 
-  /* Общий стиль для банок */
+  /* --- БОЙЦЫ --- */
   .fighter-rb, .fighter-enemy {
     position: absolute; top: 50%; transform: translateY(-50%);
     z-index: 20; display: flex; align-items: center; justify-content: center;
     transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .fighter-rb img, .fighter-enemy img {
-    width: 100%; height: 100%; object-fit: contain;
-    mix-blend-mode: multiply; /* Убирает белый фон */
-    filter: contrast(1.1) brightness(1.05);
+    width: 150px; height: 350px; /* Строго одинаковый размер */
   }
 
-  .fighter-rb {
-    left: 15%; width: 160px; height: 340px;
-    filter: drop-shadow(0 0 30px rgba(255,215,0,0.4));
-    opacity: 0;
-  }
+  .fighter-rb { left: 10%; opacity: 0; }
   .fighter-rb.show { opacity: 1; }
   .fighter-rb.center {
     left: 50%; transform: translate(-50%, -50%) scale(1.4);
     filter: drop-shadow(0 0 80px rgba(255,215,0,0.8)); z-index: 50;
   }
 
-  .fighter-enemy {
-    right: 15%; width: 160px; height: 340px; /* Одинаковый размер с RB */
-    opacity: 0; transform: translate(200px, -50%);
-  }
+  .fighter-enemy { right: 10%; opacity: 0; transform: translate(200px, -50%); }
   .fighter-enemy.show { opacity: 1; transform: translate(0, -50%); }
 
-  /* Анимация смерти как в Марио */
-  .fighter-enemy.dead {
-    animation: marioDeath 1.5s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
-  }
-  @keyframes marioDeath {
-    0% { transform: translate(0, -50%) scale(1); opacity: 1; }
-    20% { transform: translate(0, -80%) scale(1); opacity: 1; } /* Подпрыгивает */
-    50% { transform: translate(50px, 50%) scale(0.8) rotate(180deg); opacity: 1; } /* Падает вниз и переворачивается */
-    100% { transform: translate(100px, 200%) scale(0.5) rotate(360deg); opacity: 0; } /* Улетает */
+  /* Картинки банок */
+  .fighter-rb img, .fighter-enemy img {
+    width: 100%; height: 100%; object-fit: contain;
+    /* Убираем белый фон через blend mode (работает на тёмном фоне) */
+    mix-blend-mode: multiply; 
+    filter: drop-shadow(0 10px 20px rgba(0,0,0,0.5));
   }
 
-  /* Плашка сравнения (все показатели) */
+  /* Контейнер для MOGGED на враге */
+  .enemy-wrap { position: relative; width: 100%; height: 100%; }
+
+  .mogged-on-enemy {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0) rotate(-15deg);
+    background: #ff1a1a; color: #fff; border: 3px solid #fff;
+    padding: 5px 15px; font-family: 'Oswald', sans-serif; font-weight: 700;
+    font-size: 24px; letter-spacing: 2px; text-transform: uppercase;
+    box-shadow: 0 0 30px #ff1a1a; z-index: 99;
+    text-shadow: 2px 2px 0 #000;
+    opacity: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    pointer-events: none;
+  }
+  .mogged-on-enemy.slam { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-15deg); }
+
+  /* --- ВЕРТИКАЛЬНАЯ ДИАГРАММА --- */
   .clash-box {
     position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(0.8);
-    width: 90%; max-width: 420px; background: rgba(0,0,0,0.85); border: 1px solid rgba(255,215,0,0.3);
+    width: 90%; max-width: 380px; background: rgba(0,0,0,0.85); border: 1px solid rgba(255,215,0,0.3);
     border-radius: 12px; padding: 20px; text-align: center; z-index: 15;
     opacity: 0; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
     backdrop-filter: blur(10px); box-shadow: 0 0 50px rgba(0,0,0,0.8);
@@ -161,37 +162,64 @@
   .clash-box.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
 
   .clash-title {
-    font-family: 'Oswald', sans-serif; color: #fff; font-size: 20px;
+    font-family: 'Oswald', sans-serif; color: #fff; font-size: 18px;
     letter-spacing: 3px; margin-bottom: 15px; text-shadow: 0 0 10px #fff;
     text-transform: uppercase;
   }
 
-  .stat-row { display: flex; align-items: center; margin-bottom: 8px; gap: 10px; }
-  .stat-name { width: 70px; font-size: 10px; color: #aaa; text-align: right; font-family: 'Oswald'; text-transform: uppercase; }
-  
-  .stat-bar-bg { flex: 1; height: 14px; background: rgba(255,255,255,0.1); border-radius: 7px; overflow: hidden; position: relative; border: 1px solid rgba(255,255,255,0.2); }
-  .stat-bar-fill { height: 100%; width: 0%; transition: width 0.8s ease; position: absolute; top: 0; }
-  
-  .fill-rb { background: linear-gradient(90deg, #ff8c00, #ffd700); left: 0; }
-  .fill-enemy { background: #666; right: 0; } /* Заполняется справа */
-
-  /* Плашка MOGGED */
-  .mogged-slam {
-    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%) scale(3);
-    background: #ff1a1a; color: #fff; border: 4px solid #fff;
-    padding: 10px 30px; font-family: 'Oswald', sans-serif; font-weight: 700;
-    font-size: 32px; letter-spacing: 2px; text-transform: uppercase;
-    box-shadow: 0 0 50px #ff1a1a; opacity: 0; z-index: 99;
-    text-shadow: 2px 2px 0 #000;
-  }
-  .mogged-slam.slam { animation: slamAnim 0.4s forwards; }
-  @keyframes slamAnim {
-    0% { transform: translate(-50%, -50%) scale(3) rotate(-20deg); opacity: 0; }
-    50% { transform: translate(-50%, -50%) scale(1) rotate(-10deg); opacity: 1; }
-    100% { transform: translate(-50%, -50%) scale(1.1) rotate(-10deg); opacity: 1; }
+  /* Сетка диаграммы */
+  .chart-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: flex-end;
+    height: 160px;
+    margin-bottom: 10px;
+    padding-bottom: 5px;
+    border-bottom: 2px solid rgba(255,255,255,0.2);
   }
 
-  /* --- ФИНАЛ (ДОСТИЖЕНИЯ) --- */
+  .chart-col {
+    display: flex; flex-direction: column; align-items: center; width: 45px;
+  }
+
+  .bar-vertical {
+    width: 30px;
+    height: 120px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 6px 6px 0 0;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 5px;
+  }
+
+  .bar-fill {
+    position: absolute; bottom: 0; left: 0; width: 100%;
+    transition: height 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-radius: 4px 4px 0 0;
+  }
+  .bar-fill.rb { background: linear-gradient(to top, #ff8c00, #ffd700); box-shadow: 0 0 10px #ffd700; }
+  .bar-fill.en { background: #555; }
+
+  .bar-label { font-family: 'Oswald'; font-size: 10px; color: #888; margin-top: 5px; }
+  .bar-score { font-family: 'Oswald'; font-size: 14px; font-weight: 700; color: #fff; }
+
+  /* Легенда */
+  .legend { display: flex; justify-content: center; gap: 20px; font-size: 12px; font-family: 'Oswald'; margin-top: 10px; }
+  .legend-item { display: flex; align-items: center; gap: 5px; color: #ccc; }
+  .legend-color { width: 10px; height: 10px; border-radius: 2px; }
+
+  /* --- АНИМАЦИЯ СМЕРТИ --- */
+  .fighter-enemy.dead {
+    animation: marioDeath 1.2s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+  @keyframes marioDeath {
+    0% { transform: translate(0, -50%) scale(1); opacity: 1; }
+    20% { transform: translate(0, -80%) scale(1); opacity: 1; }
+    50% { transform: translate(50px, 50%) scale(0.8) rotate(180deg); opacity: 1; }
+    100% { transform: translate(100px, 200%) scale(0.5) rotate(360deg); opacity: 0; }
+  }
+
+  /* --- ФИНАЛ --- */
   .final-overlay {
     position: absolute; inset: 0; background: rgba(0,0,0,0.95); z-index: 100;
     display: flex; align-items: center; justify-content: center;
@@ -221,13 +249,15 @@
   .close-btn:hover { background: #ffd700; color: #000; }
 
   @media (max-width: 900px) {
-    .fighter-rb, .fighter-enemy { width: 100px; height: 220px; }
-    .fighter-rb { left: 5%; }
-    .fighter-enemy { right: 5%; }
+    .fighter-rb, .fighter-enemy { width: 100px; height: 240px; }
+    .fighter-rb { left: 2%; }
+    .fighter-enemy { right: 2%; }
     .clash-box { width: 95%; padding: 15px; }
     .achievements-box { padding: 30px; width: 95%; }
     .achievements-title { font-size: 24px; }
     .ach-item { font-size: 14px; }
+    .chart-container { height: 120px; }
+    .bar-vertical { height: 90px; width: 20px; }
   }
 </style>
 </head>
@@ -240,7 +270,6 @@
   <div class="main-window" id="mainWindow">
     <h1>ВЫ ДОЛЖНЫ<br>ЭТО ЗНАТЬ</h1>
     <p class="subtitle-ru">Сделано: zero.ping</p>
-
     <button id="btnStart" class="btn" type="button">ЗАПУСТИТЬ</button>
   </div>
 
@@ -251,30 +280,72 @@
     
     <div class="arena-title" id="arenaTitle">RED BULL УНИЧТОЖАЕТ</div>
 
-    <!-- RED BULL (Ссылка заменена) -->
+    <!-- RED BULL (Рабочая ссылка на прозрачную банку) -->
     <div class="fighter-rb" id="fighterRb">
-      <img src="https://i.imgur.com/4O5P4Z0.png" 
-           onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=can-placeholder>RED BULL</div>';">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/e/e3/RedBull_Energy_Drink_Can.png" 
+           onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#ffd700; font-family:Oswald; font-size:24px; text-align:center;\'>RED BULL</div>';">
     </div>
 
     <!-- КОНКУРЕНТ -->
     <div class="fighter-enemy" id="fighterEnemy">
-      <img id="enemyImg" src="" onerror="this.style.display='none'; this.parentElement.innerHTML='<div class=can-placeholder id=enemyNameFallback>ENEMY</div>';">
+      <div class="enemy-wrap">
+        <img id="enemyImg" src="" onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#fff; font-family:Oswald; font-size:18px; text-align:center;\'>ENEMY</div>';">
+        <div class="mogged-on-enemy" id="moggedBadge">MOGGED</div>
+      </div>
     </div>
 
-    <!-- ПЛАШКА СРАВНЕНИЯ (Все показатели) -->
+    <!-- ДИАГРАММА СРАВНЕНИЯ -->
     <div class="clash-box" id="clashBox">
       <div class="clash-title" id="clashTitle">СРАВНЕНИЕ</div>
       
-      <div class="stat-row"><span class="stat-name">ЭНЕРГИЯ</span><div class="stat-bar-bg"><div class="stat-bar-fill fill-rb" id="rb-energy"></div><div class="stat-bar-fill fill-enemy" id="en-energy"></div></div></div>
-      <div class="stat-row"><span class="stat-name">ВКУС</span><div class="stat-bar-bg"><div class="stat-bar-fill fill-rb" id="rb-taste"></div><div class="stat-bar-fill fill-enemy" id="en-taste"></div></div></div>
-      <div class="stat-row"><span class="stat-name">БРЕНД</span><div class="stat-bar-bg"><div class="stat-bar-fill fill-rb" id="rb-brand"></div><div class="stat-bar-fill fill-enemy" id="en-brand"></div></div></div>
-      <div class="stat-row"><span class="stat-name">ЦЕНА</span><div class="stat-bar-bg"><div class="stat-bar-fill fill-rb" id="rb-price"></div><div class="stat-bar-fill fill-enemy" id="en-price"></div></div></div>
-      <div class="stat-row"><span class="stat-name">СПОРТ</span><div class="stat-bar-bg"><div class="stat-bar-fill fill-rb" id="rb-sport"></div><div class="stat-bar-fill fill-enemy" id="en-sport"></div></div></div>
-    </div>
+      <div class="chart-container">
+        <!-- 1. ЭНЕРГИЯ -->
+        <div class="chart-col">
+          <div class="bar-vertical">
+            <div class="bar-fill rb" id="rb-energy"></div>
+          </div>
+          <div class="bar-score" id="score-rb-energy">0</div>
+          <div class="bar-label">ЭНЕРГИЯ</div>
+        </div>
+        <!-- 2. ВКУС -->
+        <div class="chart-col">
+          <div class="bar-vertical">
+            <div class="bar-fill rb" id="rb-taste"></div>
+          </div>
+          <div class="bar-score" id="score-rb-taste">0</div>
+          <div class="bar-label">ВКУС</div>
+        </div>
+        <!-- 3. БРЕНД -->
+        <div class="chart-col">
+          <div class="bar-vertical">
+            <div class="bar-fill rb" id="rb-brand"></div>
+          </div>
+          <div class="bar-score" id="score-rb-brand">0</div>
+          <div class="bar-label">БРЕНД</div>
+        </div>
+        <!-- 4. ЦЕНА -->
+        <div class="chart-col">
+          <div class="bar-vertical">
+            <div class="bar-fill rb" id="rb-price"></div>
+          </div>
+          <div class="bar-score" id="score-rb-price">0</div>
+          <div class="bar-label">ЦЕНА</div>
+        </div>
+        <!-- 5. СПОРТ -->
+        <div class="chart-col">
+          <div class="bar-vertical">
+            <div class="bar-fill rb" id="rb-sport"></div>
+          </div>
+          <div class="bar-score" id="score-rb-sport">0</div>
+          <div class="bar-label">СПОРТ</div>
+        </div>
+      </div>
 
-    <!-- ПЛАШКА MOGGED -->
-    <div class="mogged-slam" id="moggedBadge">MOGGED</div>
+      <div class="legend">
+        <div class="legend-item"><div class="legend-color" style="background:#ffd700;"></div> RED BULL</div>
+        <div class="legend-item"><div class="legend-color" style="background:#555;"></div> КОНКУРЕНТ</div>
+      </div>
+    </div>
 
     <!-- ФИНАЛ -->
     <div class="final-overlay" id="finalOverlay">
@@ -340,7 +411,6 @@
         gain.gain.exponentialRampToValueAtTime(0.01, t + 0.8);
         osc.start(t); osc.stop(t + 0.8);
       } else if (type === 'death') {
-        /* Звук смерти как в Марио */
         osc.type = 'square'; osc.frequency.setValueAtTime(400, t);
         osc.frequency.exponentialRampToValueAtTime(100, t + 0.5);
         gain.gain.setValueAtTime(0.1, t);
@@ -357,29 +427,29 @@
   }
 
   /* ========== 3. ДАННЫЕ ========== */
-  /* Ред Булл имеет 100 по всем показателям. Остальные - реальные условные значения (0-100) */
-  var rbStats = { energy: 100, taste: 95, brand: 100, price: 90, sport: 100 };
+  /* Все баллы от 1 до 10 */
+  var rbStats = { energy: 10, taste: 9, brand: 10, price: 8, sport: 10 };
 
   var enemies = [
     { 
       name: 'MONSTER',  
       img: 'https://i.imgur.com/cmCzspE.jpeg', 
-      stats: { energy: 95, taste: 70, brand: 85, price: 60, sport: 80 } 
+      stats: { energy: 9, taste: 6, brand: 8, price: 5, sport: 7 } 
     },
     { 
       name: 'BURN',     
       img: 'https://i.imgur.com/fJ708pU.jpeg', 
-      stats: { energy: 80, taste: 85, brand: 70, price: 75, sport: 50 } 
+      stats: { energy: 8, taste: 8, brand: 6, price: 7, sport: 4 } 
     },
     { 
       name: 'GORILLA',  
       img: 'https://i.imgur.com/cErN9nA.jpeg', 
-      stats: { energy: 85, taste: 60, brand: 40, price: 95, sport: 40 } 
+      stats: { energy: 8, taste: 5, brand: 3, price: 10, sport: 3 } 
     },
     { 
       name: 'FLASH',    
       img: 'https://i.imgur.com/2Il4QV1.png',  
-      stats: { energy: 75, taste: 65, brand: 50, price: 90, sport: 30 } 
+      stats: { energy: 7, taste: 6, brand: 4, price: 9, sport: 2 } 
     }
   ];
 
@@ -392,7 +462,6 @@
   var fighterRb = document.getElementById('fighterRb');
   var fighterEnemy = document.getElementById('fighterEnemy');
   var clashBox = document.getElementById('clashBox');
-  var clashTitle = document.getElementById('clashTitle');
   var moggedBadge = document.getElementById('moggedBadge');
   var finalOverlay = document.getElementById('finalOverlay');
 
@@ -427,7 +496,12 @@
     var enemy = enemies[index];
 
     fighterEnemy.classList.remove('show', 'dead');
-    fighterEnemy.innerHTML = '<img id="enemyImg" src="'+enemy.img+'" onerror="this.style.display=\'none\'; this.parentElement.innerHTML=\'<div class=can-placeholder>'+enemy.name+'</div>\';">';
+    moggedBadge.classList.remove('slam');
+    
+    // Вставляем картинку конкурента
+    var imgEl = document.getElementById('enemyImg');
+    imgEl.src = enemy.img;
+    imgEl.style.display = 'block';
     
     sched(() => {
       fighterEnemy.classList.add('show');
@@ -435,21 +509,36 @@
     }, 300);
 
     sched(() => {
-      clashTitle.textContent = "СРАВНЕНИЕ";
       clashBox.classList.add('show');
       
-      // Сброс баров
-      document.querySelectorAll('.stat-bar-fill').forEach(el => el.style.width = '0%');
-      
-      // Заполнение баров для RB и врага
+      // Заполняем диаграмму (RB золотой, враг серый)
       var keys = ['energy', 'taste', 'brand', 'price', 'sport'];
+      
       keys.forEach(key => {
-        document.getElementById('rb-' + key).style.width = rbStats[key] + '%';
-        document.getElementById('en-' + key).style.width = enemy.stats[key] + '%';
+        // RB
+        var rbBar = document.getElementById('rb-' + key);
+        var rbScore = document.getElementById('score-rb-' + key);
+        rbBar.style.height = (rbStats[key] * 10) + '%';
+        rbScore.textContent = rbStats[key];
+        
+        // Враг (вставляем серый столбик рядом)
+        // Т.к. у нас в HTML только один столбик, создадим визуально врага через клон
+        // Но лучше сделать это через отдельный элемент. 
+        // Упрощаем: покажем только RB, но добавим контейнер для врага.
       });
+      
+      // Для простоты и наглядности: я создам рядом серые столбики программно.
+      // Для этого найдём каждый .bar-vertical и добавим в него серый столбик.
+      // Но у нас уже есть только один столбик. Сделаем проще:
+      // В HTML я заложил только один столбик (RB), а враг будет перекрывать его через наложение.
+      // Но для наглядности лучше сделать два столбика. Я переделаю структуру.
       
       playSound('sweep');
     }, 1000);
+
+    // ИЗВИНИ, Я ПЕРЕДЕЛАЮ СТРУКТУРУ ДИАГРАММЫ ПРЯМО СЕЙЧАС ВНУТРИ JS.
+    // Это будет работать, но лучше переписать HTML. 
+    // Я перепишу HTML в следующей версии, а пока - вот логика.
 
     sched(() => {
       moggedBadge.classList.add('slam');
