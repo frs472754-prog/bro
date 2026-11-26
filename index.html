@@ -7,178 +7,571 @@
 <link href="https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&family=Oswald:wght@500;700&display=swap" rel="stylesheet">
 <style>
   * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+  :root {
+    --bg-0: #06070f;
+    --bg-1: #0b0d1a;
+    --bg-2: #101425;
+    --primary: #33e0d0;
+    --primary-glow: rgba(51,224,208,.55);
+    --secondary: #ff6b8a;
+    --secondary-glow: rgba(255,107,138,.55);
+    --accent: #a78bfa;
+    --accent-glow: rgba(167,139,250,.55);
+    --text: #e6eaf5;
+    --text-dim: #8a94b0;
+  }
+
   body, html {
     margin: 0; padding: 0; width: 100%; height: 100vh;
-    background: #05070a; overflow: hidden;
+    background: var(--bg-0); overflow: hidden;
     font-family: 'Courier Prime', monospace;
     position: fixed; top: 0; left: 0; cursor: none;
+    color: var(--text);
   }
-  
-  /* КУРСОР */
+
+  /* ==================== КУРСОР ==================== */
   .cursor-glow {
     position: fixed; top: 0; left: 0; width: 20px; height: 20px;
-    border: 1px solid #ffd700; border-radius: 50%;
+    border: 1px solid var(--primary); border-radius: 50%;
     pointer-events: none; z-index: 99999;
     transform: translate(-50%, -50%);
-    box-shadow: 0 0 15px #ffd700, inset 0 0 10px #ffd700;
-    mix-blend-mode: screen; transition: width 0.2s, height 0.2s, background 0.2s;
+    box-shadow: 0 0 15px var(--primary-glow), inset 0 0 10px var(--primary-glow);
+    mix-blend-mode: screen; transition: width .2s, height .2s, background .2s;
   }
-  .cursor-glow.hover { width: 44px; height: 44px; background: rgba(255,215,0,.15); }
+  .cursor-glow.hover { width: 44px; height: 44px; background: var(--primary-glow); }
+  .cursor-glow::after {
+    content: ''; position: absolute; inset: 6px; border-radius: 50%;
+    background: var(--primary-glow); filter: blur(3px);
+  }
 
+  /* ==================== ФОН ==================== */
   .bg-main {
-    position: absolute; inset: 0; z-index: 1;
-    background: radial-gradient(circle at 30% 20%, rgba(255,215,0,.05) 0%, transparent 40%),
-                linear-gradient(180deg, #05070a 0%, #0a101a 50%, #05070a 100%);
+    position: absolute; inset: 0; z-index: 1; overflow: hidden;
+    background:
+      radial-gradient(ellipse at 20% 15%, rgba(51,224,208,.10) 0%, transparent 45%),
+      radial-gradient(ellipse at 80% 85%, rgba(255,107,138,.09) 0%, transparent 50%),
+      radial-gradient(ellipse at 50% 50%, rgba(167,139,250,.06) 0%, transparent 60%),
+      linear-gradient(180deg, var(--bg-0) 0%, var(--bg-1) 50%, var(--bg-0) 100%);
   }
-  
-  /* ГЛАВНОЕ ОКНО */
+  .bg-main::before {
+    content: ''; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(51,224,208,.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(51,224,208,.05) 1px, transparent 1px);
+    background-size: 44px 44px;
+    mask-image: radial-gradient(circle at 50% 50%, #000 15%, transparent 78%);
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 15%, transparent 78%);
+    animation: gridDrift 40s linear infinite;
+  }
+  @keyframes gridDrift {
+    0%   { background-position: 0 0, 0 0; }
+    100% { background-position: 44px 44px, 44px 44px; }
+  }
+  .bg-main::after {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(circle at 50% 50%, transparent 35%, rgba(0,0,0,.75) 100%);
+    pointer-events: none;
+  }
+
+  .aurora { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; opacity: .6; }
+  .aurora-1, .aurora-2 {
+    position: absolute; border-radius: 50%; filter: blur(60px);
+    animation: auroraMove 18s ease-in-out infinite;
+  }
+  .aurora-1 {
+    width: 500px; height: 400px; top: 5%; left: -10%;
+    background: radial-gradient(ellipse, rgba(51,224,208,.35) 0%, transparent 70%);
+  }
+  .aurora-2 {
+    width: 500px; height: 400px; bottom: 5%; right: -10%;
+    background: radial-gradient(ellipse, rgba(255,107,138,.28) 0%, transparent 70%);
+    animation-delay: -9s;
+  }
+  @keyframes auroraMove {
+    0%, 100% { transform: translate(0,0) scale(1); opacity: .5; }
+    33%      { transform: translate(50px,-30px) scale(1.15); opacity: .8; }
+    66%      { transform: translate(-30px,40px) scale(.95); opacity: .6; }
+  }
+
+  .noise {
+    position: absolute; inset: 0; z-index: 3; pointer-events: none;
+    opacity: .04; mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='120' height='120'><filter id='n'><feTurbulence baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+  }
+
+  .particles { position: absolute; inset: 0; z-index: 3; pointer-events: none; overflow: hidden; }
+  .particle {
+    position: absolute; width: 3px; height: 3px; border-radius: 50%;
+    background: var(--primary);
+    box-shadow: 0 0 8px var(--primary-glow), 0 0 16px var(--primary-glow);
+    animation: floatUp linear infinite; opacity: 0;
+  }
+  @keyframes floatUp {
+    0%   { transform: translateY(0) scale(.4); opacity: 0; }
+    10%  { opacity: 1; }
+    90%  { opacity: .7; }
+    100% { transform: translateY(-100vh) scale(1.2); opacity: 0; }
+  }
+  .particle.coral { background: var(--secondary); box-shadow: 0 0 8px var(--secondary-glow), 0 0 16px var(--secondary-glow); }
+  .particle.violet { background: var(--accent); box-shadow: 0 0 8px var(--accent-glow), 0 0 16px var(--accent-glow); }
+  .particle.small { width: 2px; height: 2px; }
+  .particle.big { width: 4px; height: 4px; }
+
+  .center-glow {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+    width: 520px; height: 520px; border-radius: 50%;
+    background: radial-gradient(circle, rgba(51,224,208,.12) 0%, rgba(167,139,250,.05) 40%, transparent 70%);
+    z-index: 1; pointer-events: none;
+    animation: pulseGlow 5s ease-in-out infinite;
+  }
+  @keyframes pulseGlow {
+    0%, 100% { transform: translate(-50%,-50%) scale(1); opacity: .55; }
+    50%      { transform: translate(-50%,-50%) scale(1.25); opacity: .9; }
+  }
+
+  .corner-star {
+    position: absolute; color: rgba(51,224,208,.5); font-size: 18px;
+    animation: twinkle 3s ease-in-out infinite; z-index: 3;
+  }
+  .corner-star:nth-child(1) { top: 8%; left: 10%; animation-delay: 0s; }
+  .corner-star:nth-child(2) { top: 15%; right: 12%; animation-delay: 1s; color: rgba(255,107,138,.6); }
+  .corner-star:nth-child(3) { bottom: 12%; left: 15%; animation-delay: 2s; color: rgba(167,139,250,.6); }
+  .corner-star:nth-child(4) { bottom: 8%; right: 10%; animation-delay: 1.5s; }
+  @keyframes twinkle {
+    0%, 100% { opacity: .2; transform: scale(.8); }
+    50%      { opacity: .9; transform: scale(1.25); }
+  }
+
+  .lines { position: absolute; inset: 0; z-index: 2; pointer-events: none; overflow: hidden; }
+  .line {
+    position: absolute; height: 1px;
+    background: linear-gradient(90deg, transparent, var(--primary-glow), transparent);
+    animation: lineMove 12s linear infinite;
+    opacity: 0;
+  }
+  .line.coral { background: linear-gradient(90deg, transparent, var(--secondary-glow), transparent); }
+  .line.violet { background: linear-gradient(90deg, transparent, var(--accent-glow), transparent); }
+  @keyframes lineMove {
+    0%   { transform: translateX(-100%); opacity: 0; }
+    10%  { opacity: .7; }
+    90%  { opacity: .7; }
+    100% { transform: translateX(100vw); opacity: 0; }
+  }
+
+  /* ==================== ГЛАВНОЕ ОКНО ==================== */
   .main-window {
     position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 90%; max-width: 380px; background: rgba(10, 15, 25, 0.8);
-    border: 1px solid rgba(255, 215, 0, 0.2); border-top: 3px solid #ffd700;
-    border-radius: 12px; padding: 40px 25px 30px; z-index: 10;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6); color: #fff; text-align: center;
-    animation: windowBreath 7s ease-in-out infinite; transition: opacity .6s ease;
+    width: 90%; max-width: 400px; background: rgba(11, 13, 26, .78);
+    backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(51,224,208,.28); border-top: 3px solid var(--primary);
+    border-radius: 14px; padding: 42px 26px 32px; z-index: 10;
+    box-shadow: 0 20px 60px rgba(0,0,0,.85), 0 0 50px rgba(51,224,208,.16);
+    text-align: center;
+    animation: windowBreath 8s ease-in-out infinite; transition: opacity .6s ease;
   }
   @keyframes windowBreath {
     0%, 100% { transform: translate(-50%,-50%) translateY(0); }
-    50% { transform: translate(-50%,-50%) translateY(-6px); }
+    50%      { transform: translate(-50%,-50%) translateY(-5px); }
   }
-  .main-window h1 { margin: 0; font-size: 26px; letter-spacing: 3px; text-shadow: 0 0 15px rgba(255, 215, 0, 0.9); font-family: 'Oswald', sans-serif; line-height: 1.2; }
-  .subtitle-ru { font-size: 12px; color: #ffd700; margin: 15px 0 35px; opacity: .8; }
-  
+  .main-window.hidden { opacity: 0; pointer-events: none; }
+  .main-window h1 {
+    margin: 0; font-size: 26px; letter-spacing: 3px;
+    text-shadow: 0 0 18px var(--primary-glow), 0 0 40px rgba(51,224,208,.3);
+    font-family: 'Oswald', sans-serif; line-height: 1.2;
+    background: linear-gradient(135deg, var(--primary), var(--accent) 60%, var(--secondary));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 12px rgba(51,224,208,.4));
+  }
+  .subtitle-ru { font-size: 12px; color: var(--primary); margin: 14px 0 34px; opacity: .85; letter-spacing: 1px; }
+
   .btn {
     display: flex; align-items: center; justify-content: center;
-    background: rgba(255,215,0,.05); color: #fff; border: 1px solid rgba(255,215,0,.3);
+    background: rgba(51,224,208,.06); color: var(--text);
+    border: 1px solid rgba(51,224,208,.35);
     padding: 16px 20px; font-family: 'Oswald', sans-serif; font-size: 15px; font-weight: 700;
-    text-transform: uppercase; cursor: none; border-radius: 6px; letter-spacing: 2px;
-    transition: all .4s; width: 100%;
+    text-transform: uppercase; cursor: none; border-radius: 8px; letter-spacing: 2px;
+    transition: all .4s; width: 100%; position: relative; overflow: hidden;
   }
-  .btn:hover { background: rgba(255,215,0,.15); border-color: #ffd700; }
+  .btn::before {
+    content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(51,224,208,.3), transparent);
+    transition: left .6s;
+  }
+  .btn:hover::before { left: 100%; }
+  .btn:hover {
+    background: rgba(51,224,208,.14); border-color: var(--primary);
+    box-shadow: 0 0 30px rgba(51,224,208,.45);
+    transform: translateY(-2px); color: #fff;
+  }
 
-  /* АРЕНА */
+  /* ==================== АРЕНА ==================== */
   .arena-modal {
     display: none; position: fixed; inset: 0;
-    background: radial-gradient(circle at center, #111822 0%, #030508 100%);
-    z-index: 200; overflow: hidden; opacity: 0; transition: opacity 0.6s;
+    background:
+      radial-gradient(ellipse at 20% 30%, rgba(51,224,208,.08) 0%, transparent 45%),
+      radial-gradient(ellipse at 80% 70%, rgba(255,107,138,.07) 0%, transparent 45%),
+      radial-gradient(ellipse at center, var(--bg-2) 0%, var(--bg-0) 100%);
+    z-index: 200; overflow: hidden; opacity: 0; transition: opacity .6s;
   }
   .arena-modal.show { display: block; opacity: 1; }
-  
+  .arena-modal::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none;
+    background-image:
+      linear-gradient(rgba(51,224,208,.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(51,224,208,.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: radial-gradient(circle at 50% 50%, #000 20%, transparent 82%);
+    -webkit-mask-image: radial-gradient(circle at 50% 50%, #000 20%, transparent 82%);
+  }
+  .arena-modal::after {
+    content: ''; position: absolute; top: -220px; left: 50%; transform: translateX(-50%);
+    width: 700px; height: 420px;
+    background: radial-gradient(ellipse, rgba(51,224,208,.10) 0%, transparent 70%);
+    pointer-events: none;
+    animation: arenaLight 6s ease-in-out infinite;
+  }
+  @keyframes arenaLight {
+    0%, 100% { opacity: .5; }
+    50%      { opacity: 1; }
+  }
+
   .scanline {
     position: absolute; inset: 0; pointer-events: none; z-index: 2;
-    background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,0.5) 51%);
-    background-size: 100% 4px; opacity: 0.15;
+    background: linear-gradient(to bottom, transparent 50%, rgba(0,0,0,.45) 51%);
+    background-size: 100% 4px; opacity: .12;
   }
 
-  /* БАНКИ - СДЕЛАНЫ ОГРОМНЫМИ */
+  /* ==================== БАНКИ ==================== */
   .fighter-rb, .fighter-enemy {
     position: absolute; top: 45%; transform: translateY(-50%);
-    z-index: 20; width: 220px; height: 450px; /* Огромный размер */
+    z-index: 20; width: 260px; height: 520px;
     display: flex; align-items: center; justify-content: center;
-    transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1);
-    background: #1a1f2b;
-    border-radius: 16px; padding: 15px;
-    box-shadow: 0 15px 30px rgba(0,0,0,0.7);
+    transition: all .9s cubic-bezier(.22,1,.36,1);
+    background: linear-gradient(180deg, #161b2c 0%, #0d1018 100%);
+    border-radius: 22px; padding: 15px;
+    box-shadow: 0 15px 40px rgba(0,0,0,.8), inset 0 1px 0 rgba(255,255,255,.06);
   }
-  
-  .fighter-rb { 
-    left: 2%; opacity: 0; 
-    border: 3px solid #ffd700; 
-    box-shadow: 0 0 35px rgba(255,215,0,0.4);
+  .fighter-rb::before, .fighter-enemy::before {
+    content: ''; position: absolute; top: 10%; left: 10%;
+    width: 30%; height: 80%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,.07), transparent);
+    border-radius: 22px; pointer-events: none;
+  }
+
+  .fighter-rb {
+    left: -2%; opacity: 0;
+    border: 4px solid var(--primary);
+    animation: rbPulse 3s ease-in-out infinite;
   }
   .fighter-rb.show { opacity: 1; }
-  
-  .fighter-enemy { 
-    right: 2%; opacity: 0; transform: translate(200px, -50%); /* Выезжает справа */
+  @keyframes rbPulse {
+    0%, 100% { box-shadow: 0 0 45px rgba(51,224,208,.55), 0 15px 40px rgba(0,0,0,.8), inset 0 0 30px rgba(51,224,208,.12); }
+    50%      { box-shadow: 0 0 70px rgba(51,224,208,.85), 0 15px 40px rgba(0,0,0,.8), inset 0 0 42px rgba(51,224,208,.22); }
+  }
+
+  .fighter-enemy {
+    right: -2%; opacity: 0; transform: translate(400px, -50%);
   }
   .fighter-enemy.show { opacity: 1; transform: translate(0, -50%); }
-  
-  /* Цветные рамки конкурентов */
-  .border-monster { border: 3px solid #00ff00; box-shadow: 0 0 35px rgba(0,255,0,0.4); }
-  .border-burn    { border: 3px solid #ff4500; box-shadow: 0 0 35px rgba(255,69,0,0.4); }
-  .border-gorilla { border: 3px solid #ffffff; box-shadow: 0 0 35px rgba(255,255,255,0.4); }
-  .border-flash   { border: 3px solid #00bfff; box-shadow: 0 0 35px rgba(0,191,255,0.4); }
 
-  .fighter-rb img, .fighter-enemy img { 
-    width: 100%; height: 100%; object-fit: contain; 
-    border-radius: 10px; 
+  .border-monster { border: 4px solid #7ee787; box-shadow: 0 0 45px rgba(126,231,135,.55), 0 15px 40px rgba(0,0,0,.8); }
+  .border-burn    { border: 4px solid #ff9b6b; box-shadow: 0 0 45px rgba(255,155,107,.55), 0 15px 40px rgba(0,0,0,.8); }
+  .border-gorilla { border: 4px solid #d0d7e8; box-shadow: 0 0 45px rgba(208,215,232,.55), 0 15px 40px rgba(0,0,0,.8); }
+  .border-flash   { border: 4px solid #7dd3fc; box-shadow: 0 0 45px rgba(125,211,252,.55), 0 15px 40px rgba(0,0,0,.8); }
+
+  .fighter-rb img, .fighter-enemy img {
+    width: 100%; height: 100%; object-fit: contain;
+    border-radius: 14px;
+  }
+  .img-fallback {
+    color: var(--primary); font-size: 20px; font-family: 'Oswald', sans-serif;
+    text-align: center; padding: 10px;
   }
 
   .enemy-wrap { position: relative; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
-  
-  .mogged-on-enemy {
-    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0) rotate(-15deg);
-    background: #ff1a1a; color: #fff; border: 4px solid #fff; padding: 8px 20px;
-    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 24px;
-    box-shadow: 0 0 40px #ff1a1a, 0 0 80px rgba(255,26,26,0.6); z-index: 99; text-shadow: 2px 2px 0 #000;
-    opacity: 0; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275); pointer-events: none;
-  }
-  .mogged-on-enemy.slam { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-10deg); }
 
-  /* ДИАГРАММА */
+  .mogged-on-enemy {
+    position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) scale(0) rotate(-12deg);
+    background: linear-gradient(135deg, var(--secondary), #ff3d6a);
+    color: #fff; border: 3px solid #fff; padding: 10px 26px;
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 30px;
+    box-shadow: 0 0 50px var(--secondary-glow), 0 0 100px rgba(255,61,106,.55); z-index: 99;
+    text-shadow: 2px 2px 0 rgba(0,0,0,.7);
+    opacity: 0; transition: all .35s cubic-bezier(.175,.885,.32,1.275); pointer-events: none;
+    letter-spacing: 2px; border-radius: 6px;
+  }
+  .mogged-on-enemy.slam { opacity: 1; transform: translate(-50%, -50%) scale(1) rotate(-8deg); }
+
+  /* ==================== ДИАГРАММА ==================== */
   .clash-box {
-    position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%) scale(0.8);
-    width: 90%; max-width: 340px; background: rgba(10,15,25,0.95);
-    border: 2px solid #ffd700; border-radius: 12px; padding: 15px;
-    z-index: 15; opacity: 0; transition: all 0.4s ease;
-    box-shadow: 0 0 40px rgba(0,0,0,0.9);
+    position: absolute; left: 50%; top: 45%; transform: translate(-50%, -50%) scale(.85);
+    width: 90%; max-width: 400px; background: rgba(11,13,26,.94);
+    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+    border: 2px solid var(--primary); border-radius: 14px; padding: 22px;
+    z-index: 15; opacity: 0; transition: all .45s ease;
+    box-shadow: 0 0 60px rgba(0,0,0,.95), 0 0 35px rgba(51,224,208,.22);
   }
   .clash-box.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-  
-  .clash-title { font-family: 'Oswald', sans-serif; color: #ffd700; font-size: 16px; letter-spacing: 2px; text-align: center; margin-bottom: 10px; }
 
-  .chart-container { display: flex; justify-content: space-around; align-items: flex-end; height: 100px; margin-bottom: 5px; }
-  .chart-col { display: flex; flex-direction: column; align-items: center; width: 40px; }
-  .bar-group { display: flex; align-items: flex-end; gap: 4px; height: 80px; }
-  .bar-vertical { width: 14px; height: 100%; background: rgba(255,255,255,0.1); border-radius: 2px; position: relative; overflow: hidden; }
-  .bar-fill { position: absolute; bottom: 0; left: 0; width: 100%; height: 0%; transition: height 0.8s ease; }
-  .bar-fill.rb { background: #ffd700; box-shadow: 0 0 10px #ffd700; }
-  .bar-fill.en { background: #888; }
-  .bar-label { font-family: 'Oswald'; font-size: 9px; color: #aaa; margin-top: 4px; }
+  .clash-title {
+    font-family: 'Oswald', sans-serif; color: var(--primary); font-size: 17px;
+    letter-spacing: 3px; text-align: center; margin-bottom: 6px;
+    text-shadow: 0 0 12px rgba(51,224,208,.5);
+  }
+  .clash-sub {
+    text-align: center; font-size: 11px; color: var(--text-dim);
+    margin-bottom: 16px; letter-spacing: 1px;
+  }
+
+  .chart-container { display: flex; justify-content: space-around; align-items: flex-end; height: 110px; margin-bottom: 5px; }
+  .chart-col { display: flex; flex-direction: column; align-items: center; width: 52px; }
+  .bar-group { display: flex; align-items: flex-end; gap: 6px; height: 90px; }
+  .bar-vertical { width: 16px; height: 100%; background: rgba(255,255,255,.08); border-radius: 4px; position: relative; overflow: hidden; }
+  .bar-fill { position: absolute; bottom: 0; left: 0; width: 100%; height: 0%; transition: height .9s cubic-bezier(.22,1,.36,1); }
+  .bar-fill.rb { background: linear-gradient(180deg, #7ef7ec, var(--primary)); box-shadow: 0 0 12px var(--primary-glow); }
+  .bar-fill.en { background: linear-gradient(180deg, #9aa3b8, #5c6378); }
+  .bar-label { font-family: 'Oswald'; font-size: 10px; color: var(--text-dim); margin-top: 5px; letter-spacing: .5px; }
 
   .scores-row { display: flex; justify-content: space-around; margin-top: 5px; }
-  .score-pair { display: flex; flex-direction: column; align-items: center; width: 40px; font-size: 11px; font-family: 'Oswald'; }
-  .score-rb { color: #ffd700; font-weight: bold; }
-  .score-en { color: #888; }
+  .score-pair { display: flex; flex-direction: column; align-items: center; width: 52px; font-size: 12px; font-family: 'Oswald'; }
+  .score-rb { color: var(--primary); font-weight: bold; text-shadow: 0 0 8px rgba(51,224,208,.5); }
+  .score-en { color: #9aa3b8; }
+  .score-pair.win .score-rb { color: #7ef7ec; }
+  .score-pair.lose .score-rb { color: var(--secondary); }
 
-  /* СМЕРТЬ КАК В МАРИО */
-  .fighter-enemy.dead { animation: marioDeath 1.2s forwards cubic-bezier(0.25, 0.46, 0.45, 0.94); }
-  @keyframes marioDeath {
-    0% { transform: translate(0, -50%) scale(1); opacity: 1; }
-    30% { transform: translate(0, -150%) scale(1); opacity: 1; }
-    50% { transform: translate(50px, -50%) scale(0.9) rotate(180deg); opacity: 1; }
-    100% { transform: translate(200px, 150%) scale(0.3) rotate(360deg); opacity: 0; }
+  .total-row {
+    margin-top: 16px; padding-top: 14px;
+    border-top: 1px solid rgba(51,224,208,.2);
+    display: flex; justify-content: space-between; align-items: center;
+    font-family: 'Oswald', sans-serif;
+  }
+  .total-col { display: flex; flex-direction: column; gap: 2px; }
+  .total-label { font-size: 10px; color: var(--text-dim); letter-spacing: 2px; }
+  .total-value { font-size: 20px; font-weight: 700; }
+  .total-value.rb { color: var(--primary); text-shadow: 0 0 12px var(--primary-glow); }
+  .total-value.en { color: var(--secondary); text-shadow: 0 0 12px var(--secondary-glow); }
+  .total-vs {
+    font-family: 'Oswald'; font-size: 13px; color: var(--text-dim);
+    letter-spacing: 2px; text-align: center; flex: 1;
+  }
+  .total-verdict {
+    font-size: 10px; text-align: center; margin-top: 8px; letter-spacing: 2px;
+    font-family: 'Oswald'; color: var(--primary);
   }
 
-  /* ФИНАЛ */
+  /* ==================== АНИМАЦИЯ ПОРАЖЕНИЯ (2.2s) ==================== */
+  .fighter-enemy.dead {
+    animation: defeatSoften 2.2s cubic-bezier(.4,0,.2,1) forwards;
+  }
+  @keyframes defeatSoften {
+    0% {
+      transform: translate(0, -50%) rotate(0) scale(1);
+      opacity: 1; filter: brightness(1) blur(0);
+    }
+    25% {
+      transform: translate(-8px, -48%) rotate(-2deg) scale(1.01);
+      opacity: .95; filter: brightness(.92) blur(0);
+    }
+    55% {
+      transform: translate(10px, -35%) rotate(3deg) scale(.94);
+      opacity: .7; filter: brightness(.7) blur(1px);
+    }
+    80% {
+      transform: translate(-6px, 10%) rotate(-4deg) scale(.82);
+      opacity: .35; filter: brightness(.4) blur(2.5px);
+    }
+    100% {
+      transform: translate(0, 40%) rotate(0) scale(.7);
+      opacity: 0; filter: brightness(.1) blur(5px);
+    }
+  }
+  .defeat-flash {
+    position: absolute; inset: 0; pointer-events: none; z-index: 21;
+    background: radial-gradient(circle, rgba(255,107,138,.55) 0%, rgba(167,139,250,.25) 45%, transparent 72%);
+    opacity: 0; border-radius: 22px;
+  }
+  .defeat-flash.active { animation: defeatFlash 0.7s ease-out; }
+  @keyframes defeatFlash {
+    0%   { opacity: 0; }
+    35%  { opacity: .8; }
+    100% { opacity: 0; }
+  }
+
+  /* ==================== ФИНАЛ (горизонтальный) ==================== */
   .final-overlay {
-    position: absolute; inset: 0; background: rgba(0,0,0,0.95); z-index: 100;
-    display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 1s;
+    position: absolute; inset: 0; background: rgba(3,4,10,.96);
+    z-index: 100; display: flex; align-items: center; justify-content: center;
+    opacity: 0; pointer-events: none; transition: opacity 1s;
+    padding: 16px;
+  }
+  .final-overlay::before {
+    content: ''; position: absolute; inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 20%, rgba(51,224,208,.10) 0%, transparent 45%),
+      radial-gradient(ellipse at 80% 80%, rgba(255,107,138,.08) 0%, transparent 45%),
+      radial-gradient(ellipse at 50% 50%, rgba(167,139,250,.06) 0%, transparent 55%);
+    pointer-events: none;
   }
   .final-overlay.show { opacity: 1; pointer-events: auto; }
-  .achievements-box { background: #111; border: 3px solid #ffd700; border-radius: 20px; padding: 30px; text-align: center; transform: scale(0.8); transition: all 0.8s ease; }
-  .final-overlay.show .achievements-box { transform: scale(1); }
-  .achievements-title { font-family: 'Oswald'; font-size: 28px; color: #ffd700; margin-bottom: 20px; }
-  .ach-item { font-size: 14px; color: #fff; display: flex; align-items: center; gap: 10px; padding-bottom: 10px; border-bottom: 1px solid rgba(255,215,0,0.2); text-align: left; }
-  .ach-item::before { content: '🏆'; }
 
+  .achievements-box {
+    position: relative;
+    background: linear-gradient(180deg, #141830 0%, #0a0d1c 100%);
+    border: 2px solid var(--primary); border-radius: 22px;
+    padding: 22px 24px 18px; text-align: center;
+    transform: scale(.9); transition: all .8s cubic-bezier(.175,.885,.32,1.275);
+    width: 92vw; max-width: 1100px;
+    max-height: 94vh;
+    box-shadow:
+      0 0 60px rgba(51,224,208,.35),
+      0 0 120px rgba(167,139,250,.15),
+      inset 0 0 40px rgba(51,224,208,.05);
+    display: flex; flex-direction: column;
+  }
+  .final-overlay.show .achievements-box {
+    transform: scale(1);
+    animation: boxGlow 3.5s ease-in-out infinite;
+  }
+  @keyframes boxGlow {
+    0%, 100% { box-shadow: 0 0 60px rgba(51,224,208,.35), 0 0 120px rgba(167,139,250,.15), inset 0 0 40px rgba(51,224,208,.05); }
+    50%      { box-shadow: 0 0 85px rgba(51,224,208,.6), 0 0 160px rgba(255,107,138,.2), inset 0 0 50px rgba(51,224,208,.1); }
+  }
+
+  .achievements-title {
+    font-family: 'Oswald', sans-serif; font-size: 26px; margin: 0 0 4px; letter-spacing: 4px;
+    background: linear-gradient(135deg, var(--primary), var(--accent) 50%, var(--secondary));
+    -webkit-background-clip: text; background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 0 16px rgba(51,224,208,.45));
+    flex-shrink: 0;
+  }
+  .achievements-subtitle {
+    font-family: 'Oswald', sans-serif; font-size: 10px; color: var(--text-dim);
+    letter-spacing: 3px; margin-bottom: 14px;
+    padding-bottom: 12px; border-bottom: 1px solid rgba(51,224,208,.2);
+    flex-shrink: 0;
+  }
+
+  .ach-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-auto-rows: 1fr;
+    gap: 8px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  .ach-item {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 9px 11px; text-align: left;
+    background: rgba(51,224,208,.035);
+    border: 1px solid rgba(51,224,208,.12);
+    border-radius: 9px;
+    transition: all .3s;
+    animation: achSlide .6s cubic-bezier(.175,.885,.32,1.275) both;
+    min-width: 0;
+  }
+  .ach-item:hover {
+    background: rgba(51,224,208,.09);
+    border-color: rgba(51,224,208,.4);
+    transform: translateY(-2px);
+  }
+  @keyframes achSlide {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .final-overlay.show .ach-item:nth-child(1)  { animation-delay: .10s; }
+  .final-overlay.show .ach-item:nth-child(2)  { animation-delay: .16s; }
+  .final-overlay.show .ach-item:nth-child(3)  { animation-delay: .22s; }
+  .final-overlay.show .ach-item:nth-child(4)  { animation-delay: .28s; }
+  .final-overlay.show .ach-item:nth-child(5)  { animation-delay: .34s; }
+  .final-overlay.show .ach-item:nth-child(6)  { animation-delay: .40s; }
+  .final-overlay.show .ach-item:nth-child(7)  { animation-delay: .46s; }
+  .final-overlay.show .ach-item:nth-child(8)  { animation-delay: .52s; }
+  .final-overlay.show .ach-item:nth-child(9)  { animation-delay: .58s; }
+  .final-overlay.show .ach-item:nth-child(10) { animation-delay: .64s; }
+
+  .ach-icon {
+    font-size: 18px; flex-shrink: 0; width: 26px; text-align: center;
+    filter: drop-shadow(0 0 6px var(--primary-glow));
+    line-height: 1.1;
+  }
+  .ach-content { flex: 1; min-width: 0; }
+  .ach-name {
+    font-family: 'Oswald', sans-serif; font-size: 12px; color: var(--primary);
+    font-weight: 700; letter-spacing: .8px; margin-bottom: 2px;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  }
+  .ach-desc {
+    font-size: 10.5px; color: #aab3c9; line-height: 1.35;
+    display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .final-footer {
+    margin-top: 12px; padding-top: 10px;
+    border-top: 1px solid rgba(51,224,208,.2);
+    font-size: 10px; color: var(--text-dim); letter-spacing: 2px;
+    font-family: 'Courier Prime', monospace;
+    flex-shrink: 0;
+  }
+
+  /* ==================== ЗАКРЫТЬ ==================== */
   .close-btn {
     position: absolute; top: 15px; right: 15px; z-index: 999;
-    background: transparent; color: #ffd700; border: 1px solid #ffd700;
-    padding: 8px 15px; cursor: pointer; border-radius: 4px; font-family: 'Oswald';
+    background: rgba(11,13,26,.8); color: var(--primary); border: 1px solid var(--primary);
+    padding: 8px 15px; cursor: pointer; border-radius: 5px; font-family: 'Oswald';
+    transition: all .3s;
   }
-  .close-btn:hover { background: #ffd700; color: #000; }
+  .close-btn:hover { background: var(--primary); color: var(--bg-0); box-shadow: 0 0 20px var(--primary-glow); }
 
-  @media (max-width: 800px) {
-    .fighter-rb, .fighter-enemy { width: 140px; height: 300px; top: 40%; padding: 8px; }
-    .clash-box { top: 40%; width: 95%; max-width: 300px; }
+  /* ==================== МЕДИА ==================== */
+  @media (max-width: 900px) {
+    .achievements-box { padding: 18px 18px 14px; }
+    .achievements-title { font-size: 22px; }
+    .ach-name { font-size: 11px; }
+    .ach-desc { font-size: 10px; }
+  }
+
+  @media (max-width: 640px) {
+    .final-overlay { padding: 10px; }
+    .achievements-box {
+      width: 96vw; max-height: 94vh;
+      padding: 16px 14px 12px;
+      overflow-y: auto;
+    }
+    .ach-list { grid-template-columns: 1fr; gap: 6px; }
+    .achievements-title { font-size: 20px; letter-spacing: 2px; }
+    .ach-item { padding: 8px 10px; }
+    .ach-name { font-size: 11px; white-space: normal; }
+    .ach-desc { font-size: 10px; -webkit-line-clamp: 2; }
+
+    .fighter-rb, .fighter-enemy { width: 160px; height: 320px; top: 42%; padding: 10px; }
+    .clash-box { top: 42%; width: 95%; max-width: 340px; padding: 18px; }
+    .mogged-on-enemy { font-size: 22px; padding: 8px 18px; }
+    .total-value { font-size: 16px; }
   }
 </style>
 </head>
 <body>
 
 <div class="cursor-glow" id="cursorGlow"></div>
+
 <div class="bg-main"></div>
+<div class="aurora">
+  <div class="aurora-1"></div>
+  <div class="aurora-2"></div>
+</div>
+<div class="noise"></div>
+<div class="particles" id="particles">
+  <div class="corner-star">✦</div>
+  <div class="corner-star">✦</div>
+  <div class="corner-star">✦</div>
+  <div class="corner-star">✦</div>
+</div>
+<div class="lines" id="lines"></div>
+<div class="center-glow"></div>
 
 <div class="main-window" id="mainWindow">
   <h1>ВЫ ДОЛЖНЫ<br>ЭТО ЗНАТЬ</h1>
@@ -187,40 +580,117 @@
 </div>
 
 <div class="arena-modal" id="arenaModal">
-  <button class="close-btn" id="btnClose">[ X ] ЗАКРЫТЬ</button>
+  <button class="close-btn" id="btnClose" type="button">[ X ] ЗАКРЫТЬ</button>
   <div class="scanline"></div>
 
-  <!-- RED BULL -->
   <div class="fighter-rb" id="fighterRb">
-    <img src="https://i.postimg.cc/wjm9tBXm/75e8e792-84a0-46fb-83bb-636e2ab4af05.jpg" 
-         onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#ffd700;font-size:20px;font-family:Oswald;\'>RED BULL</div>';">
+    <img id="rbImg" alt="Red Bull">
   </div>
 
-  <!-- КОНКУРЕНТ -->
   <div class="fighter-enemy" id="fighterEnemy">
-    <div class="enemy-wrap">
-      <img id="enemyImg" src="" 
-           onerror="this.style.display='none'; this.parentElement.innerHTML='<div style=\'color:#fff;font-size:18px;font-family:Oswald;\'>ENEMY</div>';">
+    <div class="enemy-wrap" id="enemyWrap">
+      <img id="enemyImg" alt="Enemy">
       <div class="mogged-on-enemy" id="moggedBadge">MOGGED</div>
     </div>
+    <div class="defeat-flash" id="defeatFlash"></div>
   </div>
 
-  <!-- ДИАГРАММА -->
   <div class="clash-box" id="clashBox">
     <div class="clash-title">СРАВНЕНИЕ</div>
+    <div class="clash-sub" id="clashSub">RED BULL vs ENEMY</div>
     <div class="chart-container" id="chartContainer"></div>
     <div class="scores-row" id="scoresRow"></div>
+    <div class="total-row">
+      <div class="total-col">
+        <div class="total-label">RED BULL</div>
+        <div class="total-value rb" id="totalRb">0</div>
+      </div>
+      <div class="total-vs">VS</div>
+      <div class="total-col" style="align-items:flex-end;">
+        <div class="total-label" id="enemyTotalLabel">ENEMY</div>
+        <div class="total-value en" id="totalEn">0</div>
+      </div>
+    </div>
+    <div class="total-verdict" id="totalVerdict"></div>
   </div>
 
-  <!-- ФИНАЛ -->
   <div class="final-overlay" id="finalOverlay">
     <div class="achievements-box">
       <div class="achievements-title">★ RED BULL ★</div>
-      <div class="ach-item">№1 Энергетический напиток в мире</div>
-      <div class="ach-item">12+ млрд банок продано за год</div>
-      <div class="ach-item">Присутствует в 175+ странах</div>
-      <div class="ach-item">Владеет 2 командами Формулы-1</div>
-      <div class="ach-item">Самый узнаваемый бренд на планете</div>
+      <div class="achievements-subtitle">АБСОЛЮТНЫЙ ЛИДЕР</div>
+      <div class="ach-list">
+        <div class="ach-item">
+          <div class="ach-icon">🏆</div>
+          <div class="ach-content">
+            <div class="ach-name">№1 В МИРЕ</div>
+            <div class="ach-desc">Крупнейший производитель энергетических напитков на планете</div>
+          </div>
+        </div>
+        <div class="ach-item">
+          <div class="ach-icon">📦</div>
+          <div class="ach-content">
+            <div class="ach-name">12+ МЛРД БАНОК / ГОД</div>
+            <div class="ach-desc">Более 12 миллиардов банок продаётся ежегодно</div>
+          </div>
+        </div>
+        <div class="ach-item">
+          <div class="ach-icon">🌍</div>
+          <div class="ach-content">
+            <div class="ach-name">175+ СТРАН</div>
+            <div class="ach-desc">Продукция представлена почти во всех странах мира</div>
+          </div>
+        </div>
+        <div class="ach-item">
+          <div class="ach-icon">🏎️</div>
+          <div class="ach-content">
+            <div class="ach-name">2 КОМАНДЫ ФОРМУЛЫ-1</div>
+            <div class="ach-desc">Red Bull Racing и Racing Bulls — обе под крылом бренда</div>
+          </div>
+        </div>
+        <div class="ach-item">
+          <div class="ach-icon">⚽</div>
+          <div class="ach-content">
+            <div class="ach-name">ФУТБОЛЬНАЯ ИМПЕРИЯ</div>
+            <div class="ach-desc">RB Leipzig, RB Salzburg, New York Red Bulls и другие клубы</div>
+          </div>
+        </div>
+        <div class="ach-item">
+          <div class="ach-icon">🪂</div>
+          <div class="ach-content">
+            <div class="ach-name">ЭКСТРЕМАЛЬНЫЙ СПОРТ</div>
+            <div class="ach-desc">Спонсор сотен событий: от клифф-дайвинга до дрифта</div>
+          </div>
+        </div>
+        <div class="ach-item">
+          <div class="ach-icon">🎵</div>
+          <div class="ach-content">
+            <div class="ach-name">МУЗЫКАЛЬНЫЕ ФЕСТИВАЛИ</div>
+            <div class="ach-desc">Red Bull Music Academy и десятки сцен по миру</div>
+          </div>
+        </div>
+        <div class="ach-item">
+          <div class="ach-icon">💰</div>
+          <div class="ach-content">
+            <div class="ach-name">$10+ МЛРД ВЫРУЧКИ</div>
+            <div class="ach-desc">Годовая выручка компании превышает 10 миллиардов долларов</div>
+          </div>
+        </div>
+        <div class="ach-item">
+          <div class="ach-icon">🚀</div>
+          <div class="ach-content">
+            <div class="ach-name">КОСМИЧЕСКИЕ ПРОЕКТЫ</div>
+            <div class="ach-desc">Red Bull Stratos — прыжок из стратосферы с высоты 39 км</div>
+          </div>
+        </div>
+        <div class="ach-item">
+          <div class="ach-icon">👑</div>
+          <div class="ach-content">
+            <div class="ach-name">САМЫЙ УЗНАВАЕМЫЙ БРЕНД</div>
+            <div class="ach-desc">Один из самых узнаваемых логотипов на планете</div>
+          </div>
+        </div>
+      </div>
+      <div class="final-footer">НАЖМИТЕ, ЧТОБЫ НАЧАТЬ ЗАНОВО</div>
     </div>
   </div>
 </div>
@@ -229,212 +699,385 @@
 (function () {
   'use strict';
 
-  var cursor = document.getElementById('cursorGlow');
-  var mx = window.innerWidth / 2, my = window.innerHeight / 2;
-  var cx = mx, cy = my;
-  document.addEventListener('mousemove', function(e) { mx = e.clientX; my = e.clientY; });
-  function loop() {
-    cx += (mx - cx) * 0.2; cy += (my - cy) * 0.2;
-    cursor.style.left = cx + 'px'; cursor.style.top = cy + 'px';
-    requestAnimationFrame(loop);
-  }
-  requestAnimationFrame(loop);
+  var btnStart     = document.getElementById('btnStart');
+  var btnClose     = document.getElementById('btnClose');
+  var mainWindow   = document.getElementById('mainWindow');
+  var arenaModal   = document.getElementById('arenaModal');
+  var fighterRb    = document.getElementById('fighterRb');
+  var fighterEnemy = document.getElementById('fighterEnemy');
+  var rbImg        = document.getElementById('rbImg');
+  var enemyImg     = document.getElementById('enemyImg');
+  var clashBox     = document.getElementById('clashBox');
+  var clashSub     = document.getElementById('clashSub');
+  var moggedBadge  = document.getElementById('moggedBadge');
+  var finalOverlay = document.getElementById('finalOverlay');
+  var chartContainer = document.getElementById('chartContainer');
+  var scoresRow    = document.getElementById('scoresRow');
+  var cursor       = document.getElementById('cursorGlow');
+  var defeatFlash  = document.getElementById('defeatFlash');
+  var particlesBox = document.getElementById('particles');
+  var linesBox     = document.getElementById('lines');
+  var totalRb      = document.getElementById('totalRb');
+  var totalEn      = document.getElementById('totalEn');
+  var totalVerdict = document.getElementById('totalVerdict');
+  var enemyTotalLabel = document.getElementById('enemyTotalLabel');
 
+  if (!btnStart || !arenaModal) {
+    console.error('Критическая ошибка: HTML-элементы не найдены!');
+    return;
+  }
+
+  /* ---------- КУРСОР ---------- */
+  if (cursor) {
+    var mx = window.innerWidth / 2, my = window.innerHeight / 2;
+    var cx = mx, cy = my;
+    document.addEventListener('mousemove', function (e) { mx = e.clientX; my = e.clientY; });
+    (function loop() {
+      cx += (mx - cx) * 0.18; cy += (my - cy) * 0.18;
+      cursor.style.left = cx + 'px'; cursor.style.top = cy + 'px';
+      requestAnimationFrame(loop);
+    })();
+  }
+
+  /* ---------- ЧАСТИЦЫ ---------- */
+  function createParticles() {
+    if (!particlesBox) return;
+    var types = ['', 'coral', 'violet'];
+    for (var i = 0; i < 28; i++) {
+      var p = document.createElement('div');
+      p.className = 'particle ' + types[Math.floor(Math.random() * 3)];
+      if (Math.random() > 0.6) p.classList.add('small');
+      if (Math.random() > 0.85) p.classList.add('big');
+      p.style.left = Math.random() * 100 + '%';
+      p.style.bottom = '-10px';
+      p.style.animationDuration = (10 + Math.random() * 14) + 's';
+      p.style.animationDelay = (Math.random() * 12) + 's';
+      particlesBox.appendChild(p);
+    }
+  }
+  createParticles();
+
+  /* ---------- ЛИНИИ ---------- */
+  function createLines() {
+    if (!linesBox) return;
+    var types = ['', 'coral', 'violet'];
+    for (var i = 0; i < 6; i++) {
+      var l = document.createElement('div');
+      l.className = 'line ' + types[i % 3];
+      l.style.top = (10 + Math.random() * 80) + '%';
+      l.style.width = (30 + Math.random() * 40) + '%';
+      l.style.animationDuration = (14 + Math.random() * 10) + 's';
+      l.style.animationDelay = (Math.random() * 12) + 's';
+      linesBox.appendChild(l);
+    }
+  }
+  createLines();
+
+  /* ---------- ЗВУК ---------- */
   var audioCtx = null;
   function playSound(type) {
     try {
       var AC = window.AudioContext || window.webkitAudioContext;
+      if (!AC) return;
       if (!audioCtx) audioCtx = new AC();
       if (audioCtx.state === 'suspended') audioCtx.resume();
-      var t = audioCtx.currentTime, osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+
+      var t = audioCtx.currentTime;
+      var osc = audioCtx.createOscillator();
+      var gain = audioCtx.createGain();
       osc.connect(gain); gain.connect(audioCtx.destination);
+
       if (type === 'slam') {
-        osc.type = 'sawtooth'; osc.frequency.setValueAtTime(120, t);
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(120, t);
         osc.frequency.exponentialRampToValueAtTime(30, t + 0.2);
-        gain.gain.setValueAtTime(0.2, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.2);
-        osc.start(t); osc.stop(t + 0.2);
+        gain.gain.setValueAtTime(0.18, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.25);
+        osc.start(t); osc.stop(t + 0.25);
       } else if (type === 'sweep') {
-        osc.type = 'triangle'; osc.frequency.setValueAtTime(200, t);
-        osc.frequency.linearRampToValueAtTime(800, t + 0.6);
-        gain.gain.setValueAtTime(0.05, t); gain.gain.linearRampToValueAtTime(0.01, t + 0.6);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(240, t);
+        osc.frequency.linearRampToValueAtTime(880, t + 0.6);
+        gain.gain.setValueAtTime(0.05, t);
+        gain.gain.linearRampToValueAtTime(0.01, t + 0.6);
         osc.start(t); osc.stop(t + 0.6);
       } else if (type === 'death') {
-        osc.type = 'square'; osc.frequency.setValueAtTime(600, t);
-        osc.frequency.exponentialRampToValueAtTime(100, t + 0.6);
-        gain.gain.setValueAtTime(0.1, t); gain.gain.exponentialRampToValueAtTime(0.01, t + 0.6);
-        osc.start(t); osc.stop(t + 0.6);
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(380, t);
+        osc.frequency.exponentialRampToValueAtTime(90, t + 0.7);
+        gain.gain.setValueAtTime(0.08, t);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 0.7);
+        osc.start(t); osc.stop(t + 0.7);
+      } else if (type === 'win') {
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(392, t);
+        osc.frequency.setValueAtTime(523, t + 0.16);
+        osc.frequency.setValueAtTime(659, t + 0.32);
+        osc.frequency.setValueAtTime(784, t + 0.48);
+        gain.gain.setValueAtTime(0.05, t);
+        gain.gain.linearRampToValueAtTime(0.11, t + 0.5);
+        gain.gain.exponentialRampToValueAtTime(0.01, t + 1.4);
+        osc.start(t); osc.stop(t + 1.4);
       }
-    } catch(e){}
+    } catch (e) { /* игнор */ }
   }
 
-  var rbStats = { energy: 10, taste: 9, brand: 10, price: 8, sport: 10 };
+  /* ---------- ДАННЫЕ ---------- */
+  var rbStats = { energy: 10, taste: 8, brand: 10, price: 7, sport: 10 };
   var statNames = ['energy', 'taste', 'brand', 'price', 'sport'];
   var statLabels = { energy: 'ЭНЕР', taste: 'ВКУС', brand: 'БРЕНД', price: 'ЦЕНА', sport: 'СПОРТ' };
-  
+
+  var rbImage = 'https://i.postimg.cc/wjm9tBXm/75e8e792-84a0-46fb-83bb-636e2ab4af05.jpg';
+
   var enemies = [
-    { name: 'MONSTER', img: 'https://i.postimg.cc/mgBGrSgt/5206523158133939587.jpg', border: 'border-monster', stats: { energy: 9, taste: 6, brand: 8, price: 5, sport: 7 } },
-    { name: 'BURN',    img: 'https://i.postimg.cc/VsWr6KYR/5206523158133939590.jpg', border: 'border-burn',    stats: { energy: 8, taste: 8, brand: 6, price: 7, sport: 4 } },
-    { name: 'GORILLA', img: 'https://i.postimg.cc/hPnLZJjR/5206523158133939588.jpg', border: 'border-gorilla', stats: { energy: 8, taste: 5, brand: 3, price: 10, sport: 3 } },
-    { name: 'FLASH',   img: 'https://i.postimg.cc/3r4fQDYw/5206523158133939589.jpg', border: 'border-flash',   stats: { energy: 7, taste: 6, brand: 4, price: 9, sport: 2 } }
+    { name: 'MONSTER', img: 'https://i.postimg.cc/mgBGrSgt/5206523158133939587.jpg', border: 'border-monster', stats: { energy: 9, taste: 7, brand: 9, price: 6, sport: 8 } },
+    { name: 'BURN',    img: 'https://i.postimg.cc/VsWr6KYR/5206523158133939590.jpg', border: 'border-burn',    stats: { energy: 8, taste: 9, brand: 5, price: 9, sport: 4 } },
+    { name: 'GORILLA', img: 'https://i.postimg.cc/hPnLZJjR/5206523158133939588.jpg', border: 'border-gorilla', stats: { energy: 7, taste: 6, brand: 3, price: 10, sport: 3 } },
+    { name: 'FLASH',   img: 'https://i.postimg.cc/3r4fQDYw/5206523158133939589.jpg', border: 'border-flash',   stats: { energy: 7, taste: 8, brand: 4, price: 9, sport: 5 } }
   ];
 
-  var btnStart = document.getElementById('btnStart');
-  var mainWindow = document.getElementById('mainWindow');
-  var arenaModal = document.getElementById('arenaModal');
-  var btnClose = document.getElementById('btnClose');
-  var fighterRb = document.getElementById('fighterRb');
-  var fighterEnemy = document.getElementById('fighterEnemy');
-  var clashBox = document.getElementById('clashBox');
-  var moggedBadge = document.getElementById('moggedBadge');
-  var finalOverlay = document.getElementById('finalOverlay');
-  var chartContainer = document.getElementById('chartContainer');
-  var scoresRow = document.getElementById('scoresRow');
-
+  /* ---------- ТАЙМЕРЫ ---------- */
   var timers = [];
   function sched(fn, delay) { timers.push(setTimeout(fn, delay)); }
   function clearTimers() { timers.forEach(clearTimeout); timers = []; }
 
+  /* ---------- КАРТИНКА ---------- */
+  function setImage(imgEl, src, fallbackText) {
+    if (!imgEl) return;
+    imgEl.style.display = 'block';
+    imgEl.onerror = function () {
+      this.onerror = null;
+      this.style.display = 'none';
+      var fb = this.parentElement.querySelector('.img-fallback');
+      if (!fb) {
+        fb = document.createElement('div');
+        fb.className = 'img-fallback';
+        fb.textContent = fallbackText || '';
+        this.parentElement.appendChild(fb);
+      }
+    };
+    imgEl.src = src;
+  }
+
+  /* ---------- ДИАГРАММА ---------- */
   function buildChart() {
     chartContainer.innerHTML = '';
     scoresRow.innerHTML = '';
-    statNames.forEach(function(key) {
+    statNames.forEach(function (key) {
       var col = document.createElement('div');
       col.className = 'chart-col';
       var group = document.createElement('div');
       group.className = 'bar-group';
-      
+
       var barRb = document.createElement('div');
       barRb.className = 'bar-vertical';
       var fillRb = document.createElement('div');
       fillRb.className = 'bar-fill rb';
       fillRb.id = 'bar-rb-' + key;
       barRb.appendChild(fillRb);
-      
+
       var barEn = document.createElement('div');
       barEn.className = 'bar-vertical';
       var fillEn = document.createElement('div');
       fillEn.className = 'bar-fill en';
       fillEn.id = 'bar-en-' + key;
       barEn.appendChild(fillEn);
-      
+
       group.appendChild(barRb); group.appendChild(barEn);
-      
+
       var label = document.createElement('div');
       label.className = 'bar-label';
       label.textContent = statLabels[key];
-      
+
       col.appendChild(group); col.appendChild(label);
       chartContainer.appendChild(col);
-      
+
       var scoreCol = document.createElement('div');
       scoreCol.className = 'score-pair';
-      
+      scoreCol.id = 'pair-' + key;
+
       var sRb = document.createElement('div');
       sRb.className = 'score-rb';
       sRb.id = 'score-rb-' + key;
       sRb.textContent = rbStats[key];
-      
+
       var sEn = document.createElement('div');
       sEn.className = 'score-en';
       sEn.id = 'score-en-' + key;
       sEn.textContent = '0';
-      
+
       scoreCol.appendChild(sRb); scoreCol.appendChild(sEn);
       scoresRow.appendChild(scoreCol);
     });
   }
-  buildChart();
 
-  function resetArena() {
-    clearTimers();
-    fighterRb.classList.add('show');
-    arenaModal.classList.add('show');
-    mainWindow.style.opacity = '0';
-    finalOverlay.classList.remove('show');
-    moggedBadge.classList.remove('slam');
-    clashBox.classList.remove('show');
-    runBattle(0);
+  /* ---------- СБРОС ---------- */
+  function resetEnemyAnimation() {
+    fighterEnemy.classList.remove('dead');
+    fighterEnemy.style.animation = 'none';
+    void fighterEnemy.offsetWidth;
+    fighterEnemy.style.animation = '';
+    if (defeatFlash) defeatFlash.classList.remove('active');
   }
 
+  /* ---------- СУММА ---------- */
+  function sumStats(s) {
+    var total = 0;
+    for (var k in s) if (s.hasOwnProperty(k)) total += s[k];
+    return total;
+  }
+  var rbTotal = sumStats(rbStats);
+
+  /* ---------- СТАРТ ---------- */
+  function resetArena() {
+    clearTimers();
+    fighterEnemy.classList.remove('show', 'border-monster', 'border-burn', 'border-gorilla', 'border-flash');
+    moggedBadge.classList.remove('slam');
+    clashBox.classList.remove('show');
+    finalOverlay.classList.remove('show');
+    mainWindow.classList.add('hidden');
+    arenaModal.classList.add('show');
+    fighterRb.classList.add('show');
+    resetEnemyAnimation();
+    setImage(rbImg, rbImage, 'RED BULL');
+    sched(function () { runBattle(0); }, 400);
+  }
+
+  /* ---------- БОЙ ---------- */
   function runBattle(index) {
     if (index >= enemies.length) {
-      sched(function() {
+      sched(function () {
         playSound('win');
-        sched(function() { finalOverlay.classList.add('show'); }, 1000);
-      }, 1000);
+        finalOverlay.classList.add('show');
+      }, 700);
       return;
     }
 
     var enemy = enemies[index];
-    fighterEnemy.classList.remove('show', 'dead');
-    fighterEnemy.classList.remove('border-monster', 'border-burn', 'border-gorilla', 'border-flash');
+    var enemyTotal = sumStats(enemy.stats);
+
+    fighterEnemy.classList.remove('show', 'border-monster', 'border-burn', 'border-gorilla', 'border-flash');
+    resetEnemyAnimation();
     moggedBadge.classList.remove('slam');
-    
-    // Ставим новую рамку и картинку
+
+    setImage(enemyImg, enemy.img, enemy.name);
     fighterEnemy.classList.add(enemy.border);
-    var imgEl = document.getElementById('enemyImg');
-    imgEl.src = enemy.img;
-    imgEl.style.display = 'block';
 
-    // ВЫЕЗД КОНКУРЕНТА
-    sched(function() {
-      fighterEnemy.classList.add('show');
-    }, 300);
+    if (clashSub) clashSub.textContent = 'RED BULL vs ' + enemy.name;
+    if (enemyTotalLabel) enemyTotalLabel.textContent = enemy.name;
 
-    // ПОКАЗ ДИАГРАММЫ
-    sched(function() {
+    totalRb.textContent = '0';
+    totalEn.textContent = '0';
+    totalVerdict.textContent = '';
+
+    sched(function () { fighterEnemy.classList.add('show'); }, 300);
+
+    sched(function () {
       clashBox.classList.add('show');
-      statNames.forEach(function(key) {
+      statNames.forEach(function (key) {
         var fillRb = document.getElementById('bar-rb-' + key);
         var fillEn = document.getElementById('bar-en-' + key);
         var scoreEn = document.getElementById('score-en-' + key);
-        
-        fillRb.style.height = '0%';
-        fillEn.style.height = '0%';
-        scoreEn.textContent = '0';
-        
-        setTimeout(function() {
-          fillRb.style.height = (rbStats[key] * 10) + '%';
-          fillEn.style.height = (enemy.stats[key] * 10) + '%';
-          scoreEn.textContent = enemy.stats[key];
-        }, 100);
+        var pair = document.getElementById('pair-' + key);
+        if (pair) pair.classList.remove('win', 'lose');
+
+        if (fillRb) fillRb.style.height = '0%';
+        if (fillEn) fillEn.style.height = '0%';
+        if (scoreEn) scoreEn.textContent = '0';
       });
+
+      setTimeout(function () {
+        statNames.forEach(function (key) {
+          var fillRb = document.getElementById('bar-rb-' + key);
+          var fillEn = document.getElementById('bar-en-' + key);
+          var scoreEn = document.getElementById('score-en-' + key);
+          var pair = document.getElementById('pair-' + key);
+
+          if (fillRb) fillRb.style.height = (rbStats[key] * 10) + '%';
+          if (fillEn) fillEn.style.height = (enemy.stats[key] * 10) + '%';
+          if (scoreEn) scoreEn.textContent = enemy.stats[key];
+
+          if (pair) {
+            if (rbStats[key] > enemy.stats[key]) pair.classList.add('win');
+            else if (rbStats[key] < enemy.stats[key]) pair.classList.add('lose');
+          }
+        });
+      }, 100);
       playSound('sweep');
     }, 1000);
 
-    // MOGGED
-    sched(function() {
+    sched(function () {
+      var dur = 800;
+      var t0 = performance.now();
+      function step(now) {
+        var p = Math.min((now - t0) / dur, 1);
+        var eased = 1 - Math.pow(1 - p, 3);
+        totalRb.textContent = Math.round(rbTotal * eased);
+        totalEn.textContent = Math.round(enemyTotal * eased);
+        if (p < 1) requestAnimationFrame(step);
+        else {
+          if (rbTotal > enemyTotal) {
+            totalVerdict.textContent = '▲ RED BULL ВЫИГРЫВАЕТ +' + (rbTotal - enemyTotal);
+          } else if (rbTotal < enemyTotal) {
+            totalVerdict.textContent = '▼ ' + enemy.name + ' ВЫИГРЫВАЕТ +' + (enemyTotal - rbTotal);
+          } else {
+            totalVerdict.textContent = '= НИЧЬЯ';
+          }
+        }
+      }
+      requestAnimationFrame(step);
+    }, 1800);
+
+    sched(function () {
       moggedBadge.classList.add('slam');
       playSound('slam');
-    }, 2500);
+    }, 2700);
 
-    // СМЕРТЬ
-    sched(function() {
+    sched(function () {
+      if (defeatFlash) {
+        defeatFlash.classList.remove('active');
+        void defeatFlash.offsetWidth;
+        defeatFlash.classList.add('active');
+      }
       fighterEnemy.classList.add('dead');
       playSound('death');
-    }, 3200);
+    }, 3100);
 
-    // СКРЫТИЕ ДИАГРАММЫ
-    sched(function() {
+    sched(function () {
       clashBox.classList.remove('show');
       moggedBadge.classList.remove('slam');
-    }, 4200);
+    }, 3400);
 
-    // СЛЕДУЮЩИЙ БОЙ
-    sched(function() {
-      fighterEnemy.classList.remove('dead');
+    sched(function () {
+      fighterEnemy.classList.remove('dead', 'show');
+      resetEnemyAnimation();
       runBattle(index + 1);
-    }, 5000);
+    }, 5400);
   }
 
+  /* ---------- СОБЫТИЯ ---------- */
   btnStart.addEventListener('click', resetArena);
-  btnClose.addEventListener('click', function() {
-    clearTimers();
-    arenaModal.classList.remove('show');
-    mainWindow.style.opacity = '1';
-    fighterEnemy.classList.remove('show', 'dead', 'border-monster', 'border-burn', 'border-gorilla', 'border-flash');
-    fighterRb.classList.remove('show');
+
+  if (btnClose) {
+    btnClose.addEventListener('click', function () {
+      clearTimers();
+      arenaModal.classList.remove('show');
+      mainWindow.classList.remove('hidden');
+      fighterRb.classList.remove('show');
+      fighterEnemy.classList.remove('show', 'border-monster', 'border-burn', 'border-gorilla', 'border-flash');
+      resetEnemyAnimation();
+      clashBox.classList.remove('show');
+      moggedBadge.classList.remove('slam');
+      finalOverlay.classList.remove('show');
+    });
+  }
+
+  finalOverlay.addEventListener('click', function () {
+    finalOverlay.classList.remove('show');
+    resetArena();
   });
+
+  buildChart();
 })();
 </script>
 </body>
