@@ -36,6 +36,7 @@
     box-shadow: 0 0 25px #6ec6ff, inset 0 0 18px #6ec6ff;
   }
 
+  /* --- ФОН --- */
   .bg-ice {
     position: absolute; inset: 0; width: 100%; height: 100%;
     z-index: 1;
@@ -70,21 +71,6 @@
   }
   @keyframes trailsDrift { 0% { transform: translate(0, 0); } 100% { transform: translate(-40px, -40px); } }
 
-  .puck {
-    position: absolute; width: 28px; height: 28px;
-    background: radial-gradient(circle at 35% 35%, #333 0%, #111 50%, #000 100%);
-    border-radius: 50%; border: 2px solid rgba(110,198,255,.3);
-    box-shadow: 0 0 12px rgba(110,198,255,.4), inset 0 0 8px rgba(0,0,0,.9);
-    z-index: 3; animation: puckFly 12s linear infinite;
-  }
-  @keyframes puckFly {
-    0% { top: 80%; left: -5%; transform: rotate(0deg) scale(1); opacity: 0; }
-    10% { opacity: 1; }
-    50% { top: 30%; left: 50%; transform: rotate(540deg) scale(1.1); }
-    90% { opacity: 1; }
-    100% { top: 10%; left: 105%; transform: rotate(1080deg) scale(0.8); opacity: 0; }
-  }
-
   .ice-glow {
     position: absolute; inset: 0; z-index: 2; pointer-events: none;
     background: radial-gradient(ellipse at 50% 100%, rgba(110,198,255,.12) 0%, transparent 60%);
@@ -94,19 +80,19 @@
   #flyingCanvas {
     position: absolute; inset: 0; width: 100%; height: 100%;
     z-index: 3; pointer-events: none;
-    opacity: .65; mix-blend-mode: screen;
+    opacity: .8; mix-blend-mode: screen;
   }
 
+  /* --- ГЛАВНОЕ ОКНО --- */
   .main-window {
     position: absolute; top: 50%; left: 50%;
     transform: translate(-50%, -50%);
     width: 90%; max-width: 380px;
-    background: rgba(10, 20, 32, 0.55);
-    backdrop-filter: blur(15px); -webkit-backdrop-filter: blur(15px);
-    border: 1px solid rgba(110, 198, 255, 0.25);
+    background: rgba(10, 20, 32, 0.6);
+    border: 1px solid rgba(110, 198, 255, 0.3);
     border-top: 3px solid #6ec6ff;
-    border-radius: 12px; padding: 40px 25px; z-index: 10;
-    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(110, 198, 255, 0.08);
+    border-radius: 12px; padding: 40px 25px 30px; z-index: 10;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), inset 0 0 20px rgba(110, 198, 255, 0.1);
     color: #fff; text-align: center;
     animation: windowBreath 7s ease-in-out infinite;
     transition: opacity .6s ease; will-change: transform;
@@ -117,26 +103,21 @@
   }
 
   .main-window h1 {
-    margin: 0; font-size: 30px; letter-spacing: 4px; color: #fff;
+    margin: 0; font-size: 32px; letter-spacing: 4px; color: #fff;
     text-shadow: 0 0 15px rgba(110, 198, 255, 0.9), 0 0 30px rgba(110,198,255,.5);
     font-weight: 700; font-family: 'Oswald', sans-serif;
     text-transform: uppercase;
+    animation: textPulse 3s ease-in-out infinite alternate;
   }
-  .subtitle-ru {
-    font-size: 12px; color: #6ec6ff; margin: 5px 0 30px; letter-spacing: 4px;
-    text-transform: uppercase; opacity: .9; font-weight: 700;
+  @keyframes textPulse {
+    0% { text-shadow: 0 0 10px rgba(110,198,255,0.6), 0 0 20px rgba(110,198,255,0.3); }
+    100% { text-shadow: 0 0 20px rgba(110,198,255,1), 0 0 40px rgba(110,198,255,0.7); }
   }
 
-  .scoreboard {
-    display: flex; justify-content: center; align-items: center; gap: 15px;
-    margin-bottom: 25px; padding: 12px;
-    background: rgba(0,0,0,.4);
-    border: 1px solid rgba(110,198,255,.2);
-    border-radius: 8px; font-family: 'Oswald', sans-serif;
+  .subtitle-ru {
+    font-size: 12px; color: #6ec6ff; margin: 8px 0 35px; letter-spacing: 4px;
+    text-transform: uppercase; opacity: .9; font-weight: 700;
   }
-  .score-team { font-size: 11px; color: #6ec6ff; letter-spacing: 2px; text-transform: uppercase; }
-  .score-num { font-size: 24px; color: #fff; font-weight: 700; text-shadow: 0 0 10px #6ec6ff; min-width: 30px; text-align: center; }
-  .score-sep { color: #6ec6ff; font-size: 18px; opacity: .5; }
 
   .button-group { display: flex; flex-direction: column; gap: 15px; width: 100%; }
 
@@ -144,11 +125,11 @@
     display: flex; align-items: center; justify-content: center; gap: 10px;
     background: rgba(110,198,255,.05); color: #fff;
     border: 1px solid rgba(110,198,255,.3);
-    padding: 15px 20px; font-family: 'Oswald', sans-serif;
-    font-size: 14px; font-weight: 700; text-transform: uppercase;
+    padding: 16px 20px; font-family: 'Oswald', sans-serif;
+    font-size: 15px; font-weight: 700; text-transform: uppercase;
     cursor: none; position: relative; overflow: hidden;
     border-radius: 6px; letter-spacing: 2px;
-    transition: background .4s cubic-bezier(.22,1,.36,1), border-color .4s cubic-bezier(.22,1,.36,1), box-shadow .4s cubic-bezier(.22,1,.36,1), transform .4s cubic-bezier(.22,1,.36,1), letter-spacing .4s cubic-bezier(.22,1,.36,1);
+    transition: all .4s cubic-bezier(.22,1,.36,1);
     will-change: transform, box-shadow;
   }
   .btn::before {
@@ -167,18 +148,29 @@
   .btn:hover::before, .btn:focus-visible::before { left: 160%; }
   .btn:active { transform: translateY(0) scale(.985); }
 
-  /* МОДАЛКИ */
-  .bio-modal {
+  /* ТЕКСТ ОТ СЕБЯ ВНИЗУ ГЛАВНОГО ОКНА */
+  .from-me {
+    margin-top: 30px;
+    font-size: 11px;
+    color: rgba(110,198,255,0.6);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-family: 'Oswald', sans-serif;
+    border-top: 1px dashed rgba(110,198,255,0.2);
+    padding-top: 15px;
+  }
+
+  /* --- МОДАЛКИ (БЕЗ РАЗМЫТИЯ ФОНА) --- */
+  .modal-box {
     display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
     width: 92%; max-width: 400px;
-    background: rgba(10, 20, 32, 0.97);
-    backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+    background: rgba(10, 20, 32, 0.98); /* Плотный фон вместо блюра */
     border: 1px solid #6ec6ff; border-top: 4px solid #6ec6ff;
-    border-radius: 10px; padding: 25px; z-index: 100;
-    box-shadow: 0 0 50px rgba(110,198,255,.35); text-align: left;
+    border-radius: 10px; padding: 25px; z-index: 200;
+    box-shadow: 0 0 50px rgba(110,198,255,.4); text-align: left;
     font-family: 'Courier Prime', monospace; max-height: 85vh; overflow-y: auto;
   }
-  .bio-modal.show { display: block; animation: terminalOpen .4s cubic-bezier(.175,.885,.32,1.275) forwards; }
+  .modal-box.show { display: block; animation: terminalOpen .4s cubic-bezier(.175,.885,.32,1.275) forwards; }
   @keyframes terminalOpen {
     0% { opacity: 0; transform: translate(-50%,-50%) scale(.8); }
     100% { opacity: 1; transform: translate(-50%,-50%) scale(1); }
@@ -187,44 +179,39 @@
   /* ОКНО СЧЁТА НА ПОЛ ЭКРАНА */
   .score-modal {
     display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-    width: 96vw; max-width: 900px;
-    height: 90vh; max-height: 800px;
-    background: rgba(10, 20, 32, 0.97);
-    backdrop-filter: blur(25px); -webkit-backdrop-filter: blur(25px);
-    border: 2px solid #6ec6ff;
-    border-radius: 16px; padding: 30px 30px 20px;
+    width: 96vw; max-width: 900px; height: 90vh; max-height: 800px;
+    background: rgba(10, 20, 32, 0.98);
+    border: 2px solid #6ec6ff; border-radius: 16px; padding: 30px 30px 20px;
     z-index: 200;
     box-shadow: 0 0 80px rgba(110,198,255,.6), inset 0 0 60px rgba(110,198,255,.08);
     text-align: center; font-family: 'Courier Prime', monospace;
     overflow-y: auto; flex-direction: column;
     align-items: center; justify-content: center;
   }
-  .score-modal.show {
-    display: flex;
-    animation: scoreBigOpen .6s cubic-bezier(.175,.885,.32,1.275) forwards;
-  }
+  .score-modal.show { display: flex; animation: scoreBigOpen .6s cubic-bezier(.175,.885,.32,1.275) forwards; }
   @keyframes scoreBigOpen {
     0% { opacity: 0; transform: translate(-50%,-50%) scale(.6) rotate(-3deg); }
     60% { opacity: 1; transform: translate(-50%,-50%) scale(1.03) rotate(0deg); }
     100% { opacity: 1; transform: translate(-50%,-50%) scale(1) rotate(0deg); }
   }
 
-  .score-modal .bio-header {
-    width: 100%; color: #6ec6ff; font-size: 22px;
-    border-bottom: 2px dashed rgba(110,198,255,.4);
-    padding-bottom: 18px; margin-bottom: 25px;
-    display: flex; justify-content: space-between; align-items: center;
-    font-weight: bold; font-family: 'Oswald', sans-serif;
-    text-transform: uppercase; letter-spacing: 4px;
+  .modal-header {
+    color: #6ec6ff; font-size: 18px; border-bottom: 1px dashed rgba(110,198,255,.3);
+    padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between;
+    align-items: center; font-weight: bold; font-family: 'Oswald', sans-serif;
+    text-transform: uppercase; letter-spacing: 2px; width: 100%;
+  }
+  .score-modal .modal-header {
+    font-size: 22px; border-bottom: 2px dashed rgba(110,198,255,.4);
+    padding-bottom: 18px; margin-bottom: 25px; letter-spacing: 4px;
   }
 
+  /* СЧЁТ В МОДАЛКЕ */
   .huge-score {
     display: flex; justify-content: center; align-items: center; gap: 40px;
     padding: 40px 30px; background: rgba(0,0,0,.6);
-    border: 2px solid rgba(110,198,255,.5);
-    border-radius: 16px; margin-bottom: 25px;
-    width: 100%; max-width: 700px;
-    position: relative; overflow: hidden;
+    border: 2px solid rgba(110,198,255,.5); border-radius: 16px; margin-bottom: 25px;
+    width: 100%; max-width: 700px; position: relative; overflow: hidden;
     font-family: 'Oswald', sans-serif;
   }
   .huge-score::before {
@@ -245,18 +232,14 @@
     line-height: 1; animation: scorePulse 2s ease-in-out infinite;
   }
   @keyframes scorePulse { 0%, 100% { transform: scale(1); } 50% { transform: scale(1.05); } }
-  .huge-team.winner .huge-team-score {
-    color: #ffd700;
-    text-shadow: 0 0 40px #ffd700, 0 0 80px rgba(255,215,0,.6);
-  }
+  .huge-team.winner .huge-team-score { color: #ffd700; text-shadow: 0 0 40px #ffd700, 0 0 80px rgba(255,215,0,.6); }
   .huge-team.winner .huge-team-name { color: #ffd700; }
   .huge-sep { font-size: 80px; color: #6ec6ff; opacity: .7; font-weight: 700; position: relative; z-index: 1; }
 
   .huge-winner-label {
     text-align: center; color: #ffd700; font-family: 'Oswald', sans-serif;
     font-size: 28px; letter-spacing: 8px; text-transform: uppercase;
-    margin-bottom: 25px; font-weight: 700;
-    text-shadow: 0 0 25px rgba(255,215,0,.9);
+    margin-bottom: 25px; font-weight: 700; text-shadow: 0 0 25px rgba(255,215,0,.9);
     animation: blinkGold 1.2s ease-in-out infinite;
   }
   @keyframes blinkGold { 0%, 100% { opacity: 1; } 50% { opacity: .5; } }
@@ -266,8 +249,7 @@
     gap: 15px; width: 100%; max-width: 700px; margin-bottom: 20px;
   }
   .stat-card {
-    background: rgba(0,0,0,.4);
-    border: 1px solid rgba(110,198,255,.3);
+    background: rgba(0,0,0,.4); border: 1px solid rgba(110,198,255,.3);
     border-radius: 8px; padding: 15px; text-align: center;
   }
   .stat-card .label {
@@ -279,25 +261,7 @@
     font-family: 'Oswald', sans-serif;
   }
 
-  .bio-header {
-    color: #6ec6ff; font-size: 18px; border-bottom: 1px dashed rgba(110,198,255,.3);
-    padding-bottom: 15px; margin-bottom: 20px; display: flex; justify-content: space-between;
-    align-items: center; font-weight: bold; font-family: 'Oswald', sans-serif;
-    text-transform: uppercase; letter-spacing: 2px;
-  }
-  .bio-content-wrapper {
-    position: relative; min-height: 200px; display: flex;
-    flex-direction: column; justify-content: center; align-items: center; width: 100%;
-  }
-
-  .shake { animation: shake .5s cubic-bezier(.36,.07,.19,.97) both; }
-  @keyframes shake {
-    10%, 90% { transform: translate(-50%,-50%) translate3d(-2px,0,0); }
-    20%, 80% { transform: translate(-50%,-50%) translate3d(4px,0,0); }
-    30%, 50%, 70% { transform: translate(-50%,-50%) translate3d(-8px,0,0); }
-    40%, 60% { transform: translate(-50%,-50%) translate3d(8px,0,0); }
-  }
-
+  /* КНОПКА ЗАКРЫТИЯ */
   .close-btn {
     background: transparent; color: #6ec6ff; border: 1px solid #6ec6ff; padding: 8px 16px;
     font-family: 'Oswald', sans-serif; font-size: 16px; cursor: pointer;
@@ -305,18 +269,18 @@
   }
   .close-btn:hover { background: #6ec6ff; color: #0a1420; }
 
+  /* ОВЕРЛЕЙ */
   .modal-overlay {
     display: none; position: fixed; inset: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,.8); z-index: 150; backdrop-filter: blur(10px);
+    background: rgba(0,0,0,.85); z-index: 150;
   }
   .modal-overlay.show { display: block; }
 
+  /* ФОТО БРО */
   .friend-photo {
-    width: 100%; border-radius: 8px;
-    border: 2px solid #6ec6ff;
+    width: 100%; border-radius: 8px; border: 2px solid #6ec6ff;
     box-shadow: 0 0 30px rgba(110,198,255,.5);
-    display: block; margin-bottom: 15px;
-    object-fit: cover; max-height: 400px;
+    display: block; margin-bottom: 15px; object-fit: cover; max-height: 400px;
   }
   .friend-caption {
     text-align: center; color: #6ec6ff; font-size: 14px; line-height: 1.7;
@@ -334,12 +298,11 @@
   @keyframes blinkWhite { 0%, 100% { opacity: 1; } 50% { opacity: .4; } }
 
   @media (max-width: 700px) {
-    .main-window { background: rgba(10,20,32,.7); }
     .huge-team-score { font-size: 70px; }
     .huge-sep { font-size: 50px; }
     .huge-score { gap: 20px; padding: 25px 15px; }
     .score-modal { padding: 20px 15px; height: 92vh; }
-    .score-modal .bio-header { font-size: 16px; letter-spacing: 2px; }
+    .score-modal .modal-header { font-size: 16px; letter-spacing: 2px; }
     .huge-winner-label { font-size: 20px; letter-spacing: 4px; }
   }
 </style>
@@ -347,31 +310,18 @@
 <body>
 
   <div class="cursor-glow" id="cursorGlow"></div>
-  <div class="damage-overlay" id="damageOverlay"></div>
 
   <div class="bg-ice"></div>
   <div class="skate-trails"></div>
   <div class="ice-glow"></div>
-  <div class="puck"></div>
 
+  <!-- ЛЕТАЮЩИЕ ОБЪЕКТЫ -->
   <canvas id="flyingCanvas"></canvas>
 
-  <div class="puck-hit" id="puckHit">
-    <div class="puck-img"></div>
-  </div>
-
-  <!-- ГЛАВНОЕ ОКНО (БЕЗ АВАТАРКИ, БЕЗ ТВОЕГО НИКА) -->
+  <!-- ГЛАВНОЕ ОКНО (БЕЗ СЧЕТА) -->
   <div class="main-window" id="mainWindow">
     <h1>ДЛЯ ТАШКИ</h1>
     <p class="subtitle-ru">ICE ARENA</p>
-
-    <div class="scoreboard">
-      <span class="score-team">МОЛОТ</span>
-      <span class="score-num">7</span>
-      <span class="score-sep">:</span>
-      <span class="score-num">0</span>
-      <span class="score-team">МОСКВА</span>
-    </div>
 
     <div class="button-group">
       <button id="btnFriend" class="btn" type="button">
@@ -381,13 +331,16 @@
         <span>СЧЁТ</span>
       </button>
     </div>
+
+    <!-- ТЕКСТ ОТ ТЕБЯ -->
+    <div class="from-me">Сделано с душой для Ташки ❤️</div>
   </div>
 
   <div class="modal-overlay" id="modalOverlay"></div>
 
   <!-- ОКНО СЧЁТА -->
   <div class="score-modal" id="scoreModal">
-    <div class="bio-header">
+    <div class="modal-header">
       <span>МАТЧ ЗАВЕРШЁН</span>
       <button class="close-btn" id="btnCloseScore" type="button">[ X ]</button>
     </div>
@@ -431,13 +384,13 @@
     </div>
   </div>
 
-  <!-- МОДАЛКА ФОТО БРО -->
-  <div class="bio-modal" id="friendModal">
-    <div class="bio-header">
+  <!-- МОДАЛКА ФОТО БРО (БЕЗ БЛЮРА) -->
+  <div class="modal-box" id="friendModal">
+    <div class="modal-header">
       <span>МОЙ БРО</span>
       <button class="close-btn" id="btnCloseFriend" type="button">[ X ]</button>
     </div>
-    <div class="bio-content-wrapper">
+    <div style="position: relative; width: 100%;">
       <img class="friend-photo" id="friendPhoto" src="" alt="мой бро">
       <div class="friend-caption">
         Мой бро, с которым общаюсь больше года,<br>
@@ -455,6 +408,7 @@
 (function () {
   'use strict';
 
+  /* ========== КУРСОР ========== */
   var cursor = document.getElementById('cursorGlow');
   var mouseX = window.innerWidth / 2, mouseY = window.innerHeight / 2;
   var curX = mouseX, curY = mouseY;
@@ -483,7 +437,7 @@
   }
   document.querySelectorAll('.btn, .close-btn').forEach(bindCursorHover);
 
-  /* ========== ЛЕТАЮЩИЕ КЛЮШКИ И ШАЙБЫ (В РАЗНЫЕ СТОРОНЫ) ========== */
+  /* ========== ЛЕТАЮЩИЕ КЛЮШКИ И ШАЙБЫ ========== */
   var canvas = document.getElementById('flyingCanvas');
   var ctx = canvas.getContext('2d');
   var dpr = Math.min(window.devicePixelRatio || 1, 2);
@@ -501,25 +455,24 @@
   resizeCanvas();
   window.addEventListener('resize', resizeCanvas);
 
-  // Частицы: клюшки (текст) и шайбы (круги) летят в случайных направлениях
   var particles = [];
-  var MAX_PARTICLES = 28;
-  var hockeyEmojis = ['🏒', '🏒', '🏒', '⛸️', '🥅'];
+  var MAX_PARTICLES = 35;
+  var hockeyEmojis = ['🏒', '🏒', '⛸️', '🥅'];
 
   function createParticle() {
-    var isPuck = Math.random() < 0.55; // больше шайб, чем клюшек
+    var isPuck = Math.random() < 0.5;
     var angle = Math.random() * Math.PI * 2;
-    var speed = 0.5 + Math.random() * 1.8;
+    var speed = 0.8 + Math.random() * 2.5; // Чуть быстрее
     return {
       type: isPuck ? 'puck' : 'stick',
       x: Math.random() * W,
       y: Math.random() * H,
       vx: Math.cos(angle) * speed,
       vy: Math.sin(angle) * speed,
-      size: isPuck ? (8 + Math.random() * 12) : (22 + Math.random() * 18),
+      size: isPuck ? (10 + Math.random() * 15) : (28 + Math.random() * 20),
       rot: Math.random() * Math.PI * 2,
-      rotSpeed: (Math.random() - 0.5) * 0.06,
-      alpha: 0.25 + Math.random() * 0.5,
+      rotSpeed: (Math.random() - 0.5) * 0.08,
+      alpha: 0.4 + Math.random() * 0.5,
       emoji: hockeyEmojis[Math.floor(Math.random() * hockeyEmojis.length)]
     };
   }
@@ -536,11 +489,10 @@
       p.y += p.vy;
       p.rot += p.rotSpeed;
 
-      // Заворачиваем за края экрана
-      if (p.x < -60) p.x = W + 60;
-      if (p.x > W + 60) p.x = -60;
-      if (p.y < -60) p.y = H + 60;
-      if (p.y > H + 60) p.y = -60;
+      if (p.x < -80) p.x = W + 80;
+      if (p.x > W + 80) p.x = -80;
+      if (p.y < -80) p.y = H + 80;
+      if (p.y > H + 80) p.y = -80;
 
       ctx.save();
       ctx.translate(p.x, p.y);
@@ -548,32 +500,29 @@
       ctx.globalAlpha = p.alpha;
 
       if (p.type === 'puck') {
-        // Шайба — тёмный круг с голубой обводкой
         ctx.beginPath();
         ctx.arc(0, 0, p.size, 0, Math.PI * 2);
         var grad = ctx.createRadialGradient(-p.size*0.3, -p.size*0.3, 1, 0, 0, p.size);
-        grad.addColorStop(0, '#444');
+        grad.addColorStop(0, '#555');
         grad.addColorStop(0.5, '#111');
         grad.addColorStop(1, '#000');
         ctx.fillStyle = grad;
         ctx.fill();
-        ctx.strokeStyle = 'rgba(110,198,255,0.8)';
+        ctx.strokeStyle = 'rgba(110,198,255,0.9)';
         ctx.lineWidth = 2;
         ctx.stroke();
 
-        // Блик
         ctx.beginPath();
         ctx.arc(-p.size*0.3, -p.size*0.3, p.size*0.2, 0, Math.PI*2);
-        ctx.fillStyle = 'rgba(255,255,255,0.4)';
+        ctx.fillStyle = 'rgba(255,255,255,0.5)';
         ctx.fill();
       } else {
-        // Клюшка — эмодзи
         ctx.font = p.size + 'px "Segoe UI Emoji", "Apple Color Emoji", "Noto Color Emoji", sans-serif';
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.shadowColor = '#6ec6ff';
-        ctx.shadowBlur = 12;
-        ctx.fillStyle = 'rgba(220, 240, 255, 0.9)';
+        ctx.shadowBlur = 15;
+        ctx.fillStyle = 'rgba(220, 240, 255, 0.95)';
         ctx.fillText(p.emoji, 0, 0);
       }
 
@@ -619,7 +568,7 @@
     } catch (e) { console.warn('Audio blocked:', e); }
   }
 
-  /* ========== ЭЛЕМЕНТЫ ========== */
+  /* ========== УПРАВЛЕНИЕ МОДАЛКАМИ ========== */
   var modalOverlay = document.getElementById('modalOverlay');
   var friendModal = document.getElementById('friendModal');
   var friendPhoto = document.getElementById('friendPhoto');
@@ -634,7 +583,6 @@
     modalOverlay.classList.remove('show');
   }
 
-  /* ========== ФОТО БРО ========== */
   document.getElementById('btnFriend').addEventListener('click', function () {
     playWhistle();
     friendPhoto.src = FRIEND_PHOTO_URL;
@@ -644,7 +592,6 @@
 
   document.getElementById('btnCloseFriend').addEventListener('click', closeAll);
 
-  /* ========== ОКНО СЧЁТА ========== */
   function openScore() {
     playWhistle();
     scoreModal.classList.add('show');
